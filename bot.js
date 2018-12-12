@@ -13,7 +13,7 @@ bot.on('message', function (msg) {
     // It will listen for messages that will start with `!`
     const rip = "512360112820584448";
     const tada = "515935670771122178";
-    if (this.react) {
+    if (this.react && msg.author.id != '522160089554092041') {
        r = Math.random();
        console.log(r);
       if (r < 0.3) {
