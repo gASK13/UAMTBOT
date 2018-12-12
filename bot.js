@@ -29,8 +29,12 @@ bot.on('message', function (msg) {
         var cmd = args[0];
         switch(cmd) {
             case "react":
+              if (msg.author.id != '412352063125717002') {
+                msg.reply("Sorry, only gASK can do this!");
+              } else {
                 this.react = !this.react;
                 msg.channel.send('Reactions turned ' + (this.react ? "ON" : "OFF") + "!");
+              }
             case "item":
                 if (args.length < 3) {
                     msg.channel.send("Usage: !item {name} {type} [{weight} {cost}]");
