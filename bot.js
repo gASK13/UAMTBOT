@@ -35,6 +35,7 @@ bot.on('message', function (msg) {
                 this.react = !this.react;
                 msg.channel.send('Reactions turned ' + (this.react ? "ON" : "OFF") + "!");
               }
+              break;
             case "item":
                 if (args.length < 3) {
                     msg.channel.send("Usage: !item {name} {type} [{weight} {cost}]");
@@ -49,6 +50,7 @@ bot.on('message', function (msg) {
                             break;
                     }                                                         
                 }
+              break;
         }
     }
 }); 
