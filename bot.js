@@ -32,7 +32,7 @@ bot.on('message', function (msg) {
                 msg.reply("Sorry, only gASK can do this!");
               } else {
                 this.react = !this.react;
-                msg.channel.send('Reactions turned ' + (this.react ? "ON" : "OFF") + "!");
+                msg.channel.send('Reactions are now turned ' + (this.react ? "ON" : "OFF") + "!");
               }
               break;
             case "item":
