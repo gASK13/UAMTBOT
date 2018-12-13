@@ -80,7 +80,15 @@ bot.on('message', function (msg) {
 
                     res.on('end', function() {
                         var obj = JSON.parse(output);
-                        msg.channel.send(obj.result_count);
+                        if (obj.result_count == 0) {
+                           msg.channel.send("Sorry, not mod matching this name was found.");
+                        } else if (obj.result_count == 1) {
+                           msg.channel.send(obj.data[0].profile_url)
+                        } else {
+                           var names = "";
+                           obj.data.forEach(function(element) { names += (names.length > 0 ? ", " : "") + element.name});
+                           msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
+                        }
                     });
                 });
 
