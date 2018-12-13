@@ -63,6 +63,7 @@ bot.on('message', function (msg) {
                  msg.channel.send("Usage: !mod {search_term}");
               } else {
                  var sterm = args.slice(1).join("_");
+                 sterm = encodeURI(sterm);
                  var options = {
                       host: 'api.mod.io',
                       port: 443,
