@@ -59,7 +59,7 @@ bot.on('message', function (msg) {
               if (args.length < 2) {
                  msg.channel.send("Usage: !mod {search_term}");
               } else {
-                 var sterm = args.slice(1).join(" ");
+                 var sterm = args.slice(1).join("%20");
                  var options = {
                       host: 'api.mod.io',
                       port: 443,
