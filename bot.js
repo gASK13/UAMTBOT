@@ -4,6 +4,9 @@ var auth = require('./auth.json');
 var bot = new Discord.Client({
    react: boolean = false
 });
+bot.on("error", (e) => console.error(e));
+bot.on("warn", (e) => console.warn(e));
+bot.on("debug", (e) => {});
 bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
 });
