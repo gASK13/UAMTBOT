@@ -55,6 +55,9 @@ bot.on('message', function (msg) {
                     }                                                         
                 }
               break;
+           case "modlist":
+              msg.channel.send("https://aground.mod.io/");
+              break;
            case "mod":
               if (args.length < 2) {
                  msg.channel.send("Usage: !mod {search_term}");
