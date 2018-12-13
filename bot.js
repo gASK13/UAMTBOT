@@ -1,5 +1,7 @@
 var Discord = require('discord.js');
 var auth = require('./auth.json');
+var https = require("https");
+
 // Initialize Discord Bot
 var bot = new Discord.Client({
    react: boolean = false
@@ -52,6 +54,42 @@ bot.on('message', function (msg) {
                             break;
                     }                                                         
                 }
+              break;
+           case "mod":
+              if (args.length < 2) {
+                 msg.channel.send("Usage: !mod {search_term}");
+              } else {
+                 var options = {
+                      host: 'api.mod.io',
+                      port: 443,
+                      path: '/v1/games/34/mods?api_key=' + auth.apikey + "&_q=" + args[1],
+                      method: 'GET',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      }
+                  };
+                 var req = https.request(options, function(res)
+                  {
+                    var output = '';
+                    console.log(options.host + ':' + res.statusCode);
+                    res.setEncoding('utf8');
+
+                    res.on('data', function (chunk) {
+                        output += chunk;
+                    });
+
+                    res.on('end', function() {
+                        var obj = JSON.parse(output);
+                        msg.channel.send(obj.result_count);
+                    });
+                });
+
+                req.on('error', function(err) {
+                    msg.channel.send("BOT BORKED. BORK BORK.");
+                });
+
+                req.end();
+              }
               break;
         }
     }
