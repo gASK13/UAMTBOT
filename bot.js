@@ -59,10 +59,11 @@ bot.on('message', function (msg) {
               if (args.length < 2) {
                  msg.channel.send("Usage: !mod {search_term}");
               } else {
+                 var sterm = args.slice(1).join(" ");
                  var options = {
                       host: 'api.mod.io',
                       port: 443,
-                      path: '/v1/games/34/mods?api_key=' + auth.apikey + "&_q=" + args[1],
+                      path: '/v1/games/34/mods?api_key=' + auth.apikey + "&_q=" + sterm,
                       method: 'GET',
                       headers: {
                           'Content-Type': 'application/json'
