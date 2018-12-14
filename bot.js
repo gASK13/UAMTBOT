@@ -13,6 +13,8 @@ bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
 });
 bot.on('message', function (msg) {
+   if (msg.author.bot) { return; }
+   
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
     const rip = "512360112820584448";
@@ -28,10 +30,13 @@ bot.on('message', function (msg) {
       }
     }
     
-    if (msg.content.substring(0, 1) == '!') {
-        var args = msg.content.substring(1).split(' ');
+    if (msg.content.substring(0, 2) == 'U!') {
+        var args = msg.content.substring(2).split(' ');
         var cmd = args[0];
         switch(cmd) {
+           case "help":
+              msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nU!modlist will link to AGround mod.io page\nU!mod {name} will help you search for a mod and link to it.\nU!item will allow you to quickly gneerate XML for a mod item.");
+              break;
             case "react":
               if (msg.author.id != '412352063125717002') {
                 msg.reply("Sorry, only gASK can do this!");
