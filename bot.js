@@ -30,8 +30,8 @@ bot.on('message', function (msg) {
       }
     }
     
-    if (msg.content.substring(0, 2) == 'U!') {
-        var args = msg.content.substring(2).split(' ');
+    if (msg.content.substring(0, 1) == ']') {
+        var args = msg.content.substring(1).split(' ');
         var cmd = args[0];
         switch(cmd) {
            case "help":
