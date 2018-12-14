@@ -29,7 +29,9 @@ bot.on('message', function (msg) {
           msg.react(rip)
       }
     }
-    
+    if (msg.mentions.users.exists('id', '522160089554092041')) {
+       msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
+    }
     if (msg.content.substring(0, 1) == ']') {
         var args = msg.content.substring(1).split(' ');
         var cmd = args[0];
@@ -60,6 +62,7 @@ bot.on('message', function (msg) {
                     }                                                         
                 }
               break;
+           case "mods":
            case "modlist":
               msg.channel.send("https://aground.mod.io/");
               break;
