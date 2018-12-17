@@ -37,7 +37,7 @@ bot.on('message', function (msg) {
         var cmd = args[0];
         switch(cmd) {
            case "help":
-              msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nMy prefix is ]\n\n]modlist will link to AGround mod.io page\n]mod {name} will help you search for a mod and link to it.\n]item will allow you to quickly gneerate XML for a mod item.");
+              msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nMy prefix is ]\n\n]modlist will link to Aground mod.io page\n]mod {name} will help you search for a mod and link to it.\n]item will allow you to quickly generate XML for a mod item.");
               break;
             case "react":
               if (msg.author.id != '412352063125717002') {
