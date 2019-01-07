@@ -26,8 +26,9 @@ bot.on('message', function (msg) {
                 // List them     
                 if (!ideas[msg.author.id]) { msg.channel.send("Sorry, seem like you are out of ideas!"); }
                 else {
+                    msg.channel.send(msg.author.username +"'s idea list:");
                     ideas[msg.author.id].forEach(function(element) {
-                        msg.channel.send(element);
+                        msg.channel.send(" ~ " + element);
                     });
                 }
                 break;
