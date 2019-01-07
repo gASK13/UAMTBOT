@@ -97,6 +97,6 @@ bot.login(auth.token);
 
 var fs = require("fs");
 var myJson = {
-    gASK: ["First]
+    gASK: ["First"]
 };
 fs.writeFile( "ideas.json", JSON.stringify( myJson ), "utf8", yourCallback );
