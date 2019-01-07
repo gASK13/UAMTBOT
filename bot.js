@@ -1,6 +1,7 @@
 var Discord = require('discord.js');
 var auth = require('./auth.json');
 var https = require("https");
+var ideas = require("./ideas.json");
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
@@ -21,6 +22,21 @@ bot.on('message', function (msg) {
         var args = msg.content.substring(1).split(' ');
         var cmd = args[0];
         switch(cmd) {
+            case "ideas":
+                // List them     
+                if (!ideas[msg.author.id]) { msg.channel.send("Sorry, seem like you are out of ideas!"); }
+                else {
+                    ideas[msg.author.id].forEach(function(element) {
+                        msg.channel.send(element);
+                    });
+                }
+                break;
+            case "idea":
+                // Add idea
+                var idea = args.slice(1).join(" ");
+                if (!ideas[msg.author.id]) { ideas[msg.author.id] = [] }
+                ideas[msg.author.id].push(idea);
+                break;
            case "help":
               msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nMy prefix is ]\n\n]modlist will link to Aground mod.io page\n]mod {name} will help you search for a mod and link to it.\n]item will allow you to quickly generate XML for a mod item.");
               break;
@@ -94,9 +110,3 @@ bot.on('message', function (msg) {
 }); 
 
 bot.login(auth.token);
-
-var fs = require("fs");
-var myJson = {
-    gASK: ["First"]
-};
-fs.writeFile( "ideas.json", JSON.stringify( myJson ), "utf8", function() {});
