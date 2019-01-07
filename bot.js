@@ -25,6 +25,11 @@ bot.on('message', function (msg) {
         var cmd = args[0];
         switch(cmd) {
             case "ideas":
+                if (args[1] == 'clear') {
+                    ideas[msg.author.id] = [];
+                    msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
+                    break;
+                }
                 // List them     
                 if (!ideas[msg.author.id]) { msg.channel.send("Sorry, seem like you are out of ideas!"); }
                 else {
