@@ -1,8 +1,9 @@
 var Discord = require('discord.js');
 var auth = require('./auth.json');
 var https = require("https");
-var ideas = require("./ideas.json");
 var fs = require("fs");
+
+var ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
