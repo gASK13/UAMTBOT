@@ -4,7 +4,6 @@ var https = require("https");
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
-   react: boolean = false
 });
 bot.on("error", (e) => console.error(e));
 bot.on("warn", (e) => console.warn(e));
@@ -15,20 +14,6 @@ bot.on('ready', function (evt) {
 bot.on('message', function (msg) {
    if (msg.author.bot) { return; }
    
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
-    const rip = "512360112820584448";
-    const tada = "515935670771122178";
-    if (this.react && msg.author.id != '522160089554092041') {
-       r = Math.random();
-       console.log(r);
-      if (r < 0.3) {
-          msg.react(tada)
-      }
-      else if (r < 0.6) {
-          msg.react(rip)
-      }
-    }
     if (msg.mentions.users.exists('id', '522160089554092041')) {
        msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     }
@@ -38,14 +23,6 @@ bot.on('message', function (msg) {
         switch(cmd) {
            case "help":
               msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nMy prefix is ]\n\n]modlist will link to Aground mod.io page\n]mod {name} will help you search for a mod and link to it.\n]item will allow you to quickly generate XML for a mod item.");
-              break;
-            case "react":
-              if (msg.author.id != '412352063125717002') {
-                msg.reply("Sorry, only gASK can do this!");
-              } else {
-                this.react = !this.react;
-                msg.channel.send('Reactions are now turned ' + (this.react ? "ON" : "OFF") + "!");
-              }
               break;
             case "item":
                 if (args.length < 3) {
