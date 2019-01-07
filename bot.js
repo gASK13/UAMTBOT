@@ -30,7 +30,7 @@ bot.on('message', function (msg) {
                     msg.channel.send(msg.author.username +"'s idea list:");
                     let i = 1;
                     ideas[msg.author.id].forEach(function(element) {
-                        msg.channel.send(" " + i + ".: " + element);
+                        msg.channel.send(" " + (i++) + ".: " + element);
                     });
                 }
                 break;
@@ -40,6 +40,7 @@ bot.on('message', function (msg) {
                 if (!ideas[msg.author.id]) { ideas[msg.author.id] = [] }
                 ideas[msg.author.id].push(idea);
                 fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
+                msg.channel.reply(idea + "? What a great idea, " + msg.author.username + "! I am saving that for you as idea #" + (ideas[msg.author.id].length + 1) + ".");
                 break;
            case "help":
               msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nMy prefix is ]\n\n]modlist will link to Aground mod.io page\n]mod {name} will help you search for a mod and link to it.\n]item will allow you to quickly generate XML for a mod item.");
