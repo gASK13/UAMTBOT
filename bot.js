@@ -40,6 +40,21 @@ bot.on('message', function (msg) {
                     });
                 }
                 break;
+            case "removeidea":
+            case "remidea":
+                var id = args.slice(1).join(" ");
+                if (isNaN(id)) {
+                    // convert to number
+                    id = ideas[msg.author.id].indexOf(id);
+                }
+                // remove by id
+                var idea = ideas[msg.author.id][id];
+                if (ideas[msg.author.id].splice(id).length > 0) {
+                   msg.channel.send(idea + " was not a good one anyway ...");
+                } else {
+                    msg.channel.send("I have no idea what idea you are talking about?");
+                }                
+                break;                
             case "idea":
                 // Add idea
                 var idea = args.slice(1).join(" ");
