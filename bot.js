@@ -35,9 +35,12 @@ bot.on('message', function (msg) {
                 else {
                     msg.channel.send(msg.author.username +"'s idea list:");
                     let i = 1;
+                    let idealist = "";
                     ideas[msg.author.id].forEach(function(element) {
-                        msg.channel.send(" " + (i++) + ".: " + element);
+                        if (idealist.length > 0) { idealist += "\n"; }
+                        idealist += " " + (i++) + ".: " + element;
                     });
+                    msg.channel.send(idealist);
                 }
                 break;
             case "removeidea":
@@ -46,7 +49,7 @@ bot.on('message', function (msg) {
                 if (isNaN(id)) {
                     // convert to number
                     id = ideas[msg.author.id].indexOf(id);
-                }
+                } else { id -= 1; }
                 // remove by id
                 var idea = ideas[msg.author.id][id];
                 if (ideas[msg.author.id].splice(id).length > 0) {
