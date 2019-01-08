@@ -65,6 +65,7 @@ bot.on('message', function (msg) {
                 } else {
                     msg.channel.send("I have no idea what idea you are talking about?");
                 }                
+                fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
                 break;                
             case "idea":
                 // Add idea
