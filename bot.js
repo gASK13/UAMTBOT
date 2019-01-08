@@ -43,6 +43,10 @@ bot.on('message', function (msg) {
                     msg.channel.send(idealist);
                 }
                 break;
+            case "finishidea":
+            case "finish":
+                var finish = true;
+            case "remove":
             case "removeidea":
             case "remidea":
                 var id = args.slice(1).join(" ");
@@ -53,7 +57,11 @@ bot.on('message', function (msg) {
                 // remove by id
                 var idea = ideas[msg.author.id][id];
                 if (ideas[msg.author.id].splice(id).length > 0) {
-                   msg.channel.send(idea + " was not a good one anyway ...");
+                   if (finish) {
+                       msg.channel.send("Good job finally finishing " + idea + ", " + msg.author.username + "!");
+                   } else {
+                        msg.channel.send(idea + " was not a good one anyway ...");
+                   }
                 } else {
                     msg.channel.send("I have no idea what idea you are talking about?");
                 }                
