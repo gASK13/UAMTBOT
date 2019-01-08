@@ -31,14 +31,13 @@ bot.on('message', function (msg) {
                     break;
                 }
                 // List them     
-                if (!ideas[msg.author.id]) { msg.channel.send("Sorry, seem like you are out of ideas!"); }
+                if (!ideas[msg.author.id] || ideas[msg.author.id].length == 0) { msg.channel.send("Sorry, seem like you are out of ideas!"); }
                 else {
                     msg.channel.send(msg.author.username +"'s idea list:");
                     let i = 1;
                     let idealist = "";
                     ideas[msg.author.id].forEach(function(element) {
-                        if (idealist.length > 0) { idealist += "\n"; }
-                        idealist += " " + (i++) + ".: " + element;
+                        idealist += "\n " + (i++) + ".: " + element;
                     });
                     msg.channel.send(idealist);
                 }
