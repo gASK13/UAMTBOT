@@ -55,7 +55,7 @@ bot.on('message', function (msg) {
                 } else { id -= 1; }
                 // remove by id
                 var idea = ideas[msg.author.id][id];
-                if (ideas[msg.author.id].splice(id).length > 0) {
+                if (ideas[msg.author.id].splice(id,1).length > 0) {
                    if (finish) {
                        msg.channel.send("Good job finally finishing " + idea + ", " + msg.author.username + "!");
                    } else {
