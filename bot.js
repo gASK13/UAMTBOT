@@ -24,6 +24,11 @@ bot.on('message', function (msg) {
         var args = msg.content.substring(1).split(' ');
         var cmd = args[0];
         switch(cmd) {
+            case "test":
+                msg.guild.fetchMember(message.author).then(function(value) {
+                    msg.channel.send(new Date().getTime() - value.joinedTimestamp);
+                });
+                break;
             case "ideas":
                 if (args[1] == 'clear') {
                     ideas[msg.author.id] = [];
