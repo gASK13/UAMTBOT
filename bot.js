@@ -25,7 +25,7 @@ bot.on('message', function (msg) {
         var cmd = args[0];
         switch(cmd) {
             case "test":
-                msg.guild.fetchMember(message.author).then(function(value) {
+                msg.guild.fetchMember(msg.author).then(function(value) {
                     msg.channel.send(new Date().getTime() - value.joinedTimestamp);
                 });
                 break;
