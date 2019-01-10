@@ -68,6 +68,7 @@ bot.on('message', function (msg) {
                 break;                
             case "idea":
                 // Add idea
+                if (args.length < 2) { msg.channel.send("Proper usage is ]idea {idea to save}. Got it?"); return; }
                 var idea = args.slice(1).join(" ");
                 if (!ideas[msg.author.id]) { ideas[msg.author.id] = [] }
                 ideas[msg.author.id].push(idea);
