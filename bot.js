@@ -75,7 +75,7 @@ bot.on('message', function (msg) {
                 msg.channel.send(idea + "? What a great idea, " + msg.author.username + "! I am saving that for you as idea #" + (ideas[msg.author.id].length) + ".");
                 break;
            case "help":
-              msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nMy prefix is ]\n\n]modlist will link to Aground mod.io page\n]mod {name} will help you search for a mod and link to it.\n]item will allow you to quickly generate XML for a mod item.");
+              msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nMy prefix is ]\n\n]modlist will link to Aground mod.io page\n]mod {name} will help you search for a mod and link to it.\n]ideas will allow me to list your ideas\n]idea {my idea here} will allow you to store a new idea\n]remove {#} or ]remove {idea} will allow you to remove stupid ideas\n]finish {#} or ]finish {idea} will allow you me to congratulate you on finishing one of your ideas!\n]item will allow you to quickly generate XML for a mod item.");
               break;
             case "item":
                 if (args.length < 3) {
