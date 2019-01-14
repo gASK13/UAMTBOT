@@ -43,11 +43,7 @@ bot.on('message', function (msg) {
                         break;
                     } else {
                         // find user
-                        var uname = args.slice(1).join(" ");          
-                        if (uname.startsWith("@")) { 
-                            msg.channel.send("Oh no you don't!");
-                            break;
-                        }
+                        var uname = args.slice(1).join(" ").replace("@", "");          
                         var foundUs = [];
                         msg.guild.members.forEach((member) => {
                             if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
@@ -82,7 +78,7 @@ bot.on('message', function (msg) {
                     let i = 1;
                     let idealist = "";
                     ideas[uid].forEach(function(element) {
-                        idealist += "\n " + (i++) + ".: " + element;
+                        idealist += "\n " + (i++) + ".: " + element.replace("@", "");
                     });
                     msg.channel.send(idealist);
                 }
@@ -104,9 +100,9 @@ bot.on('message', function (msg) {
                 var idea = ideas[msg.author.id][id];
                 if (ideas[msg.author.id].splice(id,1).length > 0) {
                    if (finish) {
-                       msg.channel.send("Good job finally finishing " + idea + ", " + msg.author.username + "!");
+                       msg.channel.send("Good job finally finishing " + idea.replace("@", "") + ", " + msg.author.username + "!");
                    } else {
-                        msg.channel.send(idea + " was not a good one anyway ...");
+                        msg.channel.send(idea.replace("@", "") + " was not a good one anyway ...");
                    }
                 } else {
                     msg.channel.send("I have no idea what idea you are talking about?");
@@ -116,7 +112,7 @@ bot.on('message', function (msg) {
             case "idea":
                 // Add idea
                 if (args.length < 2) { msg.channel.send("Proper usage is ]idea {idea to save}. Got it?"); return; }
-                var idea = args.slice(1).join(" ");
+                var idea = args.slice(1).join(" ").replace("@", "");
                 if (!ideas[msg.author.id]) { ideas[msg.author.id] = [] }
                 ideas[msg.author.id].push(idea);
                 fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
@@ -132,10 +128,10 @@ bot.on('message', function (msg) {
                 } else {
                     switch(args[2]) {
                         case "food":                        
-                            msg.channel.send('```xml\n<item id="' + args[1] + '" type="food" cost="' + (args.length > 4 ? args[4] : "0") + '" weight="' + (args.length > 3 ? args[3] : "0") + '" icon="' + args[1] + '.ico" />```');
+                            msg.channel.send('```xml\n<item id="' + args[1].replace("@", "") + '" type="food" cost="' + (args.length > 4 ? args[4].replace("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replace("@", "") : "0") + '" icon="' + args[1].replace("@", "") + '.ico" />```');
                             break;
                         case "weapon":
-                            msg.channel.send('```xml\n<item id="' + args[1] + '" type="equipment" slot="weapon" durability="500" cost="' + (args.length > 4 ? args[4] : "0") + '" weight="' + (args.length > 3 ? args[3] : "0") + '" attack="0" cut="0" stamina="0" knockback="0" icon="' + args[1] + '.ico" animation="' + args[1] + '" action="equip" movement_walk="walk_rswing" critical="false" />```');
+                            msg.channel.send('```xml\n<item id="' + args[1].replace("@", "") + '" type="equipment" slot="weapon" durability="500" cost="' + (args.length > 4 ? args[4].replace("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replace("@", "") : "0") + '" attack="0" cut="0" stamina="0" knockback="0" icon="' + args[1].replace("@", "") + '.ico" animation="' + args[1].replace("@", "") + '" action="equip" movement_walk="walk_rswing" critical="false" />```');
                             break;
                     }                                                         
                 }
