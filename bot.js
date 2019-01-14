@@ -42,8 +42,13 @@ bot.on('message', function (msg) {
                     } else {
                         // find user
                         var uname = args.slice(1).join(" ");
-                        msg.guild.fetchMembers(uname, 10).then(function(value) {
-                            fs.writeFile("value.json", JSON.stringify(value), "utf8", function(error) {} );
+                        msg.guild.fetchMembers(uname, 10).then(function(guild) {
+                             let cnt = 0;
+                             guild.members.forEach((member) => {
+                                cnt = cnt +1;
+                                console.log(member.id);
+                             });
+                             msg.channel.send(cnt);
                         });
                     }
                     return;
