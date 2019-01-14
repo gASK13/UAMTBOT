@@ -41,16 +41,10 @@ bot.on('message', function (msg) {
                         break;
                     } else {
                         // find user
-                        var uname = args.slice(1).join(" ");
-                        msg.guild.fetchMembers(uname, 10).then(function(resp) {
-                             let cnt = 0;
-                             resp.members.forEach((member) => {
-                                cnt = cnt +1;
-                                console.log(member.id);
-                             });
-                             msg.channel.send(cnt);
-                            fs.writeFile("values.json", resp, "utf8", function(error) {} );
-                        });                        
+                        var uname = args.slice(1).join(" ");                        
+                        resp.members.forEach((member) => {
+                            console.log(member.nickname + "/" + member.user.username);
+                        });
                     }
                     return;
                 }
