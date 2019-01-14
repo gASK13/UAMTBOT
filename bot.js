@@ -35,7 +35,7 @@ bot.on('message', function (msg) {
                 break;
             case "ideas":
                 let uid = msg.author.id;
-                let unm = "you";
+                let unm = "you are";
                 if (args.length >= 2) {
                     if (args[1] == 'clear' || args[1] == 'clean' || args[1] == 'purge') {
                         ideas[msg.author.id] = [];
@@ -50,6 +50,7 @@ bot.on('message', function (msg) {
                                 || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
                                 foundUs.push(member.id);
                                 unm = member.nickname == null ? member.user.username : member.nickname;
+                                unm += " is";
                             }                                                  
                         });
                         
@@ -61,16 +62,15 @@ bot.on('message', function (msg) {
                             break;
                         } else {
                             uid = foundUs[0];
-                            unm = uname;
                         }
                     }
                 }
                 // List them     
                 if (!ideas[uid] || ideas[uid].length == 0) { 
                     if (uid == 246332093808902144) {
-                        msg.channel.send("WOW! " + unm + " is so full of ideas I can't even show them all!"); 
+                        msg.channel.send("WOW! " + unm + " so full of ideas I can't even show them all!"); 
                     } else {
-                        msg.channel.send("Sorry, seem like " + unm + " are out of ideas!"); 
+                        msg.channel.send("Sorry, seem like " + unm + " out of ideas!"); 
                     }
                 }
                 else {
