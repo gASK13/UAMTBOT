@@ -34,6 +34,8 @@ bot.on('message', function (msg) {
                 });
                 break;
             case "ideas":
+                let uid = msg.author.id;
+                let unm = "you";
                 if (args.length >= 2) {
                     if (args[1] == 'clear' || args[1] == 'clean' || args[1] == 'purge') {
                         ideas[msg.author.id] = [];
@@ -41,20 +43,34 @@ bot.on('message', function (msg) {
                         break;
                     } else {
                         // find user
-                        var uname = args.slice(1).join(" ");                        
+                        var uname = args.slice(1).join(" ");          
+                        var foundUs = [];
                         msg.guild.members.forEach((member) => {
-                            console.log(member.nickname + "/" + member.user.username);
+                            if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
+                                || (member.user.username.toLowerCase().includes(uname.toLowerCase())) {
+                                foundUs.push(member.id);
+                            }                                                  
                         });
+                        
+                        if (foundUs.length == 0) {
+                            msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
+                            break;
+                        } else if (foundUs.length > 1) {
+                            msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
+                            break;
+                        } else {
+                            uid = foundUs[0];
+                            unm = uname;
+                        }
                     }
-                    return;
                 }
                 // List them     
-                if (!ideas[msg.author.id] || ideas[msg.author.id].length == 0) { msg.channel.send("Sorry, seem like you are out of ideas!"); }
+                if (!ideas[uid] || ideas[uid].length == 0) { msg.channel.send("Sorry, seem like " + unm + " are out of ideas!"); }
                 else {
-                    msg.channel.send(msg.author.username +"'s idea list:");
+                    msg.channel.send(unm +"'s idea list:");
                     let i = 1;
                     let idealist = "";
-                    ideas[msg.author.id].forEach(function(element) {
+                    ideas[uid].forEach(function(element) {
                         idealist += "\n " + (i++) + ".: " + element;
                     });
                     msg.channel.send(idealist);
