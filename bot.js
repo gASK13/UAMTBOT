@@ -44,6 +44,10 @@ bot.on('message', function (msg) {
                     } else {
                         // find user
                         var uname = args.slice(1).join(" ");          
+                        if (uname.startsWith("@")) { 
+                            msg.channel.send("Oh no you don't!");
+                            break;
+                        }
                         var foundUs = [];
                         msg.guild.members.forEach((member) => {
                             if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
