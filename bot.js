@@ -28,9 +28,9 @@ bot.on('message', function (msg) {
                 msg.guild.fetchMember(msg.author).then(function(value) {
                     let ms = new Date().getTime() - value.joinedTimestamp;
                     let min = Math.floor(ms / (1000 * 60));
-                    let hr = Math.florr(min / 60); min -= hr * 60;
+                    let hr = Math.floor(min / 60); min -= hr * 60;
                     let ds = Math.floor(hr / 24); hr -= ds * 24;
-                    msg.channel.send("You area a memebt of this server for " + (ds > 0) ? (ds + " days, ") : "" + (ds > 0 || hr > 0) ? (hr + " hours and ") : "" + min + " minutes.");
+                    msg.channel.send("You area a member of this server for " + (ds > 0) ? (ds + " days, ") : "" + (ds > 0 || hr > 0) ? (hr + " hours and ") : "" + min + " minutes.");
                 });
                 break;
             case "ideas":
@@ -43,7 +43,7 @@ bot.on('message', function (msg) {
                         // find user
                         var uname = args.slice(1).join(" ");
                         msg.guild.fetchMembers(uname, 10).then(function(value) {
-                            console.log(value);
+                            fs.writeFile("value.json", JSON.stringify(value), "utf8", function(error) {} );
                         });
                     }
                     return;
