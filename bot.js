@@ -42,14 +42,15 @@ bot.on('message', function (msg) {
                     } else {
                         // find user
                         var uname = args.slice(1).join(" ");
-                        msg.guild.fetchMembers(uname, 10).then(function(guild) {
+                        msg.guild.fetchMembers(uname, 10).then(function(resp) {
                              let cnt = 0;
-                             guild.members.forEach((member) => {
+                             resp.members.forEach((member) => {
                                 cnt = cnt +1;
                                 console.log(member.id);
                              });
                              msg.channel.send(cnt);
-                        });
+                            fs.writeFile("values.json", JSON.stringify(resp), "utf8", function(error) {} );
+                        });                        
                     }
                     return;
                 }
