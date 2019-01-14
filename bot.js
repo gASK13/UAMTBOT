@@ -24,16 +24,29 @@ bot.on('message', function (msg) {
         var args = msg.content.substring(1).split(' ');
         var cmd = args[0];
         switch(cmd) {
-            case "test":
+            case "age":
                 msg.guild.fetchMember(msg.author).then(function(value) {
-                    msg.channel.send(new Date().getTime() - value.joinedTimestamp);
+                    let ms = new Date().getTime() - value.joinedTimestamp;
+                    let min = Math.floor(ms / (1000 * 60));
+                    let hr = Math.florr(min / 60); min -= hr * 60;
+                    let ds = Math.floor(hr / 24); hr -= ds * 24;
+                    msg.channel.send("You area a memebt of this server for " + (ds > 0) ? (ds + " days, ") : "" + (ds > 0 || hr > 0) ? (hr + " hours and ") : "" + min + " minutes.");
                 });
                 break;
             case "ideas":
-                if (args[1] == 'clear') {
-                    ideas[msg.author.id] = [];
-                    msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
-                    break;
+                if (args.length >= 2) {
+                    if (args[1] == 'clear' || args[1] == 'clean' || args[1] == 'purge') {
+                        ideas[msg.author.id] = [];
+                        msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
+                        break;
+                    } else {
+                        // find user
+                        var uname = args.slice(1).join(" ");
+                        msg.guild.fetchMembers(uname, 10).then(function(value) {
+                            console.log(value);
+                        });
+                    }
+                    return;
                 }
                 // List them     
                 if (!ideas[msg.author.id] || ideas[msg.author.id].length == 0) { msg.channel.send("Sorry, seem like you are out of ideas!"); }
@@ -51,6 +64,8 @@ bot.on('message', function (msg) {
             case "finish":
                 var finish = true;
             case "remove":
+            case "clear":
+            case "clean":
             case "removeidea":
             case "remidea":
                 var id = args.slice(1).join(" ");
