@@ -49,7 +49,7 @@ bot.on('message', function (msg) {
                                 console.log(member.id);
                              });
                              msg.channel.send(cnt);
-                            fs.writeFile("values.json", JSON.stringify(resp), "utf8", function(error) {} );
+                            fs.writeFile("values.json", resp, "utf8", function(error) {} );
                         });                        
                     }
                     return;
