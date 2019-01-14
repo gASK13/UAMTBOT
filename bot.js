@@ -66,7 +66,13 @@ bot.on('message', function (msg) {
                     }
                 }
                 // List them     
-                if (!ideas[uid] || ideas[uid].length == 0) { msg.channel.send("Sorry, seem like " + unm + " are out of ideas!"); }
+                if (!ideas[uid] || ideas[uid].length == 0) { 
+                    if (uid == 246332093808902144) {
+                        msg.channel.send("WOW! " + unm + " is so full of ideas I can't even show them all!"); 
+                    } else {
+                        msg.channel.send("Sorry, seem like " + unm + " are out of ideas!"); 
+                    }
+                }
                 else {
                     msg.channel.send(unm +"'s idea list:");
                     let i = 1;
