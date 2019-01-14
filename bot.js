@@ -49,6 +49,7 @@ bot.on('message', function (msg) {
                             if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
                                 || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
                                 foundUs.push(member.id);
+                                unm = member.nickname == null ? member.user.username : member.nickname;
                             }                                                  
                         });
                         
