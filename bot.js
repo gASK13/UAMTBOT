@@ -47,7 +47,7 @@ bot.on('message', function (msg) {
                         var foundUs = [];
                         msg.guild.members.forEach((member) => {
                             if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
-                                || (member.user.username.toLowerCase().includes(uname.toLowerCase())) {
+                                || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
                                 foundUs.push(member.id);
                             }                                                  
                         });
