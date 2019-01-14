@@ -42,7 +42,7 @@ bot.on('message', function (msg) {
                     } else {
                         // find user
                         var uname = args.slice(1).join(" ");                        
-                        resp.members.forEach((member) => {
+                        msg.guild.members.forEach((member) => {
                             console.log(member.nickname + "/" + member.user.username);
                         });
                     }
