@@ -30,12 +30,13 @@ bot.on('message', function (msg) {
                     let min = Math.floor(ms / (1000 * 60));
                     let hr = Math.floor(min / 60); min -= hr * 60;
                     let ds = Math.floor(hr / 24); hr -= ds * 24;
-                    msg.channel.send("You area a member of this server for " + ((ds > 0) ? (ds + " days, ") : "") + ((ds > 0 || hr > 0) ? (hr + " hours and ") : "") + min + " minutes.");
+                    msg.channel.send("You are a member of this server for " + ((ds > 0) ? (ds + " days, ") : "") + ((ds > 0 || hr > 0) ? (hr + " hours and ") : "") + min + " minutes.");
                 });
                 break;
             case "ideas":
                 let uid = msg.author.id;
-                let unm = "you are";
+                let unm = "you";
+                let unma = "you are";
                 if (args.length >= 2) {
                     if (args[1] == 'clear' || args[1] == 'clean' || args[1] == 'purge') {
                         ideas[msg.author.id] = [];
@@ -50,7 +51,7 @@ bot.on('message', function (msg) {
                                 || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
                                 foundUs.push(member.id);
                                 unm = member.nickname == null ? member.user.username : member.nickname;
-                                unm += " is";
+                                unma =  unm + " is";
                             }                                                  
                         });
                         
@@ -70,7 +71,7 @@ bot.on('message', function (msg) {
                     if (uid == 246332093808902144) {
                         msg.channel.send("WOW! " + unm + " so full of ideas I can't even show them all!"); 
                     } else {
-                        msg.channel.send("Sorry, seem like " + unm + " out of ideas!"); 
+                        msg.channel.send("Sorry, seem like " + unma + " out of ideas!"); 
                     }
                 }
                 else {
