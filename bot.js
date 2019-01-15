@@ -35,7 +35,7 @@ bot.on('message', function (msg) {
                 break;
             case "ideas":
                 let uid = msg.author.id;
-                let unm = "you";
+                let unm = msg.author.username;
                 let unma = "you are";
                 if (args.length >= 2) {
                     if (args[1] == 'clear' || args[1] == 'clean' || args[1] == 'purge') {
@@ -69,7 +69,7 @@ bot.on('message', function (msg) {
                 // List them     
                 if (!ideas[uid] || ideas[uid].length == 0) { 
                     if (uid == 246332093808902144) {
-                        msg.channel.send("WOW! " + unm + " so full of ideas I can't even show them all!"); 
+                        msg.channel.send("WOW! " + unma + " so full of ideas I can't even show them all!"); 
                     } else {
                         msg.channel.send("Sorry, seem like " + unma + " out of ideas!"); 
                     }
