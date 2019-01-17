@@ -16,7 +16,7 @@ bot.on('ready', function (evt) {
 });
 bot.on('message', function (msg) {
    if (msg.author.bot) { return; }
-   
+
     if (msg.mentions.users.exists('id', '522160089554092041')) {
        msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     }
@@ -45,7 +45,7 @@ bot.on('message', function (msg) {
                         break;
                     } else {
                         // find user
-                        var uname = args.slice(1).join(" ").replace("@", "");          
+                        var uname = args.slice(1).join(" ").replace("@", "");
                         var foundUs = [];
                         msg.guild.members.forEach((member) => {
                             if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
@@ -53,9 +53,9 @@ bot.on('message', function (msg) {
                                 foundUs.push(member.id);
                                 unm = member.nickname == null ? member.user.username : member.nickname;
                                 unma =  unm + " is";
-                            }                                                  
+                            }
                         });
-                        
+
                         if (foundUs.length == 0) {
                             msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
                             break;
@@ -67,15 +67,15 @@ bot.on('message', function (msg) {
                         }
                     }
                 }
-                // List them     
-                if (!ideas[uid] || ideas[uid].length == 0) { 
+                // List them
+                if (!ideas[uid] || ideas[uid].length == 0) {
                     if (uid == 246332093808902144) {
-                        msg.channel.send("WOW! " + unma + " so full of ideas I can't even show them all!"); 
-                    } else if (uid == 412352063125717002) {  
+                        msg.channel.send("WOW! " + unma + " so full of ideas I can't even show them all!");
+                    } else if (uid == 412352063125717002) {
                         msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas on a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
                     } else {
-                        msg.channel.send("Sorry, seem like " + unma + " out of ideas!"); 
-                    } 
+                        msg.channel.send("Sorry, seem like " + unma + " out of ideas!");
+                    }
                 }
                 else {
                     msg.channel.send(unm +"'s idea list:");
@@ -110,9 +110,16 @@ bot.on('message', function (msg) {
                    }
                 } else {
                     msg.channel.send("I have no idea what idea you are talking about?");
-                }                
+                }
                 fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
-                break;                
+                break;
+            case "ghost":
+                stm = "";
+                for (var i = 0; i < args.length; i++) {
+                  stm += args[i] + " ";
+                }
+                msg.channel.send(stm);
+                break;
             case "idea":
                 // Add idea
                 if (args.length < 2) { msg.channel.send("Proper usage is ]idea {idea to save}. Got it?"); return; }
@@ -127,17 +134,19 @@ bot.on('message', function (msg) {
               break;
             case "item":
                 if (args.length < 3) {
-                    msg.channel.send("Usage: !item {name} {type} [{weight} {cost}]");
-                    msg.channel.send("Supported types: food | weapon");
+                    msg.channel.send("Usage: ]item {name} {type} [{weight} {cost}]");
+                    msg.channel.send("Supported types: food | resource | potion | weapon");
                 } else {
                     switch(args[2]) {
-                        case "food":                        
-                            msg.channel.send('```xml\n<item id="' + args[1].replace("@", "") + '" type="food" cost="' + (args.length > 4 ? args[4].replace("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replace("@", "") : "0") + '" icon="' + args[1].replace("@", "") + '.ico" />```');
+                        case "potion":
+                        case "resource":
+                        case "food":
+                            msg.channel.send('```xml\n<item id="' + args[1].replace("@", "") + '" type="' + (args.length > 2 ? args[2].replace("@", "") : "food") + '" cost="' + (args.length > 4 ? args[4].replace("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replace("@", "") : "0") + '" icon="' + args[1].replace("@", "") + '.ico" />```');
                             break;
                         case "weapon":
                             msg.channel.send('```xml\n<item id="' + args[1].replace("@", "") + '" type="equipment" slot="weapon" durability="500" cost="' + (args.length > 4 ? args[4].replace("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replace("@", "") : "0") + '" attack="0" cut="0" stamina="0" knockback="0" icon="' + args[1].replace("@", "") + '.ico" animation="' + args[1].replace("@", "") + '" action="equip" movement_walk="walk_rswing" critical="false" />```');
                             break;
-                    }                                                         
+                    }
                 }
               break;
            case "mods":
@@ -146,7 +155,7 @@ bot.on('message', function (msg) {
               break;
            case "mod":
               if (args.length < 2) {
-                 msg.channel.send("Usage: !mod {search_term}");
+                 msg.channel.send("Usage: ]mod {search_term}");
               } else {
                  var sterm = args.slice(1).join("_");
                  sterm = encodeURI(sterm);
@@ -190,8 +199,16 @@ bot.on('message', function (msg) {
                 req.end();
               }
               break;
+            case "vehicle":
+              if (args.length < 3) {
+                  msg.channel.send("Usage: ]vehicle {name} {type} [{max_weight} {fuel} {health} {defence} {speed}]");
+                  msg.channel.send("Supported types: boat | flying | car | mining  | spaceship | submarine");
+              } else {
+                  msg.channel.send('```xml\n<vehicle id="' + args[1].replace("@", "") + '" tile="' + args[1].replace("@", "") + '" title="vehicle.' + args[1].replace("@", "") + '" animation="' + args[1].replace("@", "") + '" type="' + (args.length > 2 ? args[2].replace("@", "") : "car") + '" max_weight="' + (args.length > 3 ? args[3].replace("@", "") : "2000") + '" fuel="' + (args.length > 4 ? args[4].replace("@", "") : "1000") + '" health="' + (args.length > 5 ? args[5].replace("@", "") : "1000") + '" defence="' + (args.length > 6 ? args[6].replace("@", "") : "3") + '" speed="' + (args.length > 7 ? args[7].replace("@", "") : "5") + '" icon="' + args[1].replace("@", "") + '.ico">\n\n</vehicle>```');
+              }
+              break;
         }
     }
-}); 
+});
 
 bot.login(auth.token);
