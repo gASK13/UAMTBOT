@@ -70,9 +70,11 @@ bot.on('message', function (msg) {
                 if (!ideas[uid] || ideas[uid].length == 0) { 
                     if (uid == 246332093808902144) {
                         msg.channel.send("WOW! " + unma + " so full of ideas I can't even show them all!"); 
+                    } else if (uid == xxx) {  
+                        msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas on a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
                     } else {
                         msg.channel.send("Sorry, seem like " + unma + " out of ideas!"); 
-                    }
+                    } 
                 }
                 else {
                     msg.channel.send(unm +"'s idea list:");
