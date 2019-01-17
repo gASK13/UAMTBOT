@@ -115,7 +115,7 @@ bot.on('message', function (msg) {
                 break;
             case "ghost":
                 stm = "";
-                for (var i = 0; i < args.length; i++) {
+                for (var i = 1; i < args.length; i++) {
                   stm += args[i] + " ";
                 }
                 msg.channel.send(stm);
