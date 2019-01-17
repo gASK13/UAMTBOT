@@ -41,6 +41,7 @@ bot.on('message', function (msg) {
                     if (args[1] == 'clear' || args[1] == 'clean' || args[1] == 'purge') {
                         ideas[msg.author.id] = [];
                         msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
+                        fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
                         break;
                     } else {
                         // find user
