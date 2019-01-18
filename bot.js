@@ -118,7 +118,8 @@ bot.on('message', function (msg) {
                 for (var i = 1; i < args.length; i++) {
                   stm += args[i] + " ";
                 }
-                msg.channel.send(stm);
+                if (stm.includes("@")) { msg.channel.send("Oh no you don't!"); }
+                else { msg.channel.delete(); msg.channel.send(stm); }
                 break;
             case "idea":
                 // Add idea
