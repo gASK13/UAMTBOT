@@ -15,12 +15,13 @@ bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
 });
 bot.on('message', function (msg) {
-   if (msg.author.bot) { return; }
-
-    if (msg.mentions.users.exists('id', '522160089554092041')) {
+    if (msg.author.bot) { return; }
+    
+    if (msg.content.toLowerCase().includes("good bot")) {
+        msg.channel.send("Thanks! I try my best!");
+    } else if (msg.mentions.users.exists('id', '522160089554092041')) {
        msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
-    }
-    if (msg.content.substring(0, 1) == ']') {
+    } else if (msg.content.substring(0, 1) == ']') {
         var args = msg.content.substring(1).split(' ');
         var cmd = args[0];
         switch(cmd) {
