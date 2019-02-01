@@ -16,7 +16,7 @@ bot.on('ready', function (evt) {
 });
 bot.on('message', function (msg) {
     if (msg.author.bot) { return; }
-    
+
     if (msg.content.toLowerCase().includes("good bot")) {
         msg.channel.send("Thanks! I try my best!");
     } else if (msg.mentions.users.exists('id', '522160089554092041')) {
@@ -54,10 +54,8 @@ bot.on('message', function (msg) {
                     msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
                     break;
                 }
-                  
 
-
-                if (foundUs[0] == 246332093808902144 || foundUs[0]  == 412352063125717002 || foundUs[0]  == 483028152130469891) {
+                if (foundUs[0] == 246332093808902144 || foundUs[0]  == 412352063125717002 || foundUs[0]  == 483028152130469891 || foundUs[0]  == 522160089554092041) {
                     msg.channel.send("Wow! " + unmb + " is so amazing he can't be banned!");
                 } else {
                   msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + unmb + "... He was a good pokemon!");
