@@ -124,7 +124,7 @@ bot.on('message', function (msg) {
                 break;
             case "ban":
                 var uname = args.slice(1).join(" ").replace("@", "");
-                var unm = "";
+                let unm = "";
                 var foundUs = [];
                 msg.guild.members.forEach((member) => {
                     if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
