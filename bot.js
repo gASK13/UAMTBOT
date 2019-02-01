@@ -122,6 +122,27 @@ bot.on('message', function (msg) {
                 if (stm.includes("@")) { msg.channel.send("Oh no you don't!"); }
                 else { msg.delete(); msg.channel.send(stm); }
                 break;
+            case "ban":
+                var uname = args.slice(1).join(" ").replace("@", "");
+                var unm = "";
+                var foundUs = [];
+                msg.guild.members.forEach((member) => {
+                    if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
+                        || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
+                        foundUs.push(member.id);
+                        unm = member.nickname == null ? member.user.username : member.nickname;
+                    }
+                });
+
+                if (foundUs.length == 0) {
+                    msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
+                    break;
+                } else if (foundUs.length > 1) {
+                    msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
+                    break;
+                } 
+                msg.channel.send(":rip: " + unm + "... He was a good pokemon!");
+                break;
             case "idea":
                 // Add idea
                 if (args.length < 2) { msg.channel.send("Proper usage is ]idea {idea to save}. Got it?"); return; }
