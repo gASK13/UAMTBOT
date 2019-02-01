@@ -53,11 +53,11 @@ bot.on('message', function (msg) {
                 } else if (foundUs.length > 1) {
                     msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
                     break;
-                } else {
-                  uid = foundUs[0];
                 }
+                  
 
-                if (uid == 246332093808902144 || uid == 412352063125717002 || uid == 483028152130469891) {
+
+                if (foundUs[0] == 246332093808902144 || foundUs[0]  == 412352063125717002 || foundUs[0]  == 483028152130469891) {
                     msg.channel.send("Wow! " + unmb + " is so amazing he can't be banned!");
                 } else {
                   msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + unmb + "... He was a good pokemon!");
