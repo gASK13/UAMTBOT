@@ -126,7 +126,7 @@ bot.on('message', function (msg) {
                 var uname = args.slice(1).join(" ").replace("@", "");
                 var foundUs = [];
                 let unmb = "";            
-                const rip = bot.emojis.find(emoji => emoji.name === "ayy");
+                const rip = bot.emojis.find(emoji => emoji.name === "rip");
                 msg.guild.members.forEach((member) => {
                     if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
                         || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
@@ -142,7 +142,7 @@ bot.on('message', function (msg) {
                     msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
                     break;
                 } 
-                msg.channel.send(rip.toString() + " " + unmb + "... He was a good pokemon!");
+                msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + unmb + "... He was a good pokemon!");
                 break;
             case "idea":
                 // Add idea
