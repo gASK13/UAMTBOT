@@ -37,6 +37,8 @@ bot.on('message', function (msg) {
             case "ban":
                 var uname = args.slice(1).join(" ").replace("@", "");
                 var foundUs = [];
+                var noBan = [246332093808902144,412352063125717002,483028152130469891,522160089554092041];
+                var banProof = false;
                 let unmb = "";
                 const rip = bot.emojis.find(emoji => emoji.name === "rip");
                 msg.guild.members.forEach((member) => {
@@ -55,10 +57,16 @@ bot.on('message', function (msg) {
                     break;
                 }
 
-                if (foundUs[0] == 246332093808902144 || foundUs[0]  == 412352063125717002 || foundUs[0]  == 483028152130469891 || foundUs[0]  == 522160089554092041) {
+                for (var i = 0; i < noBan.length; i++) {
+                  if (noBan[i] == foundUs[0]) {
+                    banProof = true;
+                  }
+                }
+
+                if (banProof == true) {
                     msg.channel.send("Wow! " + unmb + " is so amazing he can't be banned!");
                 } else {
-                  msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + unmb + "... He was a good pokemon!");
+                  msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + unmb + "... You were a good pokemon!");
                 }
                 break;
             case "ideas":
