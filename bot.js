@@ -125,11 +125,12 @@ bot.on('message', function (msg) {
             case "ban":
                 var uname = args.slice(1).join(" ").replace("@", "");
                 var foundUs = [];
+                let unmb = "";
                 msg.guild.members.forEach((member) => {
                     if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
                         || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
                         foundUs.push(member.id);
-                        unm = member.nickname == null ? member.user.username : member.nickname;
+                        unmb = member.nickname == null ? member.user.username : member.nickname;
                     }
                 });
 
@@ -140,7 +141,7 @@ bot.on('message', function (msg) {
                     msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
                     break;
                 } 
-                msg.channel.send(":rip: " + unm + "... He was a good pokemon!");
+                msg.channel.send(":rip: " + unmb + "... He was a good pokemon!");
                 break;
             case "idea":
                 // Add idea
