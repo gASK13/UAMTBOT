@@ -34,6 +34,35 @@ bot.on('message', function (msg) {
                     msg.channel.send("You are a member of this server for " + ((ds > 0) ? (ds + " days, ") : "") + ((ds > 0 || hr > 0) ? (hr + " hours and ") : "") + min + " minutes.");
                 });
                 break;
+            case "ban":
+                var uname = args.slice(1).join(" ").replace("@", "");
+                var foundUs = [];
+                let unmb = "";
+                const rip = bot.emojis.find(emoji => emoji.name === "rip");
+                msg.guild.members.forEach((member) => {
+                    if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
+                        || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
+                        foundUs.push(member.id);
+                        unmb = member.nickname == null ? member.user.username : member.nickname;
+                    }
+                });
+
+                if (foundUs.length == 0) {
+                    msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
+                    break;
+                } else if (foundUs.length > 1) {
+                    msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
+                    break;
+                } else {
+                  uid = foundUs[0];
+                }
+
+                if (uid == 246332093808902144 || uid == 412352063125717002 || uid == 483028152130469891) {
+                    msg.channel.send("Wow! " + unmb + " is so amazing he can't be banned!");
+                } else {
+                  msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + unmb + "... He was a good pokemon!");
+                }
+                break;
             case "ideas":
                 let uid = msg.author.id;
                 let unm = msg.author.username;
@@ -121,28 +150,6 @@ bot.on('message', function (msg) {
                 }
                 if (stm.includes("@")) { msg.channel.send("Oh no you don't!"); }
                 else { msg.delete(); msg.channel.send(stm); }
-                break;
-            case "ban":
-                var uname = args.slice(1).join(" ").replace("@", "");
-                var foundUs = [];
-                let unmb = "";            
-                const rip = bot.emojis.find(emoji => emoji.name === "rip");
-                msg.guild.members.forEach((member) => {
-                    if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
-                        || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
-                        foundUs.push(member.id);
-                        unmb = member.nickname == null ? member.user.username : member.nickname;
-                    }
-                });
-
-                if (foundUs.length == 0) {
-                    msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
-                    break;
-                } else if (foundUs.length > 1) {
-                    msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
-                    break;
-                } 
-                msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + unmb + "... He was a good pokemon!");
                 break;
             case "idea":
                 // Add idea
