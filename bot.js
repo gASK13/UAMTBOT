@@ -17,11 +17,15 @@ bot.on('ready', function (evt) {
 const AgeCommand = require('./commands/age.js');
 const BanCommand = require('./commands/ban.js');
 const GhostCommand = require('./commands/ghost.js');
+const ModListCommand = require('./commands/modlist.js');
+const ModCommand = require('./commands/mod.js');
 
 bot.commands = [
-    new AgeCommand(bot),
+    new AgeCommand(),
     new BanCommand(bot),
-    new GhostCommand(bot)
+    new GhostCommand(),
+    new ModListCommand(),
+    new ModCommand(apikey)
 ];
 
 // MAIN CALLBACK
@@ -158,56 +162,6 @@ bot.on('message', function (msg) {
                             break;
                     }
                 }
-              break;
-           case "mods":
-           case "modlist":
-              msg.channel.send("https://aground.mod.io/");
-              break;
-           case "mod":
-              if (args.length < 2) {
-                 msg.channel.send("Usage: ]mod {search_term}");
-              } else {
-                 var sterm = args.slice(1).join("_");
-                 sterm = encodeURI(sterm);
-                 var options = {
-                      host: 'api.mod.io',
-                      port: 443,
-                      path: '/v1/games/34/mods?api_key=' + auth.apikey + "&_q=" + sterm,
-                      method: 'GET',
-                      headers: {
-                          'Content-Type': 'application/json'
-                      }
-                  };
-                 var req = https.request(options, function(res)
-                  {
-                    var output = '';
-                    console.log(options.host + ':' + res.statusCode);
-                    res.setEncoding('utf8');
-
-                    res.on('data', function (chunk) {
-                        output += chunk;
-                    });
-
-                    res.on('end', function() {
-                        var obj = JSON.parse(output);
-                        if (obj.result_count == 0) {
-                           msg.channel.send("Sorry, not mod matching this name was found.");
-                        } else if (obj.result_count == 1) {
-                           msg.channel.send(obj.data[0].profile_url)
-                        } else {
-                           var names = "";
-                           obj.data.forEach(function(element) { names += (names.length > 0 ? ", " : "") + element.name});
-                           msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
-                        }
-                    });
-                });
-
-                req.on('error', function(err) {
-                    msg.channel.send("BOT BORKED. BORK BORK.");
-                });
-
-                req.end();
-              }
               break;
             case "vehicle":
               if (args.length < 3) {

@@ -1,9 +1,8 @@
 class Command {
-    constructor(bot, name, shortlist, min_args) {
+    constructor(name, shortlist, min_args) {
         this.name = name;
         this.shorlist = shortlist;
         this.min_args = min_args;
-        this.bot = bot;
     }
 
     help(msg) {
