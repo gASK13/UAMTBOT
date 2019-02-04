@@ -1,6 +1,5 @@
 let Discord = require('discord.js');
 let auth = require('./auth.json');
-let https = require("https");
 let fs = require("fs");
 let ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
 

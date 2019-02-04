@@ -1,4 +1,5 @@
 const Command = require('../command.js');
+let https = require("https");
 
 class ModCommand extends Command {
     constructor(apikey) {
