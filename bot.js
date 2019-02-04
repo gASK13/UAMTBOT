@@ -47,6 +47,7 @@ bot.on('message', function (msg) {
         if (cmd === 'help') {
             if (args.length >= 2) {
                 // try to find help for one command
+                // x
             } else {
                 msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nMy commands are:\nTBD");
                 return;
