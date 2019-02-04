@@ -14,10 +14,12 @@ To run the bot, just type
 
 Auth token file should look like this:
 
+```JS
 {
     "token": "MySuP3RS3cR37T0kEn FOR DISCORD",
     "apikey" :  "mod.io API KEY goes here 123456789"
 }
+```
 
 ## How to add new commands
 
