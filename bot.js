@@ -2,6 +2,8 @@ let Discord = require('discord.js');
 let auth = require('./auth.json');
 let fs = require("fs");
 let ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
+let glob = require( 'glob' );
+let path = require( 'path' );
 
 // BOT SETUP
 let bot = new Discord.Client({});
@@ -13,19 +15,11 @@ bot.on('ready', function (evt) {
 });
 
 // COMMAND SETUP
-const AgeCommand = require('./commands/age.js');
-const BanCommand = require('./commands/ban.js');
-const GhostCommand = require('./commands/ghost.js');
-const ModListCommand = require('./commands/modlist.js');
-const ModCommand = require('./commands/mod.js');
-
-bot.commands = [
-    new AgeCommand(),
-    new BanCommand(bot),
-    new GhostCommand(),
-    new ModListCommand(),
-    new ModCommand(auth.apikey)
-];
+bot.commands = [];
+glob.sync( './commands/*.js' ).forEach( function( file ) {
+    let Command = require( path.resolve( file ) );
+    bot.commands.push(new Command());
+});
 
 // MAIN CALLBACK
 bot.on('message', function (msg) {
@@ -188,3 +182,7 @@ bot.on('message', function (msg) {
 });
 
 bot.login(auth.token);
+
+for (let com of bot.commands) {
+    com.setBot(bot); com.setAuth(auth);
+}

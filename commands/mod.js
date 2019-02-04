@@ -2,9 +2,13 @@ const Command = require('../command.js');
 let https = require("https");
 
 class ModCommand extends Command {
-    constructor(apikey) {
+    constructor() {
         super("Mod Search", ['mod'], 0);
-        this.apikey = apikey;
+    }
+
+    setAuth(auth) {
+        super.setAuth(auth);
+        this.apikey = auth.apikey;
     }
 
     help(msg) {

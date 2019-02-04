@@ -5,6 +5,14 @@ class Command {
         this.min_args = min_args;
     }
 
+    setBot(bot) {
+        this.bot = bot;
+    }
+
+    setAuth(auth) {
+        this.auth = auth;
+    }
+
     help(msg) {
         return "No help defined for " + name + "!"
     }
@@ -15,7 +23,8 @@ class Command {
 
     run(msg, args) {
         if ((args.length - 1) < this.min_args) {
-            msg.channel.send("The " + name + " command requires more parameters. Check help!");
+            msg.channel.send("The " + msg + " command requires more parameters! Usage:\n" + this.help());
+            return;
         }
         this.runInternal(msg, args)
     }

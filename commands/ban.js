@@ -2,14 +2,17 @@ const Command = require('../command.js');
 
 class BanCommand extends Command {
 
-    constructor(bot) {
+    constructor() {
         super("(Fake)Ban", ['ban'], 1);
-        this.banproof_list = [246332093808902144, 412352063125717002, 483028152130469891, 522160089554092041, bot.id]
-        this.bot = bot;
+        this.banproof_list = [246332093808902144, 412352063125717002, 483028152130469891, 522160089554092041]
+    }
+
+    setBot(bot) {
+        super.setBot(bot);
     }
 
     help(msg) {
-        return "This is a joke 'ban' base on some talk in Aground #offtopic server. Use with caution!";
+        return "]ban {user}\n\nThis is a joke 'ban' base on some talk in Aground #offtopic server. Use with caution!";
     }
 
     shortHelp(msg) {
@@ -38,11 +41,9 @@ class BanCommand extends Command {
             return;
         }
 
-        for (let i = 0; i < banproof_list.length; i++) {
-            if (banproof_list[i] === found_users[0]) {
-                msg.channel.send("Wow! " + username + " is so amazing he can't be banned!");
-                return;
-            }
+        if (this.banproof_list.indexOf(found_users[0]) > -1 || found_users[0] === this.bot.user.id) {
+            msg.channel.send("Wow! " + username + " is so amazing he can't be banned!");
+            return;
         }
 
         msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + username + "... You were a good pokemon!");
