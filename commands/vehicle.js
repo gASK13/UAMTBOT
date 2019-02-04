@@ -2,7 +2,7 @@ const Command = require('../command.js');
 
 class VehicleCommand extends Command {
     constructor() {
-        super("Vehicle", ['vehicle'], 3);
+        super("Vehicle", ['vehicle'], 2);
     }
 
     help(msg) {
