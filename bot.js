@@ -1,15 +1,11 @@
-var Discord = require('discord.js');
-var auth = require('./auth.json');
-var https = require("https");
-var fs = require("fs");
-var ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
+let Discord = require('discord.js');
+let auth = require('./auth.json');
+let https = require("https");
+let fs = require("fs");
+let ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
 
-const Command = require('./command.js');
-const AgeCommand = require('./commands/age.js');
-
-// Initialize Discord Bot
-var bot = new Discord.Client({
-});
+// BOT SETUP
+let bot = new Discord.Client({});
 bot.on("error", (e) => console.error(e));
 bot.on("warn", (e) => console.warn(e));
 bot.on("debug", (e) => {});
@@ -17,18 +13,31 @@ bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
 });
 
-bot.commands = [new AgeCommand()];
+// COMMAND SETUP
+const AgeCommand = require('./commands/age.js');
+const BanCommand = require('./commands/ban.js');
+const GhostCommand = require('./commands/ghost.js');
 
+bot.commands = [
+    new AgeCommand(),
+    new BanCommand(),
+    new GhostCommand()
+];
+
+// MAIN CALLBACK
 bot.on('message', function (msg) {
+    // STOP ON OTHER BOTS
     if (msg.author.bot) { return; }
 
+    // SOME GENERIC STUFF
     if (msg.content.toLowerCase().includes("good bot")) {
         msg.channel.send("Thanks! I try my best!");
     } else if (msg.mentions.users.exists('id', bot.user.id)) {
        msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
-    } else if (msg.content.substring(0, 1) == ']') {
-        var args = msg.content.substring(1).split(' ');
-        var cmd = args[0];
+    } else if (msg.content.substring(0, 1) === ']') {
+        // This is the magci - command parsing!
+        let args = msg.content.substring(1).split(' ');
+        let cmd = args[0];
 
         // TODO HELP
         // TODO PROPER ORDERING!!!
@@ -41,41 +50,6 @@ bot.on('message', function (msg) {
         }
 
         switch(cmd) {
-            case "ban":
-                var uname = args.slice(1).join(" ").replace("@", "");
-                var foundUs = [];
-                var noBan = [246332093808902144,412352063125717002,483028152130469891,522160089554092041];
-                var banProof = false;
-                let unmb = "";
-                const rip = bot.emojis.find(emoji => emoji.name === "rip");
-                msg.guild.members.forEach((member) => {
-                    if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
-                        || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
-                        foundUs.push(member.id);
-                        unmb = member.nickname == null ? member.user.username : member.nickname;
-                    }
-                });
-
-                if (foundUs.length == 0) {
-                    msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
-                    break;
-                } else if (foundUs.length > 1) {
-                    msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
-                    break;
-                }
-
-                for (var i = 0; i < noBan.length; i++) {
-                  if (noBan[i] == foundUs[0]) {
-                    banProof = true;
-                  }
-                }
-
-                if (banProof == true) {
-                    msg.channel.send("Wow! " + unmb + " is so amazing he can't be banned!");
-                } else {
-                  msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + unmb + "... You were a good pokemon!");
-                }
-                break;
             case "ideas":
                 let uid = msg.author.id;
                 let unm = msg.author.username;
@@ -155,14 +129,6 @@ bot.on('message', function (msg) {
                     msg.channel.send("I have no idea what idea you are talking about?");
                 }
                 fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
-                break;
-            case "ghost":
-                stm = "";
-                for (var i = 1; i < args.length; i++) {
-                  stm += args[i] + " ";
-                }
-                if (stm.includes("@")) { msg.channel.send("Oh no you don't!"); }
-                else { msg.delete(); msg.channel.send(stm); }
                 break;
             case "idea":
                 // Add idea
