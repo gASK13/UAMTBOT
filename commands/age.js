@@ -1,4 +1,4 @@
-require('./command.js');
+require('../command.js');
 
 class AgeCommand extends Command {
     constructor() {
