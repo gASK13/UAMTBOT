@@ -55,7 +55,7 @@ bot.on('message', function (msg) {
             } else {
                 let help = "Hello there! I am your friendly [UAMT] bot.\nMy commands are:\nTBD";
                 for (let com of this.commands) { help += com.shorlist.map(i => "]" + i).join(" / ") + " - " + com.shortHelp() + "\n"; }
-                msg.channel.send();
+                msg.channel.send(help);
                 return;
             }
         }
