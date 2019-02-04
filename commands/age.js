@@ -1,3 +1,5 @@
+require('./command.js');
+
 class AgeCommand extends Command {
     constructor() {
         super("Age", ['age'], 0);
