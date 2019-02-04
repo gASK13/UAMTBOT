@@ -1,4 +1,4 @@
-require('../command.js');
+const Command = require('../command.js');
 
 class AgeCommand extends Command {
     constructor() {
@@ -24,3 +24,4 @@ class AgeCommand extends Command {
     }
 }
 
+module.exports = AgeCommand;

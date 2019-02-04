@@ -3,3 +3,6 @@
 *.iml
 *.ipr
 *.xml
+
+auth.json
+ideas.json

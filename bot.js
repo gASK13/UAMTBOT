@@ -4,8 +4,8 @@ var https = require("https");
 var fs = require("fs");
 var ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
 
-require('./command.js');
-require('./commands/age.js');
+const Command = require('./command.js');
+const AgeCommand = require('./commands/age.js');
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
@@ -17,14 +17,14 @@ bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
 });
 
-bot.commands = [AgeCommand()];
+bot.commands = [new AgeCommand()];
 
 bot.on('message', function (msg) {
     if (msg.author.bot) { return; }
 
     if (msg.content.toLowerCase().includes("good bot")) {
         msg.channel.send("Thanks! I try my best!");
-    } else if (msg.mentions.users.exists('id', client.user.id)) {
+    } else if (msg.mentions.users.exists('id', bot.user.id)) {
        msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     } else if (msg.content.substring(0, 1) == ']') {
         var args = msg.content.substring(1).split(' ');

@@ -28,3 +28,5 @@ class Command {
         return this.shorlist.indexOf(cmd) > -1;
     }
 }
+
+module.exports = Command;
