@@ -46,9 +46,16 @@ bot.on('message', function (msg) {
         if (cmd === 'help') {
             if (args.length >= 2) {
                 // try to find help for one command
-                // xxx
+                for (let com of this.commands) {
+                    if (com.supports(args[1])) {
+                        msg.channel.send("Help for ]" + args[1] + ":\n" + com.help());
+                        return;
+                    }
+                }
             } else {
-                msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nMy commands are:\nTBD");
+                let help = "Hello there! I am your friendly [UAMT] bot.\nMy commands are:\nTBD";
+                for (let com of this.commands) { help += com.shorlist.map(i => "]" + i).join(" / ") + " - " + com.shortHelp() + "\n"; }
+                msg.channel.send();
                 return;
             }
         }
