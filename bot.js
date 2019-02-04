@@ -2,8 +2,10 @@ var Discord = require('discord.js');
 var auth = require('./auth.json');
 var https = require("https");
 var fs = require("fs");
-
 var ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
+
+require('./command.js');
+require('./age.js');
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
@@ -14,6 +16,9 @@ bot.on("debug", (e) => {});
 bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
 });
+
+bot.commands = [AgeCommand()];
+
 bot.on('message', function (msg) {
     if (msg.author.bot) { return; }
 
@@ -24,16 +29,18 @@ bot.on('message', function (msg) {
     } else if (msg.content.substring(0, 1) == ']') {
         var args = msg.content.substring(1).split(' ');
         var cmd = args[0];
+
+        // TODO HELP
+        // TODO PROPER ORDERING!!!
+
+        for (let com of this.commands) {
+            if (com.supports(cmd)) {
+                com.run(msg, args);
+                return;
+            }
+        }
+
         switch(cmd) {
-            case "age":
-                msg.guild.fetchMember(msg.author).then(function(value) {
-                    let ms = new Date().getTime() - value.joinedTimestamp;
-                    let min = Math.floor(ms / (1000 * 60));
-                    let hr = Math.floor(min / 60); min -= hr * 60;
-                    let ds = Math.floor(hr / 24); hr -= ds * 24;
-                    msg.channel.send("You are a member of this server for " + ((ds > 0) ? (ds + " days, ") : "") + ((ds > 0 || hr > 0) ? (hr + " hours and ") : "") + min + " minutes.");
-                });
-                break;
             case "ban":
                 var uname = args.slice(1).join(" ").replace("@", "");
                 var foundUs = [];
