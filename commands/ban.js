@@ -1,8 +1,8 @@
 const Command = require('../command.js');
 
 class BanCommand extends Command {
-    constructor() {
-        super("(Fake)Ban", ['ban'], 1);
+    constructor(bot) {
+        super(bot, "(Fake)Ban", ['ban'], 1);
     }
 
     help(msg) {
@@ -16,9 +16,9 @@ class BanCommand extends Command {
     runInternal(msg, args) {
         let lookup_uname = args.slice(1).join(" ").replace("@", "");
         let found_users = [];
-        let banproof_list = [246332093808902144, 412352063125717002, 483028152130469891, 522160089554092041];
+        let banproof_list = [246332093808902144, 412352063125717002, 483028152130469891, 522160089554092041, this.bot.user.id];
         let username = "";
-        const rip = bot.emojis.find(emoji => emoji.name === "rip");
+        const rip = this.bot.emojis.find(emoji => emoji.name === "rip");
         msg.guild.members.forEach((member) => {
             if ((member.nickname != null && member.nickname.toLowerCase().includes(lookup_uname.toLowerCase()))
                 || (member.user.username.toLowerCase().includes(lookup_uname.toLowerCase()))) {

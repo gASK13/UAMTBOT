@@ -1,8 +1,8 @@
 const Command = require('../command.js');
 
 class AgeCommand extends Command {
-    constructor() {
-        super("Age", ['age'], 0);
+    constructor(bot) {
+        super(bot, "Age", ['age'], 0);
     }
 
     help(msg) {

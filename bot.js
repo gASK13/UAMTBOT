@@ -19,9 +19,9 @@ const BanCommand = require('./commands/ban.js');
 const GhostCommand = require('./commands/ghost.js');
 
 bot.commands = [
-    new AgeCommand(),
-    new BanCommand(),
-    new GhostCommand()
+    new AgeCommand(bot),
+    new BanCommand(bot),
+    new GhostCommand(bot)
 ];
 
 // MAIN CALLBACK

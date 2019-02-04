@@ -1,8 +1,8 @@
 const Command = require('../command.js');
 
 class GhostCommand extends Command {
-    constructor() {
-        super("Ghost", ['ghost'], 0);
+    constructor(bot) {
+        super(bot,  "Ghost", ['ghost'], 0);
     }
 
     help(msg) {
