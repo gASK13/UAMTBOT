@@ -39,13 +39,21 @@ bot.on('message', function (msg) {
     } else if (msg.mentions.users.exists('id', bot.user.id)) {
        msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     } else if (msg.content.substring(0, 1) === ']') {
-        // This is the magci - command parsing!
+        // This is the magic - command parsing!
         let args = msg.content.substring(1).split(' ');
         let cmd = args[0];
 
-        // TODO HELP
-        // TODO PROPER ORDERING!!!
+        // Help section
+        if (cmd === 'help') {
+            if (args.length >= 2) {
+                // try to find help for one command
+            } else {
+                msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nMy commands are:\nTBD");
+                return;
+            }
+        }
 
+        // Command execution part
         for (let com of this.commands) {
             if (com.supports(cmd)) {
                 com.run(msg, args);
@@ -143,9 +151,6 @@ bot.on('message', function (msg) {
                 fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
                 msg.channel.send(idea + "? What a great idea, " + msg.author.username + "! I am saving that for you as idea #" + (ideas[msg.author.id].length) + ".");
                 break;
-           case "help":
-              msg.channel.send("Hello there! I am your friendly [UAMT] bot.\nI can provide basic links to mod IO.\nMy prefix is ]\n\n]modlist will link to Aground mod.io page\n]mod {name} will help you search for a mod and link to it.\n]ideas will allow me to list your ideas\n]idea {my idea here} will allow you to store a new idea\n]remove {#} or ]remove {idea} will allow you to remove stupid ideas\n]finish {#} or ]finish {idea} will allow you me to congratulate you on finishing one of your ideas!\n]item will allow you to quickly generate XML for a mod item.");
-              break;
             case "item":
                 if (args.length < 3) {
                     msg.channel.send("Usage: ]item {name} {type} [{weight} {cost}]");
