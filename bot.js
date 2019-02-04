@@ -25,7 +25,7 @@ bot.commands = [
     new BanCommand(bot),
     new GhostCommand(),
     new ModListCommand(),
-    new ModCommand(apikey)
+    new ModCommand(auth.apikey)
 ];
 
 // MAIN CALLBACK
