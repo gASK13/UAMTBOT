@@ -17,11 +17,10 @@ class IdeaListCommand extends Command {
 
     runInternal(msg, args) {
         let user = msg.author;
-        let unma = "you are";
         if (args.length >= 2) {
             if (args[1] === 'clear' || args[1] === 'clean' || args[1] === 'purge') {
                 msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
-                IdeaService.clearUserIdeas(uid);
+                IdeaService.clearUserIdeas(user.id);
                 return
             } else {
                 // find user
