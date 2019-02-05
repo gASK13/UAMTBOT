@@ -16,7 +16,7 @@ class IdeaListCommand extends Command {
     }
 
     runInternal(msg, args) {
-        let user = null;
+        let user = UserService.getUser(msg);
         if (args.length >= 2) {
             if (args[1] === 'clear' || args[1] === 'clean' || args[1] === 'purge') {
                 msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
@@ -30,13 +30,13 @@ class IdeaListCommand extends Command {
         }
 
         // List them
-        let userIdeas = IdeaService.getUserIdeas(user == null ? msg.author.id : user.id);
+        let userIdeas = IdeaService.getUserIdeas(user.id);
         if (!userIdeas || userIdeas.length === 0) {
             if (user.id === '246332093808902144') {
                 if (user.id === msg.author.id) {
                     msg.channel.send("WOW! You are so full of ideas I can't even show them all!");
                 } else {
-                    msg.channel.send("WOW! " + this.getUserName(msg, user) + " is so full of ideas I can't even show them all!");
+                    msg.channel.send("WOW! " + UserService.getUser(msg) + " is so full of ideas I can't even show them all!");
                 }
             } else if (user.id === '412352063125717002') {
                 msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas on a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
@@ -44,18 +44,14 @@ class IdeaListCommand extends Command {
                 if (user.id === msg.author.id) {
                     msg.channel.send("Sorry, seems like you are all out of ideas!");
                 } else {
-                    msg.channel.send("Sorry, seems like " + this.getUserName(msg, user) + " is out of ideas!");
+                    msg.channel.send("Sorry, seems like " + UserService.getUser(msg) + " is out of ideas!");
                 }
             }
         } else {
-            msg.channel.send(this.getUserName(msg, user) +"'s idea list:\n\n");
+            msg.channel.send(UserService.getUser(msg) +"'s idea list:\n\n");
             let i = 1;
             msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replace("@", "")).join("\n"));
         }
-    }
-
-    getUserName(msg, user) {
-        return user == null ? UserService.getUsernameFromMessage(msg) : UserService.getUsernameFromUser(user);
     }
 }
 

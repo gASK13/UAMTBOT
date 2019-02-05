@@ -27,11 +27,11 @@ class BanCommand extends Command {
         let rip = this.bot.emojis.find(emoji => emoji.name === "rip");
 
         if (this.banproof_list.indexOf(user.id) > -1 || user.id === this.bot.user.id) {
-            msg.channel.send("Wow! " + UserService.getUsernameFromUser(user) + " is so amazing he can't be banned!");
+            msg.channel.send("Wow! " + UserService.getUsername(user) + " is so amazing he can't be banned!");
             return;
         }
 
-        msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + UserService.getUsernameFromUser(user) + "... you were a good pokemon!");
+        msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + UserService.getUsername(user) + "... you were a good pokemon!");
     }
 }
 
