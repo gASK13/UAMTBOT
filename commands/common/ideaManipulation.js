@@ -1,5 +1,6 @@
 const Command = require('../../command.js');
 const IdeaService = require('../../services/ideas.js');
+const UserService = require('../../services/user.js');
 
 class IdeaManipluationCommand extends Command {
 
@@ -12,7 +13,7 @@ class IdeaManipluationCommand extends Command {
 
         idea = IdeaService.removeUserIdea(msg.author.id, idea);
         if (idea != null) {
-            msg.channel.send(this.formatRemoval(idea, msg.author.nickname == null ? msg.author.username : msg.author.nickname));
+            msg.channel.send(this.formatRemoval(idea, UserService.getUsername(msg.author)));
         } else {
             msg.channel.send("I have no idea what idea you are talking about?");
         }

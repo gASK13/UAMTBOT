@@ -1,5 +1,6 @@
 const Command = require('../command.js');
 const IdeaService = require('../services/ideas.js');
+const UserService = require('../services/user.js');
 
 class IdeaAddCommand extends Command {
     constructor() {
@@ -17,7 +18,7 @@ class IdeaAddCommand extends Command {
     runInternal(msg, args) {
         let idea = args.slice(1).join(" ").replace("@", "");
         let no = IdeaService.addUserIdea(msg.author.id, idea);
-        msg.channel.send(idea + "? What a great idea, " + (msg.author.nickname == null ? msg.author.username : msg.author.nickname) + "! I am saving that for you as idea #" + no + ".");
+        msg.channel.send(idea + "? What a great idea, " + UserService.getUsername(msg.author) + "! I am saving that for you as idea #" + no + ".");
     }
 }
 

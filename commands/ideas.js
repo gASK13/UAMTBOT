@@ -1,5 +1,6 @@
 const Command = require('../command.js');
 const IdeaService = require('../services/ideas.js');
+const UserService = require('../services/user.js');
 
 class IdeaListCommand extends Command {
     constructor() {
@@ -15,8 +16,7 @@ class IdeaListCommand extends Command {
     }
 
     runInternal(msg, args) {
-        let uid = msg.author.id;
-        let unm = msg.author.nickname == null ? msg.author.username : msg.author.nickname;
+        let user = msg.author;
         let unma = "you are";
         if (args.length >= 2) {
             if (args[1] === 'clear' || args[1] === 'clean' || args[1] === 'purge') {
@@ -25,47 +25,33 @@ class IdeaListCommand extends Command {
                 return
             } else {
                 // find user
-                let uname = args.slice(1).join(" ").replace("@", "");
-                let foundUs = [];
-                msg.guild.members.forEach((member) => {
-                    if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
-                        || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
-                        foundUs.push(member.id);
-                        unm = member.nickname == null ? member.user.username : member.nickname;
-                        unma =  unm + " is";
-                    }
-                });
-
-                if (foundUs.length === 0) {
-                    msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
-                    return;
-                } else if (foundUs.length > 1) {
-                    msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
-                    return;
-                } else {
-                    uid = foundUs[0];
-                }
+                user = UserService.lookupUser(msg, args.slice(1).join(" "));
+                if (user == null) { return; }
             }
         }
+
         // List them
-        let userIdeas = IdeaService.getUserIdeas(uid);
+        let userIdeas = IdeaService.getUserIdeas(user.id);
         if (!userIdeas || userIdeas.length === 0) {
-            if (uid === '246332093808902144') {
-                msg.channel.send("WOW! " + unma + " so full of ideas I can't even show them all!");
-            } else if (uid === '412352063125717002') {
+            if (user.id === '246332093808902144') {
+                if (user.id === msg.author.id) {
+                    msg.channel.send("WOW! You are so full of ideas I can't even show them all!");
+                } else {
+                    msg.channel.send("WOW! " + UserService.getUsername(user) + " is so full of ideas I can't even show them all!");
+                }
+            } else if (user.id === '412352063125717002') {
                 msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas on a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
             } else {
-                msg.channel.send("Sorry, seem like " + unma + " out of ideas!");
+                if (user.id === msg.author.id) {
+                    msg.channel.send("Sorry, seems like you are all out of ideas!");
+                } else {
+                    msg.channel.send("Sorry, seems like " + UserService.getUsername(user) + " is out of ideas!");
+                }
             }
-        }
-        else {
-            msg.channel.send(unm +"'s idea list:");
+        } else {
+            msg.channel.send(UserService.getUsername(user) +"'s idea list:\n\n");
             let i = 1;
-            let idealist = "";
-            userIdeas.forEach(function(element) {
-                idealist += "\n " + (i++) + ".: " + element.replace("@", "");
-            });
-            msg.channel.send(idealist);
+            msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replace("@", "")).join("\n"));
         }
     }
 }
