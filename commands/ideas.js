@@ -48,7 +48,7 @@ class IdeaListCommand extends Command {
                 }
             }
         } else {
-            msg.channel.send(UserService.getUsernameFromUser(user) +"'s idea list:\n\n");
+            msg.channel.send(this.getUserName(msg, user) +"'s idea list:\n\n");
             let i = 1;
             msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replace("@", "")).join("\n"));
         }
