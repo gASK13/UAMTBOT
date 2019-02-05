@@ -38,8 +38,8 @@ bot.on('message', function (msg) {
                     }
                 }
             } else {
-                let help = "Hello there! I am your friendly [UAMT] bot.\nMy commands are:\n";
-                for (let com of this.commands) { help += com.shorlist.map(i => "]" + i).join(" / ") + " - " + com.shortHelp() + "\n"; }
+                let help = "Hello there! I am your friendly [UAMT] bot.\nMy prefix is `]`. My commands are:\n";
+                for (let com of this.commands) { help += com.shorlist.map(i => "`" + i + "`").join(" | ") + " - " + com.shortHelp() + "\n"; }
                 msg.channel.send(help);
                 return;
             }
