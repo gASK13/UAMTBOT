@@ -13,7 +13,7 @@ class IdeaManipluationCommand extends Command {
 
         idea = IdeaService.removeUserIdea(msg.author.id, idea);
         if (idea != null) {
-            msg.channel.send(this.formatRemoval(idea, UserService.getUsername(msg.author)));
+            msg.channel.send(this.formatRemoval(idea, UserService.getUsernameFromMessage(msg)));
         } else {
             msg.channel.send("I have no idea what idea you are talking about?");
         }

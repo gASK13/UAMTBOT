@@ -29,7 +29,12 @@ class UserService {
         return found_users;
     }
 
-    static getUsername(user) {
+    static getUsernameFromMessage(msg) {
+        let member = msg.guild.fetchMember(msg.author);
+        return member.nickname == null ? msg.author.username : member.nickname;
+    }
+
+    static getUsernameFromUser(user) {
         return user.nickname == null ? user.username : user.nickname;
     }
 }
