@@ -1,7 +1,5 @@
 let Discord = require('discord.js');
 let auth = require('./auth.json');
-let fs = require("fs");
-let ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
 let glob = require( 'glob' );
 let path = require( 'path' );
 
@@ -12,13 +10,6 @@ bot.on("warn", (e) => console.warn(e));
 bot.on("debug", (e) => {});
 bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
-});
-
-// COMMAND SETUP
-bot.commands = [];
-glob.sync( './commands/*.js' ).forEach( function( file ) {
-    let Command = require( path.resolve( file ) );
-    bot.commands.push(new Command());
 });
 
 // MAIN CALLBACK
@@ -63,95 +54,6 @@ bot.on('message', function (msg) {
         }
 
         switch(cmd) {
-            case "ideas":
-                let uid = msg.author.id;
-                let unm = msg.author.username;
-                let unma = "you are";
-                if (args.length >= 2) {
-                    if (args[1] == 'clear' || args[1] == 'clean' || args[1] == 'purge') {
-                        ideas[msg.author.id] = [];
-                        msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
-                        fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
-                        break;
-                    } else {
-                        // find user
-                        var uname = args.slice(1).join(" ").replace("@", "");
-                        var foundUs = [];
-                        msg.guild.members.forEach((member) => {
-                            if ((member.nickname != null && member.nickname.toLowerCase().includes(uname.toLowerCase()))
-                                || (member.user.username.toLowerCase().includes(uname.toLowerCase()))) {
-                                foundUs.push(member.id);
-                                unm = member.nickname == null ? member.user.username : member.nickname;
-                                unma =  unm + " is";
-                            }
-                        });
-
-                        if (foundUs.length == 0) {
-                            msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
-                            break;
-                        } else if (foundUs.length > 1) {
-                            msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
-                            break;
-                        } else {
-                            uid = foundUs[0];
-                        }
-                    }
-                }
-                // List them
-                if (!ideas[uid] || ideas[uid].length == 0) {
-                    if (uid == 246332093808902144) {
-                        msg.channel.send("WOW! " + unma + " so full of ideas I can't even show them all!");
-                    } else if (uid == 412352063125717002) {
-                        msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas on a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
-                    } else {
-                        msg.channel.send("Sorry, seem like " + unma + " out of ideas!");
-                    }
-                }
-                else {
-                    msg.channel.send(unm +"'s idea list:");
-                    let i = 1;
-                    let idealist = "";
-                    ideas[uid].forEach(function(element) {
-                        idealist += "\n " + (i++) + ".: " + element.replace("@", "");
-                    });
-                    msg.channel.send(idealist);
-                }
-                break;
-            case "finishidea":
-            case "finish":
-                var finish = true;
-            case "remove":
-            case "clear":
-            case "clean":
-            case "removeidea":
-            case "remidea":
-                var id = args.slice(1).join(" ");
-                if (isNaN(id)) {
-                    // convert to number
-                    id = ideas[msg.author.id].indexOf(id);
-                } else { id -= 1; }
-                // remove by id
-                var idea = ideas[msg.author.id][id];
-                if (idea != null && ideas[msg.author.id].splice(id,1).length > 0) {
-                   if (finish) {
-                       msg.channel.send("Good job finally finishing " + idea.replace("@", "") + ", " + msg.author.username + "!");
-                   } else {
-                        msg.channel.send(idea.replace("@", "") + " was not a good one anyway ...");
-                   }
-                } else {
-                    msg.channel.send("I have no idea what idea you are talking about?");
-                }
-                fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
-                break;
-            case "idea":
-                // Add idea
-                if (args.length < 2) { msg.channel.send("Proper usage is ]idea {idea to save}. Got it?"); return; }
-                var idea = args.slice(1).join(" ").replace("@", "");
-                if (!ideas[msg.author.id]) { ideas[msg.author.id] = [] }
-                ideas[msg.author.id].push(idea);
-                fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
-                msg.channel.send(idea + "? What a great idea, " + msg.author.username + "! I am saving that for you as idea #" + (ideas[msg.author.id].length) + ".");
-                break;
             case "item":
                 if (args.length < 3) {
                     msg.channel.send("Usage: ]item {name} {type} [{weight} {cost}]");
@@ -173,8 +75,15 @@ bot.on('message', function (msg) {
     }
 });
 
+// LOGIN
 bot.login(auth.token);
 
+// COMMAND SETUP
+bot.commands = [];
+glob.sync( './commands/*.js' ).forEach( function( file ) {
+    let Command = require( path.resolve( file ) );
+    bot.commands.push(new Command());
+});
 for (let com of bot.commands) {
     com.setBot(bot); com.setAuth(auth);
 }

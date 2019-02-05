@@ -4,7 +4,7 @@ class BanCommand extends Command {
 
     constructor() {
         super("(Fake)Ban", ['ban'], 1);
-        this.banproof_list = [246332093808902144, 412352063125717002, 483028152130469891, 522160089554092041]
+        this.banproof_list = ['246332093808902144', '412352063125717002', '483028152130469891', '522160089554092041'];
     }
 
     setBot(bot) {
