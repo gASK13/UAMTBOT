@@ -36,7 +36,7 @@ class IdeaListCommand extends Command {
                 if (user.id === msg.author.id) {
                     msg.channel.send("WOW! You are so full of ideas I can't even show them all!");
                 } else {
-                    msg.channel.send("WOW! " + UserService.getUser(msg) + " is so full of ideas I can't even show them all!");
+                    msg.channel.send("WOW! " + UserService.getUsername(user) + " is so full of ideas I can't even show them all!");
                 }
             } else if (user.id === '412352063125717002') {
                 msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas on a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
@@ -44,11 +44,11 @@ class IdeaListCommand extends Command {
                 if (user.id === msg.author.id) {
                     msg.channel.send("Sorry, seems like you are all out of ideas!");
                 } else {
-                    msg.channel.send("Sorry, seems like " + UserService.getUser(msg) + " is out of ideas!");
+                    msg.channel.send("Sorry, seems like " + UserService.getUsername(user) + " is out of ideas!");
                 }
             }
         } else {
-            msg.channel.send(UserService.getUser(msg) +"'s idea list:\n\n");
+            msg.channel.send(UserService.getUsername(user) +"'s idea list:\n\n");
             let i = 1;
             msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replace("@", "")).join("\n"));
         }
