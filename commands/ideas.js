@@ -30,7 +30,7 @@ class IdeaListCommand extends Command {
         }
 
         // List them
-        let userIdeas = IdeaService.getUserIdeas(user.id);
+        let userIdeas = IdeaService.getUserIdeas(user == null ? msg.author.id : user.id);
         if (!userIdeas || userIdeas.length === 0) {
             if (user.id === '246332093808902144') {
                 if (user.id === msg.author.id) {
