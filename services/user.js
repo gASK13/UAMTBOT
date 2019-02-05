@@ -19,8 +19,9 @@ class UserService {
         let found_users = [];
 
         msg.guild.members.forEach((member) => {
-            if ((member.user.nickname != null && member.user.nickname.toLowerCase().includes(lookup_uname.toLowerCase()))
+            if ((member.nickname != null && member.nickname.toLowerCase().includes(lookup_uname.toLowerCase()))
                 || (member.user.username.toLowerCase().includes(lookup_uname.toLowerCase()))) {
+                member.user.nickname = member.nickname;
                 found_users.push(member.user);
             }
         });
@@ -29,8 +30,6 @@ class UserService {
     }
 
     static getUsername(user) {
-        console.log(user);
-        console.log(user.username);
         return user.nickname == null ? user.username : user.nickname;
     }
 }
