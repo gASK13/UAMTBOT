@@ -30,10 +30,7 @@ class UserService {
     }
 
     static getUser(msg) {
-        let member = msg.guild.fetchMember(msg.author);
-        console.log(member);
-        member.user.nickname = member.nickname;
-        return member.user;
+        return this.lookupUser(msg, msg.author.username);
     }
 
     static getUsername(user) {
