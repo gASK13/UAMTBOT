@@ -2,7 +2,7 @@ const Command = require('../command.js');
 const IdeaService = require('../services/ideas.js');
 const UserService = require('../services/user.js');
 
-class IdeaAddCommand extends Command {
+class IdeaStealCommand extends Command {
     constructor() {
         super("Idea Steal", ['steal', 'copy', 'borrow'], 2);
     }
@@ -16,7 +16,7 @@ class IdeaAddCommand extends Command {
     }
 
     runInternal(msg, args) {
-        let user = UserService.getUser(args[1].replace("@", ""));
+        let user = UserService.lookupUser(msg, args[1].replace("@", ""));
         let idea = args.slice(2).join(" ").replace("@", "");
 
         let ideaText = IdeaService.borrowUserIdea(user.id, idea, msg.author.id);
@@ -26,4 +26,4 @@ class IdeaAddCommand extends Command {
     }
 }
 
-module.exports = IdeaAddCommand;
+module.exports = IdeaStealCommand;
