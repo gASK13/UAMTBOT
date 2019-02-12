@@ -18,11 +18,23 @@ class IdeasService {
     }
 
     // Returns the new idea count
-    static addUserIdea(user, idea) {
+    static addUserIdea(user, idea, borrowedFrom) {
         if (!ideas[user]) { ideas[user] = []; }
         ideas[user].push(idea);
+        // todo borrow mark
         this.save();
         return ideas[user].length;
+    }
+
+    // Returns the new idea count
+    static borrowUserIdea(user, id, borrowedTo) {
+        if (isNaN(id)) {
+            // convert to number
+            id = ideas[user].indexOf(id);
+        } else { id -= 1; }
+        let idea = ideas[user][id];
+        // todo borrow mark
+        return idea;
     }
 
     // Returns IDEA if removed; NULL otherwise
