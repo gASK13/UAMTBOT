@@ -50,6 +50,10 @@ class ModCommand extends Command {
                     } else {
                         let names = "";
                         obj.data.forEach(function (element) {
+                            if (element.name.toLowerCase().equals(sterm.toLowerCase())) {
+                                msg.channel.send(element.profile_url);
+                                return;
+                            }
                             names += (names.length > 0 ? ", " : "") + element.name
                         });
                         msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
