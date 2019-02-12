@@ -17,6 +17,7 @@ class IdeaStealCommand extends Command {
 
     runInternal(msg, args) {
         let user = UserService.lookupUser(msg, args[1].replace("@", ""));
+        if (user == null) { return; }
         let idea = args.slice(2).join(" ").replace("@", "");
 
         let ideaText = IdeaService.borrowUserIdea(user.id, idea, msg.author.id);
