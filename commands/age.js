@@ -20,6 +20,10 @@ class AgeCommand extends Command {
             // find user
             user = UserService.lookupUser(msg, args.slice(1).join(" "));
             if (user == null) { return; }
+            if (user.nickname == "Alchemist") {
+                msg.channel.send("Alchemist is timeless and has always been a member of this server! All hail the Alchemist!");
+                return;
+            }
         }
         msg.guild.fetchMember(user).then(function(value) {
             let ms = new Date().getTime() - value.joinedTimestamp;
