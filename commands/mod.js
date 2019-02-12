@@ -49,14 +49,16 @@ class ModCommand extends Command {
                         msg.channel.send(obj.data[0].profile_url)
                     } else {
                         let names = "";
+                        let foundOne = false;
                         obj.data.forEach(function (element) {
-                            console.log(element.name);
                             if (sterm.toLowerCase() === new String(element.name).toLowerCase()) {
                                 msg.channel.send(element.profile_url);
+                                foundOne = true;
                                 return;
                             }
                             names += (names.length > 0 ? ", " : "") + element.name
                         });
+                        if (foundOne) { return; }
                         msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
                     }
                 });
