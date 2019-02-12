@@ -50,7 +50,7 @@ class ModCommand extends Command {
                     } else {
                         let names = "";
                         obj.data.forEach(function (element) {
-                            if (element.name.toLowerCase().equals(sterm.toLowerCase())) {
+                            if (String.toLowerCase(sterm).equals(String.toLowerCase(element.name)) {
                                 msg.channel.send(element.profile_url);
                                 return;
                             }
