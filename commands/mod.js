@@ -51,7 +51,7 @@ class ModCommand extends Command {
                         let names = "";
                         obj.data.forEach(function (element) {
                             console.log(element.name);
-                            if (sterm.toLowerCase().equals(new String(element.name).toLowerCase())) {
+                            if (sterm.toLowerCase() === new String(element.name).toLowerCase()) {
                                 msg.channel.send(element.profile_url);
                                 return;
                             }
