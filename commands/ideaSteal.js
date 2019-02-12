@@ -23,7 +23,7 @@ class IdeaStealCommand extends Command {
         let ideaText = IdeaService.borrowUserIdea(user.id, idea, msg.author.id);
         let no = IdeaService.addUserIdea(msg.author.id, ideaText, user.id);
 
-        msg.channel.send("Sorry, " + UserService.getUsername(user) +idea + "! Seems like " + ideaText + " was too good an idea for " + UserService.getUsernameFromMessage(msg) + " to resist *borrowing* it as their #" + no + "!");
+        msg.channel.send("Sorry, " + UserService.getUsername(user) + "! Seems like " + ideaText + " was too good an idea for " + UserService.getUsernameFromMessage(msg) + " to resist *borrowing* it as their #" + no + "!");
     }
 }
 
