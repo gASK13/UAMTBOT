@@ -3,6 +3,8 @@ let auth = require('./auth.json');
 let glob = require( 'glob' );
 let path = require( 'path' );
 
+
+
 // BOT SETUP
 let bot = new Discord.Client({});
 bot.on("error", (e) => console.error(e));
