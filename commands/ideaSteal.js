@@ -16,6 +16,9 @@ class IdeaStealCommand extends Command {
     }
 
     runInternal(msg, args) {
+        if (msg.author.id === '256442550683041793') {
+            msg.channel.send('Sorry etrotta. You broke me one too many times....'); return;
+            }
         let user = UserService.lookupUser(msg, args[1].replace("@", ""));
         if (user == null) { return; }
         let idea = args.slice(2).join(" ").replace("@", "");
