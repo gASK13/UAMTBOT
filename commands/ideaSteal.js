@@ -29,7 +29,7 @@ class IdeaStealCommand extends Command {
 let no = IdeaService.addUserIdea(msg.author.id, ideaText, user.id);
 
         msg.channel.send("Sorry, " + UserService.getUsername(user) + "! Seems like " + ideaText + " was too good an idea for " + UserService.getUsernameFromMessage(msg) + " to resist *borrowing* it as their #" + no + "!");
-   } else { msg.channel.send('You can not steal somehing tbat does not exist');
+   } else { msg.channel.send("You can't steal somehing that does not exist!");
        } }
 }
 
