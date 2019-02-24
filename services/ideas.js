@@ -9,8 +9,12 @@ class IdeasService {
 
     // Returns user ideas - can return NULL
     static getUserIdeas(user) {
-        return ideas[user];
+        return this.checkNulls(ideas[user]);
     }
+    
+    static checkNulls(ideas) {
+        return ideas.filter(function(el) { return el != null; });
+     }   
 
     static clearUserIdeas(user) {
         ideas[user] = [];
