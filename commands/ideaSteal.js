@@ -16,7 +16,7 @@ class IdeaStealCommand extends Command {
     }
 
     runInternal(msg, args) {
-        msg.channel.send('STEALING DISABLED UNTIL FURTHER NOTICE. BEEP BOOP BEEP.'); return;
+        
         if (msg.author.id === '256442550683041793') {
             msg.channel.send('Sorry etrotta. You broke me one too many times....'); return;
             }
