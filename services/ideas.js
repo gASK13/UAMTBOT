@@ -4,7 +4,8 @@ let ideas = JSON.parse(fs.readFileSync('ideas.json', 'utf8'));
 class IdeasService {
 
     static save() {
-        fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
+        fs.writeFile("ideas.json", JSON.stringify(ideas), "utf8", function (error) {
+        });
     }
 
     // Returns user ideas - can return NULL
@@ -12,10 +13,12 @@ class IdeasService {
         ideas[user] = this.checkNulls(ideas[user]);
         return ideas[user];
     }
-    
+
     static checkNulls(ideas) {
-        return ideas == null ? null : ideas.filter(function(el) { return el != null; });
-     }   
+        return ideas == null ? null : ideas.filter(function (el) {
+            return el != null;
+        });
+    }
 
     static clearUserIdeas(user) {
         ideas[user] = [];
@@ -24,7 +27,9 @@ class IdeasService {
 
     // Returns the new idea count
     static addUserIdea(user, idea, borrowedFrom) {
-        if (!ideas[user]) { ideas[user] = []; }
+        if (!ideas[user]) {
+            ideas[user] = [];
+        }
         ideas[user].push(idea);
         // todo borrow mark
         this.save();
@@ -36,7 +41,9 @@ class IdeasService {
         if (isNaN(id)) {
             // convert to number
             id = ideas[user].indexOf(id);
-        } else { id -= 1; }
+        } else {
+            id -= 1;
+        }
         let idea = ideas[user][id];
         // todo borrow mark
         return idea;
@@ -47,10 +54,14 @@ class IdeasService {
         if (isNaN(id)) {
             // convert to number
             id = ideas[user].indexOf(id);
-        } else { id -= 1; }
+        } else {
+            id -= 1;
+        }
         // remove by id
         let idea = ideas[user][id];
-        if (idea != null) { ideas[user].splice(id,1); }
+        if (idea != null) {
+            ideas[user].splice(id, 1);
+        }
         this.save();
         return idea;
     }

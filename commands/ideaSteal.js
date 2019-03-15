@@ -16,22 +16,27 @@ class IdeaStealCommand extends Command {
     }
 
     runInternal(msg, args) {
-        
+
         if (msg.author.id === '256442550683041793') {
-            msg.channel.send('Sorry etrotta. You broke me one too many times....'); return;
-            }
+            msg.channel.send('Sorry etrotta. You broke me one too many times....');
+            return;
+        }
         let user = UserService.lookupUser(msg, args[1].replace("@", ""));
-        if (user == null) { return; }
+        if (user == null) {
+            return;
+        }
         let idea = args.slice(2).join(" ").replace("@", "");
 
         let ideaText = IdeaService.borrowUserIdea(user.id, idea, msg.author.id);
-        if(ideaText) {
+        if (ideaText) {
 
-let no = IdeaService.addUserIdea(msg.author.id, ideaText, user.id);
+            let no = IdeaService.addUserIdea(msg.author.id, ideaText, user.id);
 
-        msg.channel.send("Sorry, " + UserService.getUsername(user) + "! Seems like " + ideaText + " was too good an idea for " + UserService.getUsernameFromMessage(msg) + " to resist *borrowing* it as their #" + no + "!");
-   } else { msg.channel.send("You can't steal somehing that does not exist!");
-       } }
+            msg.channel.send("Sorry, " + UserService.getUsername(user) + "! Seems like " + ideaText + " was too good an idea for " + UserService.getUsernameFromMessage(msg) + " to resist *borrowing* it as their #" + no + "!");
+        } else {
+            msg.channel.send("You can't steal somehing that does not exist!");
+        }
+    }
 }
 
 module.exports = IdeaStealCommand;

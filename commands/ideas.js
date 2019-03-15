@@ -25,7 +25,9 @@ class IdeaListCommand extends Command {
             } else {
                 // find user
                 user = UserService.lookupUser(msg, args.slice(1).join(" "));
-                if (user == null) { return; }
+                if (user == null) {
+                    return;
+                }
             }
         }
 
@@ -48,7 +50,7 @@ class IdeaListCommand extends Command {
                 }
             }
         } else {
-            msg.channel.send(UserService.getUsername(user) +"'s idea list:\n\n");
+            msg.channel.send(UserService.getUsername(user) + "'s idea list:\n\n");
             let i = 1;
             msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replace("@", "")).join("\n"));
         }

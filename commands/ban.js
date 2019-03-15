@@ -22,7 +22,9 @@ class BanCommand extends Command {
 
     runInternal(msg, args) {
         let user = UserService.lookupUser(msg, args.slice(1).join(" "));
-        if (user == null) { return; }
+        if (user == null) {
+            return;
+        }
 
         let rip = this.bot.emojis.find(emoji => emoji.name === "rip");
 

@@ -1,7 +1,7 @@
 class UserService {
 
     static lookupUser(msg, usernamePart) {
-        let found_users = this.lookupUsers(msg,  usernamePart);
+        let found_users = this.lookupUsers(msg, usernamePart);
 
         if (found_users.length === 0) {
             msg.channel.send("Sorry, I don't know anyone called '" + usernamePart + "'.");

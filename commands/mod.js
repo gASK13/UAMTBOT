@@ -58,13 +58,15 @@ class ModCommand extends Command {
                             }
                             names += (names.length > 0 ? ", " : "") + element.name
                         });
-                        if (foundOne) { return; }
+                        if (foundOne) {
+                            return;
+                        }
                         msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
                     }
                 });
             });
 
-            req.on('error', function(err) {
+            req.on('error', function (err) {
                 msg.channel.send("BOT BORKED. BORK BORK.");
             });
 

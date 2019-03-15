@@ -14,7 +14,7 @@ class ItemCommand extends Command {
     }
 
     runInternal(msg, args) {
-        switch(args[2]) {
+        switch (args[2]) {
             case "potion":
             case "resource":
             case "food":
