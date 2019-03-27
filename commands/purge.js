@@ -6,11 +6,11 @@ class PurgeCommand extends Command {
     }
 
     help(msg) {
-        return "EXPERIMENTAL COMMAND, DO NOT USE!!!";
+        return "Use `]purge X` to remove last X messages in the current channel. Based on your permissions, so no sneaky stuff!";
     }
 
     shortHelp(msg) {
-        return "EXPERIMENTAL COMMAND, DO NOT USE!!!";
+        return "quickly clears messages from a channel";
     }
 
     runInternal(msg, args) {
