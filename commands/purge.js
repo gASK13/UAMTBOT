@@ -27,9 +27,9 @@ class PurgeCommand extends Command {
         // check user rights in this channel (needs delete privileges)
 
         if (msg.channel.fetchMessages != null) {
-            for (oldMsg in msg.channel.fetchMessages({ limit: args[1] })) {
-                oldMsg.delete();
-            }
+            msg.channel.fetchMessages({ limit: args[1] })
+                .then(messages => { messages.forEach((m) => m.delete())})
+                .catch(console.error);
         }
 
         msg.delete();
