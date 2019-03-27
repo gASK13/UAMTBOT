@@ -14,8 +14,8 @@ class PurgeCommand extends Command {
     }
 
     runInternal(msg, args) {
-        if (msg.author.id != '412352063125717002') {
-            msg.channel.send("This is a top secret command, usable by @gASK only (for now)!");
+        if (msg.author.id != '412352063125717002' && msg.author.id != '352201261971668992') {
+            msg.channel.send("This is a top secret command, usable by @gASK or @Airom only (for now)!");
             return;
         }
 
