@@ -32,7 +32,7 @@ class PurgeCommand extends Command {
                 } else {
                     if (msg.channel.fetchMessages != null) {
                         msg.delete();
-                        msg.channel.fetchMessages({ limit: args[1] })
+                        msg.channel.fetchMessages({ limit: args[1], before: msg.id })
                             .then(messages => msg.channel.bulkDelete(messages))
                             .catch(console.error);
                     }
