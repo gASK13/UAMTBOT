@@ -14,11 +14,6 @@ class PurgeCommand extends Command {
     }
 
     runInternal(msg, args) {
-        if (msg.author.id != '412352063125717002' && msg.author.id != '352201261971668992') {
-            msg.channel.send("This is a top secret command, usable by @gASK or @Airom only (for now)!");
-            return;
-        }
-
         if (isNaN(args[1])) {
             msg.channel.send("How can I remove '" + args[1] + "' messages you smartass?");
             return;
