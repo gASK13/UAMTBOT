@@ -15,17 +15,19 @@ class PurgeCommand extends Command {
 
     runInternal(msg, args) {
         if (msg.author.id != '412352063125717002') {
-            msg.channel.reply("This is a top secret command, usable by @gASK only (for now)!");
+            msg.channel.send("This is a top secret command, usable by @gASK only (for now)!");
             return;
         }
 
         if (isNaN(args[1])) {
-            msg.channel.reply("How can I remove '" + args[1] + "' messages you smartass?");
+            msg.channel.send("How can I remove '" + args[1] + "' messages you smartass?");
             return;
         }
 
-        if (channel.fetchMessages != null) {
-            for (oldMsg in channel.fetchMessages({ limit: args[1] })) {
+        // check user rights in this channel (needs delete privileges)
+
+        if (msg.channel.fetchMessages != null) {
+            for (oldMsg in msg.channel.fetchMessages({ limit: args[1] })) {
                 oldMsg.delete();
             }
         }
