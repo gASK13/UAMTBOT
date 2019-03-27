@@ -25,14 +25,20 @@ class PurgeCommand extends Command {
         }
 
         // check user rights in this channel (needs delete privileges)
-
-        if (msg.channel.fetchMessages != null) {
-            msg.channel.fetchMessages({ limit: args[1] })
-                .then(messages => { messages.forEach((m) => m.delete())})
-                .catch(console.error);
-        }
-
-        msg.delete();
+        msg.guild.fetchMember(msg.author).then(
+            member => {
+                if (!member.permissionsIn(msg.channel).has("MANAGE_MESSAGES")) {
+                    msg.channel.send("Sorry mate, you need to have permission to delete messages. Nice try though...");
+                } else {
+                    if (msg.channel.fetchMessages != null) {
+                        msg.delete();
+                        msg.channel.fetchMessages({ limit: args[1] })
+                            .then(messages => msg.channel.bulkDelete(messages))
+                            .catch(console.error);
+                    }
+                }
+            }
+        ).catch(console.error);
     }
 }
 
