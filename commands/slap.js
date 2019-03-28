@@ -20,7 +20,7 @@ class SlapCommand extends Command {
     }
 
     runInternal(msg, args) {
-        let uname = args.slice(1).join(" ");
+        let uname = args.slice(1).join(" ").replace("@", "");
         if (uname === 'me') {
             msg.channel.send("Oh, " + UserService.getUsernameFromMessage(msg) + ", silly you! You cannot slap yourself. Or can you?");
         } else {
