@@ -20,6 +20,8 @@ bot.on('message', function (msg) {
     // SOME GENERIC STUFF
     if (msg.content.toLowerCase().includes("good bot")) {
         msg.channel.send("Thanks! I try my best!");
+    } else if (msg.content.toLowerCase().includes("good bot")) {
+        msg.channel.send("Sorry! I try my best! It won't happen again! I promise!");
     } else if (msg.mentions.users.some(user => user.id === bot.user.id)) {
         msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     } else if (msg.content.substring(0, 1) === ']') {
