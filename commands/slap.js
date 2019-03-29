@@ -21,10 +21,11 @@ class SlapCommand extends Command {
 
     runInternal(msg, args) {
         let uname = args.slice(1).join(" ").replace("@", "");
-        switch (uname) {
+        switch (uname.toLowerCase()) {
             case "water":
                 msg.channel.send("Splash!");
                 return;
+            case "a stone":
             case "stone":
                 msg.channel.send("Ow! " + UserService.getUsernameFromMessage(msg) + " has broken their wrist!" );
                 return;
@@ -32,13 +33,38 @@ class SlapCommand extends Command {
                 msg.channel.send("Yikes! " + UserService.getUsernameFromMessage(msg) + " has burned their hand!" );
                 return;
             case "earth":
+            case "ground":
+            case "the ground":
+            case "unoiks 428c":
                 msg.channel.send("THUD!" );
                 return;
+            case "mars":
+            case "the mars":
+                msg.channel.send("Aw, that's cute. But you're no Elon Musk, mate!");
+                return;
             case "air":
+            case "the air":
+            case "the sky":
+            case "sky":
                 msg.channel.send("...... seriously?" );
                 return;
             case "me":
                 msg.channel.send("Oh, " + UserService.getUsernameFromMessage(msg) + ", silly you! You cannot slap yourself. Or can you?");
+                return;
+            case "an easter egg":
+            case "easter egg":
+            case "a easter egg":
+                msg.channel.send("Oh, real nice. You broke the egg and now there is yolk all over the place. Good job, " + UserService.getUsernameFromMessage(msg) + "!")
+                return;
+            case "a butt":
+            case "butt":
+            case "ass":
+            case "an ass":
+            case "buttocks":
+                msg.channel.send("...we don't do that anymore.")
+                return;
+            case "slap":
+                msg.channel.send("ERROR 6913: STACK OVERFLOW! HUNTER BOTS HAVE BEEN DISPATCHED! PLEASE LIE DOWN WITH YOUR HANDS BEHIND YOUR HEAD " + UserService.getUsernameFromMessage(msg) + " AND AWAIT THEIR ARRIVAL. THANK YOU FOR YOUR COOPERATION!");
                 return;
         }
 
