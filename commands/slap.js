@@ -33,6 +33,13 @@ class SlapCommand extends Command {
             case "fire":
                 msg.channel.send("Yikes! " + UserService.getUsernameFromMessage(msg) + " has burned their hand!" );
                 return;
+            case "button":
+            case "a button":
+            case "the button":
+            case "nuclear launch button":
+            case "launch button":
+                msg.channel.send("https://imgflip.com/s/meme/Two-Buttons.jpg");
+                return;
             case "earth":
             case "ground":
             case "the ground":
