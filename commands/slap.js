@@ -43,6 +43,18 @@ class SlapCommand extends Command {
             case "the mars":
                 msg.channel.send("Aw, that's cute. But you're no Elon Musk, mate!");
                 return;
+            case "uranus":
+            case "the uranus":
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + ", you have just slapped uranus. Are you happy now? Are you? ARE YOU???");
+                return;
+            case "pluto":
+            case "the pluto":
+                msg.channel.send("Leave pluto out of this, " + UserService.getUsernameFromMessage(msg) + ". It is still getting over being kicked out of the planet club....");
+                return;
+            case "moon":
+            case "the moon":
+                msg.channel.send("You slapped the moon until it started to crack. So **this** is what happened to it!");
+                return;
             case "air":
             case "the air":
             case "the sky":
