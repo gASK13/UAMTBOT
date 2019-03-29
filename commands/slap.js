@@ -1,5 +1,6 @@
 const Command = require('../command.js');
 const UserService = require('../services/user.js');
+const SlapService = require('../services/slaps');
 
 class SlapCommand extends Command {
 
@@ -72,6 +73,8 @@ class SlapCommand extends Command {
         if (user == null) {
             return;
         }
+
+        SlapService.saveSlap(msg.author.id, user.id);
 
         if (user.id === '522160089554092041') {
             msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has slapped " + UserService.getUsernameFromMessage(msg) + " so hard that " + UserService.getUsernameFromMessage(msg) + " fainted!");
