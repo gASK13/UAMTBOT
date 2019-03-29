@@ -6,7 +6,7 @@ class VehicleCommand extends Command {
     }
 
     help(msg) {
-        return "\"Usage: ]vehicle {name} {type} [{max_weight} {fuel} {health} {defence} {speed}]\");\n msg.channel.send(\"Supported types: boat | flying | car | mining  | spaceship | submarine\"";
+        return "Usage: ]vehicle {name} {type} [{max_weight} {fuel} {health} {defence} {speed}]\");\nSupported types: boat | flying | car | mining  | spaceship | submarine";
     }
 
     shortHelp(msg) {
