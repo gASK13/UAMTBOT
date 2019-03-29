@@ -1,10 +1,5 @@
 let fs = require("fs");
 
-fs.writeFile("slaps.json", '{}', { flag: 'wx' }, function (err) {
-    if (err) throw err;
-    console.log("SLAPS saved!");
-});
-
 let slaps = JSON.parse(fs.readFileSync('slaps.json', 'utf8'));
 
 class SlapService {
