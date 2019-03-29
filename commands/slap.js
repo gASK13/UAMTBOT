@@ -26,10 +26,33 @@ class SlapCommand extends Command {
         } else {
             let user = UserService.lookupUser(msg, uname);
             if (user == null) {
+                switch (uname) {
+                    case "water":
+                        msg.channel.send("Splash!");
+                        break;
+                    case "stone":
+                        msg.channel.send("Ow! " + UserService.getUsernameFromMessage(msg) + " has broken their wrist!" );
+                        break;
+                    case "fire":
+                        msg.channel.send("Yikes! " + UserService.getUsernameFromMessage(msg) + " has burned their hand!" );
+                        break;
+                    case "earth":
+                        msg.channel.send("THUD!" );
+                        break;
+                    case "air":
+                        msg.channel.send("...... seriously?" );
+                        break;
+                }
                 return;
             }
 
-            msg.channel.send(UserService.getUsernameFromMessage(msg) + " has just slapped " + UserService.getUsername(user) + "!");
+            if (user.id === '522160089554092041') {
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has slapped " + UserService.getUsernameFromMessage(msg) + " so hard that " + UserService.getUsernameFromMessage(msg) + " fainted!");
+            } else if (user.id === msg.user.id) {
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + " really likes to slap themselves. Nudge nudge wink wink.");
+            } else {
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has just slapped " + UserService.getUsername(user) + "!");
+            }
         }
     }
 }
