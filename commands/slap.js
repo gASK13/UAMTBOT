@@ -77,11 +77,17 @@ class SlapCommand extends Command {
         SlapService.saveSlap(msg.author.id, user.id);
 
         if (user.id === '522160089554092041') {
-            msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has slapped " + UserService.getUsernameFromMessage(msg) + " so hard that " + UserService.getUsernameFromMessage(msg) + " fainted!");
+            if (msg.author.id === '500774841738199070') {
+                msg.channel.send("Alchemist has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has tried to slap Alchemist. Alchemist teleports. There is an awkward stalemate.");
+            } else {
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has slapped " + UserService.getUsernameFromMessage(msg) + " so hard that " + UserService.getUsernameFromMessage(msg) + " fainted!");
+            }
         } else if (user.id === '500774841738199070') {
             msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap Alchemist. Alchemist teleported behind " + UserService.getUsernameFromMessage(msg) + ". Alchemist used a magic hand to slap " + UserService.getUsernameFromMessage(msg) + " into the next week.");
         } else if (user.id === msg.author.id) {
             msg.channel.send(UserService.getUsernameFromMessage(msg) + " really likes to slap themselves. Nudge nudge wink wink.");
+        } else if (user.id === '159985870458322944' && msg.author.id === '500774841738199070') {
+            msg.channel.send(UserService.getUsernameFromMessage(msg) + " has beat MEE6 mercilessly, then threw him in the trash can.");
         } else {
             msg.channel.send(UserService.getUsernameFromMessage(msg) + " has just slapped " + UserService.getUsername(user) + "!");
         }
