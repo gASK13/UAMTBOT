@@ -13,8 +13,8 @@ class SlapService {
         if (slapper === slapee) { return; }
         this.resetUser(slapper);
         this.resetUser(slapee);
-        slapper.dealt++;
-        slapee.received++;
+        slaps[slapper].dealt++;
+        slaps[slapee].received++;
         this.save();
     }
 
