@@ -27,12 +27,10 @@ class SlapCommand extends Command {
             if (user == null) {
                 return;
             }
-            msg.channel.send(UserService.getUsername(user) + SlapService.getSlapStats(user.id));
-        } else {
-            msg.channel.send(SlapService.getBestStats());
+
         }
 
-
+        msg.channel.send(UserService.getUsername(user) + SlapService.getSlapStats(user.id));
     }
 }
 
