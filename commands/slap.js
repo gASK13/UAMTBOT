@@ -55,6 +55,13 @@ class SlapCommand extends Command {
             case "the moon":
                 msg.channel.send("You slapped the moon until it started to crack. So **this** is what happened to it!");
                 return;
+            case "car roof":
+            case "the car roof":
+            case "a car roof":
+            case "top of a car":
+            case "top of car":
+                msg.channel.send("https://i.kym-cdn.com/photos/images/newsfeed/001/387/189/3bf.png");
+                return;
             case "air":
             case "the air":
             case "the sky":
