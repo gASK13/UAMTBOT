@@ -99,6 +99,11 @@ class SlapCommand extends Command {
         if (user == null) {
             return;
         }
+        
+        if (msg.author.id === '531938486282878997' || msg.author.id === '551914765534887936') {
+            msg.channel.send('Sorry, mate. You have been opted out of the ]slap command.');
+            return;
+        }
 
         SlapService.saveSlap(msg.author.id, user.id);
 
