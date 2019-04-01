@@ -99,7 +99,7 @@ class SlapCommand extends Command {
         if (user == null) {
             return;
         }
-        
+
         if (msg.author.id === '531938486282878997' || msg.author.id === '551914765534887936') {
             msg.channel.send('Sorry, mate. You have been opted out of the ]slap command.');
             return;
@@ -115,9 +115,9 @@ class SlapCommand extends Command {
             }
         } else if (user.id === '483028152130469891') {
             if (msg.author.id === '500774841738199070') {
-                msg.channel.send("Alchemist would never dare to rais a hand against Grand Alchemist!");
+                msg.channel.send("Alchemist would never dare to raise a hand against Grand Alchemist!");
             } else {
-                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap Grand Alchemist. Grand Alchemist bends the universe with his will and makes it so " + UserService.getUsernameFromMessage(msg) + " is not even born in the first place...the slap never happened.");
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap Grand Alchemist. Grand Alchemist bends the universe with his will and makes it so " + UserService.getUsernameFromMessage(msg) + " slapped themself out of existance.");
             }
         } else if (user.id === '500774841738199070') {
             if (msg.author.id === '483028152130469891') {
