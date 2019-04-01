@@ -22,7 +22,7 @@ class AgeCommand extends Command {
             if (user == null) {
                 return;
             }
-            if (user.nickname == "Alchemist") {
+            if (user.nickname == "Alchemist" && user.id == '483028152130469891') {
                 msg.channel.send("Alchemist is timeless and has always been a member of this server! All hail the Alchemist!");
                 return;
             }
