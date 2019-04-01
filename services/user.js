@@ -17,16 +17,18 @@ class UserService {
     static lookupUsers(msg, usernamePart) {
         let lookup_uname = usernamePart.replace("@", "");
         let found_users = [];
+        let true_user = null;
 
         msg.guild.members.forEach((member) => {
             if ((member.nickname != null && member.nickname.toLowerCase().includes(lookup_uname.toLowerCase()))
                 || (member.user.username.toLowerCase().includes(lookup_uname.toLowerCase()))) {
                 member.user.nickname = member.nickname;
                 found_users.push(member.user);
+                if (member.nickname === usernamePart || member.user.username === usernamePart) { true_user = member.user; }
             }
         });
 
-        return found_users;
+        return true_user ? [true_user] : found_users;
     }
 
     static getUser(msg) {
