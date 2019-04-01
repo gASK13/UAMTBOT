@@ -130,7 +130,11 @@ class SlapCommand extends Command {
         } else if (user.id === '159985870458322944' && msg.author.id === '500774841738199070') {
             msg.channel.send(UserService.getUsernameFromMessage(msg) + " has beat MEE6 mercilessly, then threw him in the trash can.");
         } else {
-            msg.channel.send(UserService.getUsernameFromMessage(msg) + " has just slapped " + UserService.getUsername(user) + "!");
+            if (msg.author.id === '483028152130469891') {
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has used his telekiness to make " + UserService.getUsername(user) + " slap himself repeatedly! OUCH!");
+            } else {
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has just slapped " + UserService.getUsername(user) + "!");
+            }
         }
     }
 }
