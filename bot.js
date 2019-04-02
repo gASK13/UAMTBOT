@@ -69,3 +69,4 @@ glob.sync( './commands/*.js' ).forEach( function( file ) {
 for (let com of bot.commands) {
     com.setBot(bot); com.setAuth(auth);
 }
+
