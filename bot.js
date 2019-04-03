@@ -58,6 +58,7 @@ bot.on('message', function (msg) {
     }
     } catch (error) {
         console.log(error);
+        msg.channel.send('BORK! BORK! I AM BORKED! <@412352063125717002> PLZ SEND HELP!');
         // SHOW MUST GO OOOOOOON
     }
 });
