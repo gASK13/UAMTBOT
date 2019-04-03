@@ -70,3 +70,4 @@ for (let com of bot.commands) {
     com.setBot(bot); com.setAuth(auth);
 }
 
+
