@@ -14,6 +14,7 @@ bot.on('ready', function (evt) {
 
 // MAIN CALLBACK
 bot.on('message', function (msg) {
+    try {
     // STOP ON OTHER BOTS
     if (msg.author.bot) { return; }
 
@@ -54,6 +55,10 @@ bot.on('message', function (msg) {
                 return;
             }
         }
+    }
+    } catch (error) {
+        console.log(error);
+        // SHOW MUST GO OOOOOOON
     }
 });
 
