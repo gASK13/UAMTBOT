@@ -18,6 +18,10 @@ class UserService {
         let lookup_uname = usernamePart.replace("@", "");
         let found_users = [];
         let true_user = null;
+        
+        if (!msg.guild) {            
+            return [msg.author];
+        }
 
         msg.guild.members.forEach((member) => {
             if ((member.nickname != null && member.nickname.toLowerCase().includes(lookup_uname.toLowerCase()))
