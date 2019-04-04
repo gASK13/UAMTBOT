@@ -4,9 +4,28 @@ let mods = JSON.parse(fs.readFileSync('mods.json', 'utf8'));
 
 class ModIOService {
 
+    static newModMessages = ["{UNAME} just published a new mod {MODNAME]! Download it like it's hot, download it like it's hot!",
+                "*slaps mod.io roof* This bad boy can fit so many mods! Like {UNAME}'s new mod - {MODNAME}",
+                "Psst! Did you hear {UNAME} released {MODNAME} just now?"];
+
+    static subMilestones = [
+        { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
+        { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
+        { milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]}
+    ];
+
+    static anouncementChannel = "563352173338034196";
+
+    static downMilestones = [];
+
     static save() {
         fs.writeFile("mods.json", JSON.stringify(mods), "utf8", function (error) {
         });
+    }
+
+    static formatMsg(msg, element) {
+        return msg.replace("{UNAME}", element.submitted_by.username).replace("{MODNAME}", element.name)
+        +" \n\n" + element.profile_url;
     }
 
     static getModStats(apikey, bot) {
@@ -31,20 +50,21 @@ class ModIOService {
 
             res.on('end', function () {
                 let obj = JSON.parse(output);
-
+                let channel = bot.channels.get(self.anouncementChannel);
                 let names = "";
                 obj.data.forEach(function (element) {
                     if (!mods[element.id]) {
                         mods[element.id] = { downloads: 0, subs: 0};
-                        bot.channels.get("563352173338034196").send("{UNAME} just published a new mod - {MODNAME}! Download it while it is hot!"
-                            .replace("{UNAME}", element.submitted_by.username)
-                            .replace("{MODNAME}", element.name));
+                        channel.send(self.formatMsg(self.newModMessages[Math.floor(Math.random() * self.newModMessages.length)], element));
                     } else {
-                        olddt = mods[element.id].downloads;
-                        oldst = mods[element.id].subs;
+                        for (milestone in self.subMilestones) {
+                            if (mods[element.id].subs < milestone.milestone && element.stats.subscribers_total >= milestone.milestone) {
+                                channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                            }
+                        }
                     }
-                    mods[element.id].downloads = element.stats.downloads_total;
-                    mods[element.id].subs = element.stats.subscribers_total;
+                    mods[element.id].downloads = Math.max(mods[element.id].downloads, element.stats.downloads_total);
+                    mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
                 });
 
                 self.save();
