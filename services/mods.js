@@ -35,7 +35,7 @@ class ModIOService {
                 let names = "";
                 obj.data.forEach(function (element) {
                     if (!mods[element.id]) {
-                        client.channels.get("563352173338034196").send("{UNAME} just published a new mod - {MODNAME}! Download it while it is hot!"
+                        bot.channels.get("563352173338034196").send("{UNAME} just published a new mod - {MODNAME}! Download it while it is hot!"
                             .replace("{UNAME}", element.submitted_by.username)
                             .replace("{MODNAME}", element.name));
                     } else {
