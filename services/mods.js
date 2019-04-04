@@ -2,7 +2,7 @@ let https = require("https");
 let fs = require("fs");
 let mods = JSON.parse(fs.readFileSync('mods.json', 'utf8'));
 
-const newModMessages = ["{UNAME} just published a new mod {MODNAME]! Download it like it's hot, download it like it's hot!",
+const newModMessages = ["{UNAME} just published a new mod {MODNAME}! Download it like it's hot, download it like it's hot!",
     "*slaps mod.io roof* This bad boy can fit so many mods! Like {UNAME}'s new mod - {MODNAME}",
     "Psst! Did you hear {UNAME} released {MODNAME} just now?"];
 
@@ -57,6 +57,7 @@ class ModIOService {
                         mods[element.id] = { downloads: 0, subs: 0};
                         channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
                     } else {
+                        console.log(mods[element.id].subs + "/" + element.stats.subscribers_total);
                         for (let milestone in subMilestones) {
                             console.log("CHECKING MILESTON " + milestone.milestone + " AGAINST " + element.name);
                             if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
