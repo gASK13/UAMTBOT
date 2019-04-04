@@ -57,7 +57,7 @@ class ModIOService {
                         mods[element.id] = { downloads: 0, subs: 0};
                         channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
                     } else {
-                        for (milestone in subMilestones) {
+                        for (let milestone in subMilestones) {
                             if (mods[element.id].subs < milestone.milestone && element.stats.subscribers_total >= milestone.milestone) {
                                 channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
                             }
