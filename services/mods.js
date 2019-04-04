@@ -9,9 +9,52 @@ class ModIOService {
         });
     }
 
-    static getModStats() {
+    static getModStats(apikey, bot) {
+        let self = this;
+
         // get stats
-        // if any trigger milestones, output
+        let options = {
+            host: 'api.mod.io',
+            port: 443,
+            path: '/v1/games/34/mods?api_key=' + apikey,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        let req = https.request(options, function (res) {
+            let output = '';
+            res.setEncoding('utf8');
+            res.on('data', function (chunk) {
+                output += chunk;
+            });
+
+            res.on('end', function () {
+                let obj = JSON.parse(output);
+
+                let names = "";
+                obj.data.forEach(function (element) {
+                    if (!mods[element.id]) {
+                        client.channels.get("563352173338034196").send("{UNAME} just published a new mod - {MODNAME}! Download it while it is hot!"
+                            .replace("{UNAME}", element.submitted_by.username)
+                            .replace("{MODNAME}", element.name));
+                    } else {
+                        olddt = mods[element.id].downloads;
+                        oldst = mods[element.id].subs;
+                    }
+                    mods[element.id].downloads = element.stats.downloads_total;
+                    mods[element.id].subs = element.stats.subscribers_total;
+                });
+
+                self.save();
+            });
+        });
+
+        req.on('error', function (err) {
+            console.error("BORK BORK!", err);
+        });
+
+        req.end();
     }
 
     static getModLink(apikey, sterm, msg) {

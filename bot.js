@@ -2,6 +2,7 @@ let Discord = require('discord.js');
 let auth = require('./auth.json');
 let glob = require( 'glob' );
 let path = require( 'path' );
+const ModService = require('services/mods.js');
 
 // BOT SETUP
 let bot = new Discord.Client({});
@@ -10,6 +11,11 @@ bot.on("warn", (e) => console.warn(e));
 bot.on("debug", (e) => {});
 bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
+
+    ModService.getModStats(auth.apikey, bot);
+    setInterval (function () {
+        ModService.getModStats(auth.apikey, bot);
+    }, 5 * 60 * 1000);
 });
 
 // MAIN CALLBACK
