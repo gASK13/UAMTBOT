@@ -2,21 +2,21 @@ let https = require("https");
 let fs = require("fs");
 let mods = JSON.parse(fs.readFileSync('mods.json', 'utf8'));
 
+const newModMessages = ["{UNAME} just published a new mod {MODNAME]! Download it like it's hot, download it like it's hot!",
+    "*slaps mod.io roof* This bad boy can fit so many mods! Like {UNAME}'s new mod - {MODNAME}",
+    "Psst! Did you hear {UNAME} released {MODNAME} just now?"];
+
+const subMilestones = [
+    { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
+    { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
+    { milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]}
+];
+
+const anouncementChannel = "563352173338034196";
+
+const downMilestones = [];
+
 class ModIOService {
-
-    static newModMessages = ["{UNAME} just published a new mod {MODNAME]! Download it like it's hot, download it like it's hot!",
-                "*slaps mod.io roof* This bad boy can fit so many mods! Like {UNAME}'s new mod - {MODNAME}",
-                "Psst! Did you hear {UNAME} released {MODNAME} just now?"];
-
-    static subMilestones = [
-        { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
-        { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
-        { milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]}
-    ];
-
-    static anouncementChannel = "563352173338034196";
-
-    static downMilestones = [];
 
     static save() {
         fs.writeFile("mods.json", JSON.stringify(mods), "utf8", function (error) {
@@ -50,14 +50,14 @@ class ModIOService {
 
             res.on('end', function () {
                 let obj = JSON.parse(output);
-                let channel = bot.channels.get(self.anouncementChannel);
+                let channel = bot.channels.get(anouncementChannel);
                 let names = "";
                 obj.data.forEach(function (element) {
                     if (!mods[element.id]) {
                         mods[element.id] = { downloads: 0, subs: 0};
-                        channel.send(self.formatMsg(self.newModMessages[Math.floor(Math.random() * self.newModMessages.length)], element));
+                        channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
                     } else {
-                        for (milestone in self.subMilestones) {
+                        for (milestone in subMilestones) {
                             if (mods[element.id].subs < milestone.milestone && element.stats.subscribers_total >= milestone.milestone) {
                                 channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
                             }
