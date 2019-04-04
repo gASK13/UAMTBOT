@@ -2,7 +2,7 @@ let Discord = require('discord.js');
 let auth = require('./auth.json');
 let glob = require( 'glob' );
 let path = require( 'path' );
-const ModService = require('services/mods.js');
+const ModService = require('./services/mods.js');
 
 // BOT SETUP
 let bot = new Discord.Client({});
