@@ -57,11 +57,8 @@ class ModIOService {
                         mods[element.id] = { downloads: 0, subs: 0};
                         channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
                     } else {
-                        console.log(mods[element.id].subs + "/" + element.stats.subscribers_total);
-                        for (let milestone in subMilestones) {
-                            console.log("CHECKING MILESTON " + milestone.milestone + " AGAINST " + element.name);
+                        for (let milestone of subMilestones) {
                             if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
-                                console.log("YAY!");
                                 channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
                             }
                         }
