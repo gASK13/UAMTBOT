@@ -9,12 +9,26 @@ const newModMessages = ["{UNAME} just published a new mod {MODNAME}! Download it
 const subMilestones = [
     { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
     { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
-    { milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]}
+    { milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]},
+    { milestone: 100, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]},
+    { milestone: 150, messages: ["You know what is better then 100 subs? 150 subs! And that is how many {MODNAME} just got."]},
+    { milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"]},
+    { milestone: 250, messages: ["250 subscribers, {UNAME}! You know what it means? {MODNAME} should get a new update!"]},
+    { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers, {UNAME}!"]},
+    { milestone: 500, messages: ["You have done the impossible {UNAME}! {MODNAME} is at 500 subscribers...amazing!"]}
 ];
 
-const anouncementChannel = "563352173338034196";
+const anouncementChannel = "422849152012255254";
 
-const downMilestones = [];
+const downMilestones = [
+    { milestone: 50, messages: ["Tell your friends - a new popular mod is in town and it is {MODNAME} by {UNAME}."]},
+    { milestone: 100, messages: ["Now we're talking! Three digits, baby! {UNAME}'s {MODNAME} just hit 100 downloads. Drink are on {UNAME}!"]},
+    { milestone: 200, messages: ["{UNAME} is slowly climbing up the ladder with his {MODNAME} - 200 downloads!"]},
+    { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 downloads, {UNAME}. Not as good as 300 subcs, but still..."]},
+    { milestone: 400, messages: ["400 downloads for {MODNAME}? Now **that** is something, [UNAME}!"]},
+    { milestone: 500, messages: ["{UNAME} must have done something right, otherwise {MODNAME} would not get to 500 downloads."]},
+    { milestone: 1000, messages: ["Did you send your mother a link to {MODNAME}, {UNAME}? Cause you should, cause 1000 downloads is something to be proud of!"]}
+];
 
 class ModIOService {
 
@@ -24,7 +38,7 @@ class ModIOService {
     }
 
     static formatMsg(msg, element) {
-        return msg.replace("{UNAME}", element.submitted_by.username).replace("{MODNAME}", element.name)
+        return msg.replace("{UNAME}", "**" + element.submitted_by.username + "**").replace("{MODNAME}", "**" + element.name + "**")
         +" \n\n" + element.profile_url;
     }
 
@@ -57,11 +71,13 @@ class ModIOService {
                         mods[element.id] = { downloads: 0, subs: 0};
                         channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
                     } else {
-                        console.log(mods[element.id].subs + "/" + element.stats.subscribers_total);
                         for (let milestone of subMilestones) {
-                            console.log("CHECKING MILESTON " + milestone.milestone + " AGAINST " + element.name);
                             if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
-                                console.log("YAY!");
+                                channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                            }
+                        }
+                        for (let milestone of downMilestones) {
+                            if ((mods[element.id].downloads < milestone.milestone) && (element.stats.downloads_total >= milestone.milestone)) {
                                 channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
                             }
                         }
