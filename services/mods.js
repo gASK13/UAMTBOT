@@ -10,7 +10,7 @@ const subMilestones = [
     { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
     { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
     { milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]},
-    { milestone: 100, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]},
+    { milestone: 100, messages: ["{UNAME} made {MODNAME} so well that 100 people subscribed to it."]},
     { milestone: 150, messages: ["You know what is better then 100 subs? 150 subs! And that is how many {MODNAME} just got."]},
     { milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"]},
     { milestone: 250, messages: ["250 subscribers, {UNAME}! You know what it means? {MODNAME} should get a new update!"]},
@@ -21,7 +21,7 @@ const subMilestones = [
 const anouncementChannel = "422849152012255254";
 
 const downMilestones = [
-    { milestone: 50, messages: ["Tell your friends - a new popular mod is in town and it is {MODNAME} by {UNAME}."]},
+    { milestone: 50, messages: ["Tell your friends - a new popular mod is in town and it is {MODNAME} by {UNAME}. Here's to another 50 downloads!"]},
     { milestone: 100, messages: ["Now we're talking! Three digits, baby! {UNAME}'s {MODNAME} just hit 100 downloads. Drink are on {UNAME}!"]},
     { milestone: 200, messages: ["{UNAME} is slowly climbing up the ladder with his {MODNAME} - 200 downloads!"]},
     { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 downloads, {UNAME}. Not as good as 300 subcs, but still..."]},
@@ -38,7 +38,7 @@ class ModIOService {
     }
 
     static formatMsg(msg, element) {
-        return msg.replace("{UNAME}", "**" + element.submitted_by.username + "**").replace("{MODNAME}", "**" + element.name + "**")
+        return msg.replace(/{UNAME}/g, "**" + element.submitted_by.username + "**").replace(/{MODNAME}/g, "**" + element.name + "**")
         +" \n\n" + element.profile_url;
     }
 
