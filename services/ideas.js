@@ -14,7 +14,7 @@ class IdeasService {
         }
 
         if (optoutFlag) {
-            if (!ideas['optout'].contains(user)) { ideas['optout'].push(user); }
+            if (ideas['optout'].indexOf(user) === -1) { ideas['optout'].push(user); }
         } else {
             let id = ideas['optout'].indexOf(user);
             if (id > -1) { ideas['optout'].splice(id, 1); }
@@ -24,7 +24,7 @@ class IdeasService {
     }
 
     static isOptout(user) {
-        return ideas['optout'] != null && ideas['optout'].contains(user);
+        return ideas['optout'] != null && ideas['optout'].indexOf(user) > -1;
     }
 
     // Returns user ideas - can return NULL
