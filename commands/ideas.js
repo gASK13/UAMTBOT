@@ -8,7 +8,7 @@ class IdeaListCommand extends Command {
     }
 
     help(msg) {
-        return "`]ideas` to list your ideas\n`]ideas {user}` to list user's ideas\n`]ideas clear` to delete all your ideas";
+        return "`]ideas` to list your ideas\n`]ideas {user}` to list user's ideas\n`]ideas clear` to delete all your ideas\n`]ideas private` to hide your idea list from others\n`]ideas public` to make it public again";
     }
 
     shortHelp(msg) {
@@ -21,7 +21,11 @@ class IdeaListCommand extends Command {
             if (args[1] === 'clear' || args[1] === 'clean' || args[1] === 'purge') {
                 msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
                 IdeaService.clearUserIdeas(msg.author.id);
-                return
+                return;
+            } else if (args[1] === 'private' || args[1] === 'public') {
+                msg.channel.send("Your idea list is now " + args[1] + ".");
+                IdeaService.optout(msg.author.id, args[1] === 'private');
+                return;
             } else {
                 // find user
                 user = UserService.lookupUser(msg, args.slice(1).join(" "));
@@ -50,9 +54,13 @@ class IdeaListCommand extends Command {
                 }
             }
         } else {
-            msg.channel.send(UserService.getUsername(user) + "'s idea list:\n\n");
-            let i = 1;
-            msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replace("@", "")).join("\n"));
+            if (user.id === msg.author.id || !IdeaService.isOptout(user.id)) {
+                msg.channel.send(UserService.getUsername(user) + "'s idea list:\n\n");
+                let i = 1;
+                msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replace("@", "")).join("\n"));
+            } else {
+                msg.channel.send("Sorry, but " + UserService.getUsername(user) + " decided to keep their ideas private.");
+            }
         }
     }
 }
