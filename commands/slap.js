@@ -109,17 +109,12 @@ class SlapCommand extends Command {
                 msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has slapped " + UserService.getUsernameFromMessage(msg) + " so hard that " + UserService.getUsernameFromMessage(msg) + " fainted!");
             }
         } else if (user.id === '483028152130469891') {
-            if (msg.author.id === '500774841738199070') {
-                msg.channel.send("Alchemist would never dare to raise a hand against Grand Alchemist!");
-            } else {
-                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap Grand Alchemist. Grand Alchemist bends the universe with his will and makes it so " + UserService.getUsernameFromMessage(msg) + " slapped themself out of existance.");
-            }
+            
+                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has started to slap Demo Master. The slap is slowly closing in .... and ...\n\nPlease purchase the full version to find out what happened, this content is not available in DEMO.");
+           
         } else if (user.id === '500774841738199070') {
-            if (msg.author.id === '483028152130469891') {
-                msg.channel.send("Alchemist! You have displeased your master! An **epic** slap is in order!");
-            } else {
-                msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap Alchemist. Alchemist teleported behind " + UserService.getUsernameFromMessage(msg) + ". Alchemist used a magic hand to slap " + UserService.getUsernameFromMessage(msg) + " into the next week.");
-            }
+                            msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap Alchemist. Alchemist teleported behind " + UserService.getUsernameFromMessage(msg) + ". Alchemist used a magic hand to slap " + UserService.getUsernameFromMessage(msg) + " into the next week.");
+            
         } else if (user.id === msg.author.id) {
             msg.channel.send(UserService.getUsernameFromMessage(msg) + " really likes to slap themselves. Nudge nudge wink wink.");
         } else if (user.id === '159985870458322944' && msg.author.id === '500774841738199070') {
