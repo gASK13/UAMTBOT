@@ -42,9 +42,76 @@ class ModIOService {
         +" \n\n" + element.profile_url;
     }
 
+    static getModComments(apikey, bot) {
+        // for each mod, get all comments
+    }
+
+    static watchModComments(apikey, user, modname) {
+        let self = this;
+        this.findMod(apikey,  sterm,  (element) => {
+            if (mods.comments == null) { mods.comments = {}; }
+            if (mods.comments[user] == null) { mods.comments[user] = {}; }
+            if (mods.comments[user][element.id] != null) {
+                msg.channel.send('Oh, silly you! You are already watching mod ' + element.name + '!');
+            } else {
+                mods.comments[user][element.id] = 0;
+                this.processComments(apikey, element.id, (cmnt) => {
+                    if (mods.comments[user][element.id] == null || mods.comments[user][element.id] < cmnt.date_added) {
+                        mods.comments[user][element.id] = cmnt.date_added;
+                    }
+                }, () => {self.save();});
+
+                msg.channel.send('You will be notified about any new comments for ' + element.name + '!');
+            }
+        });
+    }
+
+    static unwatchModComments(apikey, user, modname) {
+        this.findMod(apikey,  sterm,  (element) => {
+            if (mods.comments == null) { mods.comments = {}; }
+            if (mods.comments[user] == null) { mods.comments[user] = {}; }
+            if (mods.comments[user][element.id] == null) {
+                msg.channel.send('Huh? You were not watching ' + element.name + ' comments in the first place!');
+            } else {
+                mods.comments[user][element.id] = null;
+                msg.channel.send('I will not bother you with notifications about ' + element.name + ' anymore!');
+                this.save();
+            }
+        });
+    }
+
     static getModStats(apikey, bot) {
         let self = this;
+        let channel = bot.channels.get(anouncementChannel);
 
+        this.processMods(apikey, (element) => {
+            if (!mods[element.id]) {
+                mods[element.id] = { downloads: 0, subs: 0};
+                channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
+            } else {
+                for (let milestone of subMilestones) {
+                    if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
+                        channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                    }
+                }
+                for (let milestone of downMilestones) {
+                    if ((mods[element.id].downloads < milestone.milestone) && (element.stats.downloads_total >= milestone.milestone)) {
+                        channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                    }
+                }
+            }
+            mods[element.id].downloads = Math.max(mods[element.id].downloads, element.stats.downloads_total);
+            mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
+        }, () => { self.save(); });
+    }
+
+    static getModLink(apikey, sterm, msg) {
+        sterm = encodeURI(sterm);
+
+        this.findMod(apikey,  sterm,  (element) => { msg.channel.send(element.profile_url); });
+    }
+
+    static processMods(apikey, code, endCode) {
         // get stats
         let options = {
             host: 'api.mod.io',
@@ -64,29 +131,11 @@ class ModIOService {
 
             res.on('end', function () {
                 let obj = JSON.parse(output);
-                let channel = bot.channels.get(anouncementChannel);
-                let names = "";
                 obj.data.forEach(function (element) {
-                    if (!mods[element.id]) {
-                        mods[element.id] = { downloads: 0, subs: 0};
-                        channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
-                    } else {
-                        for (let milestone of subMilestones) {
-                            if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
-                                channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
-                            }
-                        }
-                        for (let milestone of downMilestones) {
-                            if ((mods[element.id].downloads < milestone.milestone) && (element.stats.downloads_total >= milestone.milestone)) {
-                                channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
-                            }
-                        }
-                    }
-                    mods[element.id].downloads = Math.max(mods[element.id].downloads, element.stats.downloads_total);
-                    mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
+                    code(element);
                 });
 
-                self.save();
+                endCode();
             });
         });
 
@@ -97,8 +146,43 @@ class ModIOService {
         req.end();
     }
 
-    static getModLink(apikey, sterm, msg) {
-        sterm = encodeURI(sterm);
+    static processComments(apikey, modid, code, endCode) {
+        let options = {
+            host: 'api.mod.io',
+            port: 443,
+            path: '/v1/games/34/mods/' + modid + '/comments?api_key=' + apikey,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        let req = https.request(options, function (res) {
+            let output = '';
+            res.setEncoding('utf8');
+            res.on('data', function (chunk) {
+                output += chunk;
+            });
+
+            res.on('end', function () {
+                let obj = JSON.parse(output);
+                if (obj.result_count >= 1) {
+                    obj.data.forEach(function (element) {
+                        code(element);
+                    });
+                }
+
+                endCode();
+            });
+        });
+
+        req.on('error', function (err) {
+            msg.channel.send("BOT BORKED. BORK BORK.");
+        });
+
+        req.end();
+    }
+
+    static findMod(apikey, sterm, code) {
         let options = {
             host: 'api.mod.io',
             port: 443,
@@ -120,13 +204,13 @@ class ModIOService {
                 if (obj.result_count === 0) {
                     msg.channel.send("Sorry, not mod matching this name was found.");
                 } else if (obj.result_count === 1) {
-                    msg.channel.send(obj.data[0].profile_url)
+                    code(obj.data[0]);
                 } else {
                     let names = "";
                     let foundOne = false;
                     obj.data.forEach(function (element) {
                         if (sterm.toLowerCase() === new String(element.name).toLowerCase()) {
-                            msg.channel.send(element.profile_url);
+                            code(element);
                             foundOne = true;
                             return;
                         }
