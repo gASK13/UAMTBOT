@@ -56,6 +56,7 @@ class ModIOService {
                 if (mods.comments[element.id].last == null || mods.comments[element.id].last < cmnt.date_added) {
                     mods.comments[element.id].last = cmnt.date_added;
                 }
+            }, () => {
                 if (new_count > 0) {
                     for (let user of mods.comments[element.id].users) {
                         bot.fetchUser(user).then((fullUser) => {
@@ -63,7 +64,8 @@ class ModIOService {
                         });
                     }
                 }
-            }, () => { self.save(); });
+                self.save();
+            });
         }, () => { self.save(); });
     }
 
