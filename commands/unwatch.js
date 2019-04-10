@@ -6,6 +6,11 @@ class UnWatchCommand extends Command {
         super("Stop Watching Comments", ['unwatch', 'uwatch'], 1);
     }
 
+    setAuth(auth) {
+        super.setAuth(auth);
+        this.apikey = auth.apikey;
+    }
+
     help(msg) {
         return "`]unwatch {MOD NAME PART}` to stop watching mod with the `MOD NAME PART` in its name";
     }
