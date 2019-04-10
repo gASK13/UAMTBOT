@@ -46,9 +46,9 @@ class ModIOService {
         // for each mod, get all comments
     }
 
-    static watchModComments(apikey, user, modname) {
+    static watchModComments(apikey, user, modname, msg) {
         let self = this;
-        this.findMod(apikey,  sterm,  (element) => {
+        this.findMod(apikey,  modname, msg, (element) => {
             if (mods.comments == null) { mods.comments = {}; }
             if (mods.comments[user] == null) { mods.comments[user] = {}; }
             if (mods.comments[user][element.id] != null) {
@@ -66,8 +66,8 @@ class ModIOService {
         });
     }
 
-    static unwatchModComments(apikey, user, modname) {
-        this.findMod(apikey,  sterm,  (element) => {
+    static unwatchModComments(apikey, user, modname, msg) {
+        this.findMod(apikey,  modname,  msg, (element) => {
             if (mods.comments == null) { mods.comments = {}; }
             if (mods.comments[user] == null) { mods.comments[user] = {}; }
             if (mods.comments[user][element.id] == null) {
@@ -108,7 +108,7 @@ class ModIOService {
     static getModLink(apikey, sterm, msg) {
         sterm = encodeURI(sterm);
 
-        this.findMod(apikey,  sterm,  (element) => { msg.channel.send(element.profile_url); });
+        this.findMod(apikey,  sterm,  msg, (element) => { msg.channel.send(element.profile_url); });
     }
 
     static processMods(apikey, code, endCode) {
@@ -182,7 +182,7 @@ class ModIOService {
         req.end();
     }
 
-    static findMod(apikey, sterm, code) {
+    static findMod(apikey, sterm, msg, code) {
         let options = {
             host: 'api.mod.io',
             port: 443,
