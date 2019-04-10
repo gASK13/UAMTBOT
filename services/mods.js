@@ -49,11 +49,21 @@ class ModIOService {
             // is anyone watching this mod? if so, load comments and notify them if needed
             if (mods.comments == null) { mods.comments = {}; }
             if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
+            let last = mods.comments[element.id].last;
+            let new_count = 0;
             this.processComments(apikey, element.id, (cmnt) => {
+                new_cound += (last == null || last < cmnt.date_added) ? 1 : 0;
                 if (mods.comments[element.id].last == null || mods.comments[element.id].last < cmnt.date_added) {
                     mods.comments[element.id].last = cmnt.date_added;
                 }
-            }, () => {});
+                if (new_count > 0) {
+                    for (user of mods.comments[element.id].users) {
+                        bot.fetchUser(user).then((fullUser) => {
+                            fullUser.send(new_count > 1 ? (new_count + "new comments were") : ("A new comment was") + " added to a mod you are watching - " + element.name + "\n" + element.profile_url)
+                        });
+                    }
+                }
+            }, () => { self.save(); });
         }, () => { self.save(); });
     }
 
