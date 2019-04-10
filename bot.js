@@ -16,6 +16,7 @@ bot.on('ready', function (evt) {
     setInterval (function () {
         console.log("Checking mod stats....");
         ModService.getModStats(auth.apikey, bot);
+        ModService.getModComments(auth.apikey, bot);
     }, 5 * 60 * 1000);
 });
 

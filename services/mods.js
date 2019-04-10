@@ -43,25 +43,31 @@ class ModIOService {
     }
 
     static getModComments(apikey, bot) {
-        // for each mod, get all comments
+        let self = this;
+
+        this.processMods(apikey, (element) => {
+            // is anyone watching this mod? if so, load comments and notify them if needed
+            if (mods.comments == null) { mods.comments = {}; }
+            if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
+            this.processComments(apikey, element.id, (cmnt) => {
+                if (mods.comments[element.id].last == null || mods.comments[element.id].last < cmnt.date_added) {
+                    mods.comments[element.id].last = cmnt.date_added;
+                }
+            }, () => {});
+        }, () => { self.save(); });
     }
 
     static watchModComments(apikey, user, modname, msg) {
         let self = this;
         this.findMod(apikey,  modname, msg, (element) => {
             if (mods.comments == null) { mods.comments = {}; }
-            if (mods.comments[user] == null) { mods.comments[user] = {}; }
-            if (mods.comments[user][element.id] != null) {
+            if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
+            if (mods.comments[element.id].users.indexOf(user) > -1) {
                 msg.channel.send('Oh, silly you! You are already watching mod ' + element.name + '!');
             } else {
-                mods.comments[user][element.id] = 0;
-                this.processComments(apikey, element.id, (cmnt) => {
-                    if (mods.comments[user][element.id] == null || mods.comments[user][element.id] < cmnt.date_added) {
-                        mods.comments[user][element.id] = cmnt.date_added;
-                    }
-                }, () => {self.save();});
-
+                mods.comments[element.id].users.push(user);
                 msg.channel.send('You will be notified about any new comments for ' + element.name + '!');
+                this.save();
             }
         });
     }
@@ -69,11 +75,11 @@ class ModIOService {
     static unwatchModComments(apikey, user, modname, msg) {
         this.findMod(apikey,  modname,  msg, (element) => {
             if (mods.comments == null) { mods.comments = {}; }
-            if (mods.comments[user] == null) { mods.comments[user] = {}; }
-            if (mods.comments[user][element.id] == null) {
+            if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
+            if (mods.comments[element.id].users.indexOf(user) <= -1) {
                 msg.channel.send('Huh? You were not watching ' + element.name + ' comments in the first place!');
             } else {
-                mods.comments[user][element.id] = null;
+                mods.comments[element.id].users.splic(mods.comments[element.id].users.indexOf(user), 1);
                 msg.channel.send('I will not bother you with notifications about ' + element.name + ' anymore!');
                 this.save();
             }
