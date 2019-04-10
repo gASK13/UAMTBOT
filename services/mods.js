@@ -52,7 +52,7 @@ class ModIOService {
             let last = mods.comments[element.id].last;
             let new_count = 0;
             this.processComments(apikey, element.id, (cmnt) => {
-                new_cound += (last == null || last < cmnt.date_added) ? 1 : 0;
+                new_count += (last == null || last < cmnt.date_added) ? 1 : 0;
                 if (mods.comments[element.id].last == null || mods.comments[element.id].last < cmnt.date_added) {
                     mods.comments[element.id].last = cmnt.date_added;
                 }
