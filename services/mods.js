@@ -60,7 +60,7 @@ class ModIOService {
                 if (new_count > 0) {
                     for (let user of mods.comments[element.id].users) {
                         bot.fetchUser(user).then((fullUser) => {
-                            fullUser.send(new_count > 1 ? (new_count + "new comments were") : ("A new comment was") + " added to a mod you are watching - " + element.name + "\n" + element.profile_url)
+                            fullUser.send((new_count > 1 ? (new_count + "new comments were") : ("A new comment was")) + " added to a mod you are watching - " + element.name + "\n" + element.profile_url)
                         });
                     }
                 }
