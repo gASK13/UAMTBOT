@@ -31,6 +31,9 @@ class BanCommand extends Command {
         if (this.banproof_list.indexOf(user.id) > -1 || user.id === this.bot.user.id) {
             msg.channel.send("Wow! " + UserService.getUsername(user) + " is so amazing he can't be banned!");
             return;
+        } else if (user.id === '500774841738199070') {
+            msg.channel.reply("Alchemist rejects your ban with magic, then slaps you into the next week!");
+            return;
         }
 
         msg.channel.send((rip == null ? "RIP" : rip.toString()) + " " + UserService.getUsername(user) + "... you were a good pokemon!");
