@@ -2,6 +2,7 @@ let Discord = require('discord.js');
 let auth = require('./auth.json');
 let glob = require( 'glob' );
 let path = require( 'path' );
+const ModService = require('./services/mods.js');
 
 // BOT SETUP
 let bot = new Discord.Client({});
@@ -10,10 +11,20 @@ bot.on("warn", (e) => console.warn(e));
 bot.on("debug", (e) => {});
 bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
+
+    ModService.getModStats(auth.apikey, bot);
+    ModService.getModComments(auth.apikey, bot);
+
+    setInterval (function () {
+        console.log("Checking mod stats....");
+        ModService.getModStats(auth.apikey, bot);
+        ModService.getModComments(auth.apikey, bot);
+    }, 5 * 60 * 1000);
 });
 
 // MAIN CALLBACK
 bot.on('message', function (msg) {
+    try {
     // STOP ON OTHER BOTS
     if (msg.author.bot) { return; }
 
@@ -55,6 +66,11 @@ bot.on('message', function (msg) {
             }
         }
     }
+    } catch (error) {
+        console.log(error);
+        msg.channel.send('BORK! BORK! I AM BORKED! <@412352063125717002> PLZ SEND HELP!');
+        // SHOW MUST GO OOOOOOON
+    }
 });
 
 // LOGIN
@@ -69,3 +85,5 @@ glob.sync( './commands/*.js' ).forEach( function( file ) {
 for (let com of bot.commands) {
     com.setBot(bot); com.setAuth(auth);
 }
+
+
