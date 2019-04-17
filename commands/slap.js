@@ -108,6 +108,9 @@ class SlapCommand extends Command {
             } else {
                 msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has slapped " + UserService.getUsernameFromMessage(msg) + " so hard that " + UserService.getUsernameFromMessage(msg) + " fainted!");
             }
+        } else if (user.id === '551914765534887936') {
+            msg.channel.send(UserService.getUsernameFromMessage(msg) + "slaps the_stephenator. Your slap has no effect. The_stephenator slowly turns around and slaps you into the a nearby wall.\n\n**You have been stephenated!**");
+
         } else if (user.id === '483028152130469891') {
             
                 msg.channel.send(UserService.getUsernameFromMessage(msg) + " has started to slap Demo Master. The slap is slowly closing in .... and ...\n\nPlease purchase the full version to find out what happened, this content is not available in DEMO.");
