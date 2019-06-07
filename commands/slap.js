@@ -107,9 +107,11 @@ class SlapCommand extends Command {
                 msg.channel.send("Alchemist has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has tried to slap Alchemist. Alchemist teleports. There is an awkward stalemate.");
             } else {
                 msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap [UAMT]Bot. [UAMT]Bot evaded. [UAMT]Bot has slapped " + UserService.getUsernameFromMessage(msg) + " so hard that " + UserService.getUsernameFromMessage(msg) + " fainted!");
-            }
+            }        
         } else if (user.id === msg.author.id) {
             msg.channel.send(UserService.getUsernameFromMessage(msg) + " really likes to slap themselves. Nudge nudge wink wink.");
+        } else if (user.id === '285627467279106049') {
+            msg.channel.send(UserService.getUsernameFromMessage(msg) + " tried to slap Unowninator, but he used Spiky Shield. " + UserService.getUsernameFromMessage(msg) + " bleeds a lot! Ouch!");
         } else if (user.id === '551914765534887936') {
             msg.channel.send(UserService.getUsernameFromMessage(msg) + "slaps the_stephenator. Your slap has no effect. The_stephenator slowly turns around and slaps you into a nearby wall.\n\n**You have been stephenated!**");
 
