@@ -24,7 +24,7 @@ const downMilestones = [
     { milestone: 50, messages: ["Tell your friends - a new popular mod is in town and it is {MODNAME} by {UNAME}. Here's to another 50 downloads!"]},
     { milestone: 100, messages: ["Now we're talking! Three digits, baby! {UNAME}'s {MODNAME} just hit 100 downloads. Drink are on {UNAME}!"]},
     { milestone: 200, messages: ["{UNAME} is slowly climbing up the ladder with their {MODNAME} - 200 downloads!"]},
-    { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 downloads, {UNAME}. Not as good as 300 subs, but still..."]},
+    { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 downloads, {UNAME}. Not as good as 300 subcs, but still..."]},
     { milestone: 400, messages: ["400 downloads for {MODNAME}? Now **that** is something, {UNAME}!"]},
     { milestone: 500, messages: ["{UNAME} must have done something right, otherwise {MODNAME} would not get to 500 downloads."]},
     { milestone: 1000, messages: ["Did you send your mother a link to {MODNAME}, {UNAME}? Cause you should, cause 1000 downloads is something to be proud of!"]}
