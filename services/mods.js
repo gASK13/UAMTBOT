@@ -194,7 +194,9 @@ class ModIOService {
         });
 
         req.on('error', function (err) {
-            msg.channel.send("BOT BORKED. BORK BORK.");
+            if (msg) {
+                msg.channel.send("BOT BORKED. BORK BORK.");
+            }
         });
 
         req.end();
@@ -243,7 +245,9 @@ class ModIOService {
         });
 
         req.on('error', function (err) {
-            msg.channel.send("BOT BORKED. BORK BORK.");
+            if (msg) {
+                msg.channel.send("BOT BORKED. BORK BORK.");
+            }
         });
 
         req.end();
