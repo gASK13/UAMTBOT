@@ -36,6 +36,7 @@ class ModListCommand extends Command {
     help(msg) {
         return "Use to get a quick link to Aground mod.io game page!";
     }
+    
 
     shortHelp(msg) {
         return "links to complete Aground mod list";
