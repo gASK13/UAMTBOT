@@ -19,6 +19,11 @@ class PurgeCommand extends Command {
             return;
         }
 
+        if (msg.guild == null || msg.channel.type == 'dm' || msg.channel.type == 'group') {
+            msg.channel.send("I'm sorry Dave, I'm afraid I can't do that.");
+            return;
+        }
+        
         // check user rights in this channel (needs delete privileges)
         msg.guild.fetchMember(msg.author).then(
             member => {
