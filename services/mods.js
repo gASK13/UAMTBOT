@@ -149,9 +149,11 @@ class ModIOService {
 
             res.on('end', function () {
                 let obj = JSON.parse(output);
-                obj.data.forEach(function (element) {
-                    code(element);
-                });
+                if (obj.data != null) {
+                    obj.data.forEach(function (element) {
+                        code(element);
+                    });
+                }
 
                 endCode();
             });
