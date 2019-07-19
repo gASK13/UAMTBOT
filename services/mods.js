@@ -196,9 +196,7 @@ class ModIOService {
         });
 
         req.on('error', function (err) {
-            if (msg) {
-                msg.channel.send("BOT BORKED. BORK BORK.");
-            }
+            console.error("BORK BORK!", err);
         });
 
         req.end();
