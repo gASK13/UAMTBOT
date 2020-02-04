@@ -48,7 +48,6 @@ class IdeaListCommand extends Command {
                 msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas on a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
             } else if (user.id === '352201261971668992') {
                 msg.channel.send("Airom outsourced his idea list outside of my reach - it now resides on Trello.\nhttps://trello.com/b/cHBcEuMH/airoms-aground-mods");
-            } else {
             } else if (user.id === '483028152130469891') {
                 msg.channel.send("VorTechnix wanted to edit my source code... so he made his move to Trello official.\nhttps://trello.com/b/PS3aIp52/vortechnix-modding");
             } else {
