@@ -43,6 +43,7 @@ class ModIOService {
     }
 
     static getModComments(apikey, bot) {
+        try{
         let self = this;
 
         this.processMods(apikey, (element) => {
@@ -67,6 +68,9 @@ class ModIOService {
                 self.save();
             });
         }, () => { self.save(); });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     static watchModComments(apikey, user, modname, msg) {
@@ -99,6 +103,7 @@ class ModIOService {
     }
 
     static getModStats(apikey, bot) {
+        try{
         let self = this;
         let channel = bot.channels.get(anouncementChannel);
 
@@ -121,6 +126,9 @@ class ModIOService {
             mods[element.id].downloads = Math.max(mods[element.id].downloads, element.stats.downloads_total);
             mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
         }, () => { self.save(); });
+        } catch (error) {
+        console.log(error);
+    }       
     }
 
     static getModLink(apikey, sterm, msg) {
