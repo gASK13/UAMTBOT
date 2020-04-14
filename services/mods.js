@@ -139,6 +139,8 @@ class ModIOService {
 
     static processMods(apikey, code, endCode, offset) {
         // get stats
+        let self = this;
+
         let options = {
             host: 'api.mod.io',
             port: 443,
@@ -164,7 +166,7 @@ class ModIOService {
                 }
 
                 if ((obj.result_total - 100) > offset) {
-                    processMods(apikey, code, endCode, offset + 100);
+                    self.processMods(apikey, code, endCode, offset + 100);
                 } else {
                     endCode();
                 }
@@ -179,6 +181,8 @@ class ModIOService {
     }
 
     static processComments(apikey, modid, code, endCode, offset) {
+        let self = this;
+
         let options = {
             host: 'api.mod.io',
             port: 443,
@@ -204,7 +208,7 @@ class ModIOService {
                 }
 
                 if ((obj.result_total - 100) > offset) {
-                    processComments(apikey, modid, code, endCode, offset + 100);
+                    self.processComments(apikey, modid, code, endCode, offset + 100);
                 } else {
                     endCode();
                 }
