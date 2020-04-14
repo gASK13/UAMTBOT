@@ -44,30 +44,30 @@ class ModIOService {
 
     static getModComments(apikey, bot) {
         try{
-        let self = this;
+            let self = this;
 
-        this.processMods(apikey, (element) => {
-            // is anyone watching this mod? if so, load comments and notify them if needed
-            if (mods.comments == null) { mods.comments = {}; }
-            if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
-            let last = mods.comments[element.id].last;
-            let new_count = 0;
-            this.processComments(apikey, element.id, (cmnt) => {
-                new_count += (last == null || last < cmnt.date_added) ? 1 : 0;
-                if (mods.comments[element.id].last == null || mods.comments[element.id].last < cmnt.date_added) {
-                    mods.comments[element.id].last = cmnt.date_added;
-                }
-            }, () => {
-                if (new_count > 0) {
-                    for (let user of mods.comments[element.id].users) {
-                        bot.fetchUser(user).then((fullUser) => {
-                            fullUser.send((new_count > 1 ? (new_count + "new comments were") : ("A new comment was")) + " added to a mod you are watching - " + element.name + "\n" + element.profile_url)
-                        });
+            this.processMods(apikey, (element) => {
+                // is anyone watching this mod? if so, load comments and notify them if needed
+                if (mods.comments == null) { mods.comments = {}; }
+                if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
+                let last = mods.comments[element.id].last;
+                let new_count = 0;
+                this.processComments(apikey, element.id, (cmnt) => {
+                    new_count += (last == null || last < cmnt.date_added) ? 1 : 0;
+                    if (mods.comments[element.id].last == null || mods.comments[element.id].last < cmnt.date_added) {
+                        mods.comments[element.id].last = cmnt.date_added;
                     }
-                }
-                self.save();
-            });
-        }, () => { self.save(); });
+                }, () => {
+                    if (new_count > 0) {
+                        for (let user of mods.comments[element.id].users) {
+                            bot.fetchUser(user).then((fullUser) => {
+                                fullUser.send((new_count > 1 ? (new_count + "new comments were") : ("A new comment was")) + " added to a mod you are watching - " + element.name + "\n" + element.profile_url)
+                            });
+                        }
+                    }
+                    self.save();
+                }, 0);
+            }, () => { self.save(); }, 0);
         } catch (error) {
             console.log(error);
         }
@@ -104,28 +104,28 @@ class ModIOService {
 
     static getModStats(apikey, bot) {
         try{
-        let self = this;
-        let channel = bot.channels.get(anouncementChannel);
+            let self = this;
+            let channel = bot.channels.get(anouncementChannel);
 
-        this.processMods(apikey, (element) => {
-            if (!mods[element.id]) {
-                mods[element.id] = { downloads: 0, subs: 0};
-                channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
-            } else {
-                for (let milestone of subMilestones) {
-                    if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
-                        channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+            this.processMods(apikey, (element) => {
+                if (!mods[element.id]) {
+                    mods[element.id] = { downloads: 0, subs: 0};
+                    channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
+                } else {
+                    for (let milestone of subMilestones) {
+                        if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
+                            channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                        }
+                    }
+                    for (let milestone of downMilestones) {
+                        if ((mods[element.id].downloads < milestone.milestone) && (element.stats.downloads_total >= milestone.milestone)) {
+                            channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                        }
                     }
                 }
-                for (let milestone of downMilestones) {
-                    if ((mods[element.id].downloads < milestone.milestone) && (element.stats.downloads_total >= milestone.milestone)) {
-                        channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
-                    }
-                }
-            }
-            mods[element.id].downloads = Math.max(mods[element.id].downloads, element.stats.downloads_total);
-            mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
-        }, () => { self.save(); });
+                mods[element.id].downloads = Math.max(mods[element.id].downloads, element.stats.downloads_total);
+                mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
+            }, () => { self.save(); }, 0);
         } catch (error) {
         console.log(error);
     }       
@@ -137,12 +137,12 @@ class ModIOService {
         this.findMod(apikey,  sterm,  msg, (element) => { msg.channel.send(element.profile_url); });
     }
 
-    static processMods(apikey, code, endCode) {
+    static processMods(apikey, code, endCode, offset) {
         // get stats
         let options = {
             host: 'api.mod.io',
             port: 443,
-            path: '/v1/games/34/mods?api_key=' + apikey,
+            path: '/v1/games/34/mods?_offset=' + offset + '&api_key=' + apikey,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -163,7 +163,11 @@ class ModIOService {
                     });
                 }
 
-                endCode();
+                if ((obj.result_total - 100) > offset) {
+                    processMods(apikey, code, endCode, offset + 100);
+                } else {
+                    endCode();
+                }
             });
         });
 
@@ -174,11 +178,11 @@ class ModIOService {
         req.end();
     }
 
-    static processComments(apikey, modid, code, endCode) {
+    static processComments(apikey, modid, code, endCode, offset) {
         let options = {
             host: 'api.mod.io',
             port: 443,
-            path: '/v1/games/34/mods/' + modid + '/comments?api_key=' + apikey,
+            path: '/v1/games/34/mods/' + modid + '/comments?_offset=' + offset + '&api_key=' + apikey,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -199,7 +203,11 @@ class ModIOService {
                     });
                 }
 
-                endCode();
+                if ((obj.result_total - 100) > offset) {
+                    processComments(apikey, modid, code, endCode, offset + 100);
+                } else {
+                    endCode();
+                }
             });
         });
 
