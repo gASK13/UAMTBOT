@@ -98,18 +98,20 @@ class SlapCommand extends Command {
             case "bobo":
             case "bono bobo":
             case "bonobobo":
-                var messages = ["think if you start me talk good then i will talk good my promise no slap me",
-                "you do this make me angry to please not do i request forgot i do",
-                "i good i not bad",
-                "i good English you take course of good people slap people",
-                "i not want any disturb you why slap you me",
-                "i cause not trouble",
-                "u cause no trouble",
-                "please talk respectful me",
-                "u not like me"];
+                if (msg.guild != null && msg.guild.id === "422847864172183562") {
+                    var messages = ["think if you start me talk good then i will talk good my promise no slap me",
+                        "you do this make me angry to please not do i request forgot i do",
+                        "i good i not bad",
+                        "i good English you take course of good people slap people",
+                        "i not want any disturb you why slap you me",
+                        "i cause not trouble",
+                        "u cause no trouble",
+                        "please talk respectful me",
+                        "u not like me"];
 
-                msg.channel.send(messages[Math.floor(Math.random() * messages.length)]);
-                return;
+                    msg.channel.send(messages[Math.floor(Math.random() * messages.length)]);
+                    return;
+                }
             case "a butt":
             case "butt":
             case "ass":
