@@ -83,6 +83,16 @@ class SlapCommand extends Command {
             case "a easter egg":
                 msg.channel.send("Oh, real nice. You broke the egg and now there is yolk all over the place. Good job, " + UserService.getUsernameFromMessage(msg) + "!")
                 return;
+            case "pig":
+            case "a pig":
+            case "the pig":
+                msg.channel.send("DUDE HE'S THE ADMIN");
+                return;
+            case "snowflake":
+            case "the snowflake":
+            case "a snowflake":
+                msg.channel.send("Did you mean to slap ❄Lybell_❄?");
+                return;
             case "a butt":
             case "butt":
             case "ass":
@@ -123,7 +133,9 @@ class SlapCommand extends Command {
                             msg.channel.send(UserService.getUsernameFromMessage(msg) + " has tried to slap Alchemist. Alchemist teleported behind " + UserService.getUsernameFromMessage(msg) + ". Alchemist used a magic hand to slap " + UserService.getUsernameFromMessage(msg) + " into the next week.");
             
         } else if (user.id === '159985870458322944' && msg.author.id === '500774841738199070') {
-            msg.channel.send(UserService.getUsernameFromMessage(msg) + " has beat MEE6 mercilessly, then threw him in the trash can.");
+          msg.channel.send(UserService.getUsernameFromMessage(msg) + " has beat MEE6 mercilessly, then threw him in the trash can.");
+        } else if ((user.id === '352201261971668992')) {
+          msg.channel.send("DUDE HE'S THE ADMIN");
         } else {
             if (msg.author.id === '483028152130469891') {
                 msg.channel.send(UserService.getUsernameFromMessage(msg) + " has used his telekiness to make " + UserService.getUsername(user) + " slap himself repeatedly! OUCH!");
