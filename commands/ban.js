@@ -32,7 +32,7 @@ class BanCommand extends Command {
             msg.channel.send("Wow! " + UserService.getUsername(user) + " is so amazing he can't be banned!");
             return;
         } else if (user.id === '500774841738199070') {
-            msg.channel.reply("Alchemist rejects your ban with magic, then slaps you into the next week!");
+            msg.channel.send("Alchemist rejects your ban with magic, then slaps you into the next week!");
             return;
         }
 
