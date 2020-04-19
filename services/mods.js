@@ -15,7 +15,7 @@ const subMilestones = [
     { milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"]},
     { milestone: 250, messages: ["250 subscribers, {UNAME}! You know what it means? {MODNAME} should get a new update!"]},
     { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers, {UNAME}!"]},
-    { milestone: 500, messages: ["You have done the impossible {UNAME}! {MODNAME} is at 500 subscribers...amazing!"]}
+    { milestone: 500, messages: ["Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers ... how is that possible?!"]}
 ];
 
 const anouncementChannel = "422849152012255254";
@@ -27,7 +27,8 @@ const downMilestones = [
     { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 downloads, {UNAME}. Not as good as 300 subs, but still..."]},
     { milestone: 400, messages: ["400 downloads for {MODNAME}? Now **that** is something, {UNAME}!"]},
     { milestone: 500, messages: ["{UNAME} must have done something right, otherwise {MODNAME} would not get to 500 downloads."]},
-    { milestone: 1000, messages: ["Did you send your mother a link to {MODNAME}, {UNAME}? Cause you should, cause 1000 downloads is something to be proud of!"]}
+    { milestone: 1000, messages: ["Did you send your mother a link to {MODNAME}, {UNAME}? Cause you should, cause 1000 downloads is something to be proud of!"]},
+    { milestone: 2000, messages: ["They called {UNAME} crazy! They said that {MODNAME} could never get 2000 downloads. They laughed at {UNAME}? Well who is laughing now? WHO? MWAHAHAHAHAHAHAHAHA!!!"]}
 ];
 
 class ModIOService {
