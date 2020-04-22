@@ -34,7 +34,7 @@ class IdeaStealCommand extends Command {
 
             msg.channel.send("Sorry, " + UserService.getUsername(user) + "! Seems like " + ideaText + " was too good an idea for " + UserService.getUsernameFromMessage(msg) + " to resist *borrowing* it as their #" + no + "!");
         } else {
-            msg.channel.send("You can't steal somehing that does not exist!");
+            msg.channel.send("You can't steal something that does not exist!");
         }
     }
 }
