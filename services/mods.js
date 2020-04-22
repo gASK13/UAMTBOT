@@ -15,7 +15,7 @@ const subMilestones = [
     { milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"]},
     { milestone: 250, messages: ["250 subscribers, {UNAME}! You know what it means? {MODNAME} should get a new update!"]},
     { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers, {UNAME}!"]},
-    { milestone: 400, messages: ["Pop the champagne! Roll out the red carpet! There is a new star n town - it's {UNAME} and his {MODNAME}!"]},
+    { milestone: 400, messages: ["Pop the champagne! Roll out the red carpet! There is a new star n town - it's {UNAME} and his {MODNAME} with 400 subs!!"]},
     { milestone: 500, messages: ["Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers ... how is that possible?!"]}
 ];
 
