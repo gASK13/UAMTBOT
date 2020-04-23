@@ -110,8 +110,9 @@ class SlapCommand extends Command {
                         "u not like me"];
 
                     msg.channel.send(messages[Math.floor(Math.random() * messages.length)]);
+                    return;
                 }
-                return;
+                break;
             case "a butt":
             case "butt":
             case "ass":
