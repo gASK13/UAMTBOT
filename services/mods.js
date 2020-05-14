@@ -97,7 +97,7 @@ class ModIOService {
             if (mods.comments[element.id].users.indexOf(user) <= -1) {
                 msg.channel.send('Huh? You were not watching ' + element.name + ' comments in the first place!');
             } else {
-                mods.comments[element.id].users.splic(mods.comments[element.id].users.indexOf(user), 1);
+                mods.comments[element.id].users.splice(mods.comments[element.id].users.indexOf(user), 1);
                 msg.channel.send('I will not bother you with notifications about ' + element.name + ' anymore!');
                 this.save();
             }
