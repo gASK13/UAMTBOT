@@ -129,8 +129,8 @@ class ModIOService {
                 mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
             }, () => { self.save(); }, 0);
         } catch (error) {
-        console.log(error);
-    }       
+            console.log(error);
+        }
     }
 
     static getModLink(apikey, sterm, msg) {
@@ -160,16 +160,21 @@ class ModIOService {
             });
 
             res.on('end', function () {
-                let obj = JSON.parse(output);
-                if (obj.data != null) {
-                    obj.data.forEach(function (element) {
-                        code(element);
-                    });
-                }
+                try {
+                    let obj = JSON.parse(output);
+                    if (obj.data != null) {
+                        obj.data.forEach(function (element) {
+                            code(element);
+                        });
+                    }
 
-                if ((obj.result_total - 100) > offset) {
-                    self.processMods(apikey, code, endCode, offset + 100);
-                } else {
+                    if ((obj.result_total - 100) > offset) {
+                        self.processMods(apikey, code, endCode, offset + 100);
+                    } else {
+                        endCode();
+                    }
+                } catch (error) {
+                    console.error("BORK BORK!", e);
                     endCode();
                 }
             });
@@ -202,16 +207,21 @@ class ModIOService {
             });
 
             res.on('end', function () {
-                let obj = JSON.parse(output);
-                if (obj.result_count >= 1) {
-                    obj.data.forEach(function (element) {
-                        code(element);
-                    });
-                }
+                try {
+                    let obj = JSON.parse(output);
+                    if (obj.result_count >= 1) {
+                        obj.data.forEach(function (element) {
+                            code(element);
+                        });
+                    }
 
-                if ((obj.result_total - 100) > offset) {
-                    self.processComments(apikey, modid, code, endCode, offset + 100);
-                } else {
+                    if ((obj.result_total - 100) > offset) {
+                        self.processComments(apikey, modid, code, endCode, offset + 100);
+                    } else {
+                        endCode();
+                    }
+                } catch (e) {
+                    console.error("BORK BORK!", e);
                     endCode();
                 }
             });
@@ -242,26 +252,31 @@ class ModIOService {
             });
 
             res.on('end', function () {
-                let obj = JSON.parse(output);
-                if (obj.result_count === 0) {
-                    msg.channel.send("Sorry, not mod matching this name was found.");
-                } else if (obj.result_count === 1) {
-                    code(obj.data[0]);
-                } else {
-                    let names = "";
-                    let foundOne = false;
-                    obj.data.forEach(function (element) {
-                        if (sterm.toLowerCase() === new String(element.name).toLowerCase()) {
-                            code(element);
-                            foundOne = true;
+                try {
+                    let obj = JSON.parse(output);
+                    if (obj.result_count === 0) {
+                        msg.channel.send("Sorry, not mod matching this name was found.");
+                    } else if (obj.result_count === 1) {
+                        code(obj.data[0]);
+                    } else {
+                        let names = "";
+                        let foundOne = false;
+                        obj.data.forEach(function (element) {
+                            if (sterm.toLowerCase() === new String(element.name).toLowerCase()) {
+                                code(element);
+                                foundOne = true;
+                                return;
+                            }
+                            names += (names.length > 0 ? ", " : "") + element.name
+                        });
+                        if (foundOne) {
                             return;
                         }
-                        names += (names.length > 0 ? ", " : "") + element.name
-                    });
-                    if (foundOne) {
-                        return;
+                        msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
                     }
-                    msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
+                } catch (e) {
+                    console.error("BORK BORK", e);
+                    msg.channel.send("BORK BORK I AM BORKED. SEND HELP!");
                 }
             });
         });
