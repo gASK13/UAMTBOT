@@ -34,7 +34,9 @@ class AgeCommand extends Command {
             min -= hr * 60;
             let ds = Math.floor(hr / 24);
             hr -= ds * 24;
-            msg.channel.send((user.id == msg.author.id ? "You have " : UserService.getUsername(user) + " has ") + "been a member of this server for " + ((ds > 0) ? (ds + " days, ") : "") + ((ds > 0 || hr > 0) ? (hr + " hours and ") : "") + min + " minutes.");
+            let yr = Math.floor(ds / 365);
+            ds -= yr * 365;
+            msg.channel.send((user.id == msg.author.id ? "You have " : UserService.getUsername(user) + " has ") + "been a member of this server for " + ((yr > 0) ? (yr + " years, ") : "") + ((ds > 0) ? (ds + " days, ") : "") + ((ds > 0 || hr > 0) ? (hr + " hours and ") : "") + min + " minutes.");
         });
     }
 }
