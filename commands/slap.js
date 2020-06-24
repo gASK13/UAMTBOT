@@ -21,6 +21,11 @@ class SlapCommand extends Command {
     }
 
     runInternal(msg, args) {
+        if (msg.channel.id === "664532460029214741" && msg.author.id !== "412352063125717002") {
+            msg.channel.send("Sorry, this is a no-slap channel.");
+            return;
+        }
+
         let uname = args.slice(1).join(" ").replace("@", "");
         switch (uname.toLowerCase()) {
             case "water":
