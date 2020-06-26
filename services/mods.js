@@ -174,7 +174,7 @@ class ModIOService {
                         endCode();
                     }
                 } catch (error) {
-                    console.error("BORK BORK!", e);
+                    console.error("BORK BORK!", error);
                     endCode();
                 }
             });
