@@ -70,7 +70,7 @@ class ModIOService {
                             console.log("Would have sent to " + fullUser.username + " about " + cmnt.mod_id + "\n");
                         });
                     }
-                    mods.comments[cmnt.mod_id].last = cmnt.date_added;
+                    if (cmnt.date_added > mods.comments[cmnt.mod_id].last) { mods.comments[cmnt.mod_id].last = cmnt.date_added; }
                 }
                 // also set LAST to this (or max)
             }, () => { self.save(); }, 0);
