@@ -67,13 +67,12 @@ class ModIOService {
                         self.getMod(apikey, cmnt.mod_id, (mod) => {
                             for (let user of mods.comments[cmnt.mod_id].users) {
                                 bot.fetchUser(user).then((fullUser) => {
-                                    //fullUser.send("A new comment was added to a mod you are watching - " + element.name + "\n" + element.profile_url);
-                                    console.log("Would have sent to " + fullUser.username + " about " + mod.name + "\n" + mod.profile_url);
+                                    fullUser.send("A new comment was added to a mod you are watching - " + mod.name + "\n" + mod.profile_url);
+                                    console.log("A message was sent to " + fullUser.username + " about " + mod.name);
                                 });
                             }
                         });
                     }
-                    console.log(cmnt.mod_id + "->" + cmnt.date_added + " X " + mods.comments[cmnt.mod_id].last);
                     if (cmnt.date_added > mods.comments[cmnt.mod_id].last) { mods.comments[cmnt.mod_id].last = cmnt.date_added; }
                 }
                 // also set LAST to this (or max)
@@ -207,7 +206,6 @@ class ModIOService {
                 'Content-Type': 'application/json'
             }
         };
-        console.log(options.path);
         let req = https.request(options, function (res) {
             let output = '';
             res.setEncoding('utf8');
