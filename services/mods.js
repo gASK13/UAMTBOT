@@ -62,6 +62,7 @@ class ModIOService {
                 if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
                 let last = mods.comments[element.id].last;
                 let new_count = 0;
+                console.log("CMNT" + element.id + "/" + delay);
                 setInterval(function () {
                     self.processComments(apikey, element.id, (cmnt) => {
                         new_count += (last == null || last < cmnt.date_added) ? 1 : 0;
