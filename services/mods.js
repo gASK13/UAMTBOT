@@ -79,7 +79,7 @@ class ModIOService {
                         }
                         self.save();
                     }, 0);
-                }, delay++);
+                }, 1000 * delay++);
             }, () => { self.save(); }, 0);
         } catch (error) {
             console.log(error);
