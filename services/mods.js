@@ -203,6 +203,7 @@ class ModIOService {
                 'Content-Type': 'application/json'
             }
         };
+        console.log(options.path);
         let req = https.request(options, function (res) {
             let output = '';
             res.setEncoding('utf8');
