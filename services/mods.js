@@ -43,7 +43,7 @@ class ModIOService {
 
     static save() {
         fs.writeFile("mods.json", JSON.stringify(mods), "utf8", function (error) {
-            console.log("FAILED TO SAVE MOD FILE!");
+            console.log("FAILED TO SAVE MOD FILE!", error);
         });
     }
 
