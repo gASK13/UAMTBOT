@@ -42,9 +42,7 @@ class ModIOService {
     }
 
     static save() {
-        fs.writeFile("mods.json", JSON.stringify(mods), "utf8", function (error) {
-            console.log("FAILED TO SAVE MOD FILE!", error);
-        });
+        fs.writeFile("mods.json", JSON.stringify(mods), "utf8", function (error) {});
     }
 
     static formatMsg(msg, element) {
@@ -71,6 +69,7 @@ class ModIOService {
                             console.log("Would have sent to " + fullUser.username + " about " + cmnt.mod_id + "\n");
                         });
                     }
+                    console.log(cmnt.mod_id + "->" + cmnt.date_added + " X " + mods.comments[cmnt.mod_id].last);
                     if (cmnt.date_added > mods.comments[cmnt.mod_id].last) { mods.comments[cmnt.mod_id].last = cmnt.date_added; }
                 }
                 // also set LAST to this (or max)
