@@ -54,8 +54,8 @@ class ModIOService {
     static getModComments(apikey, bot) {
         // find last "date added" across all mods
         let lastDate = 0;
-        for (let c of mods.comments) {
-            if (c.last > lastDate) { lastDate = c.last; }
+        for (c in mods.comments) {
+            if (mods.comments[c].last > lastDate) { lastDate = mods.comments[c].last; }
         }
 
         try{
