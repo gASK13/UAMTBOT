@@ -52,38 +52,28 @@ class ModIOService {
     }
 
     static getModComments(apikey, bot) {
-        return;
-
-        // disabled for now!!!
+        // find last "date added" across all mods
+        let lastDate = 0;
+        for (let c of mods.comments) {
+            if (c.last > lastDate) { lastDate = c.last; }
+        }
 
         try{
             let self = this;
-            let delay = 1;
-
-            this.processMods(apikey, (element) => {
-                // is anyone watching this mod? if so, load comments and notify them if needed
-                if (mods.comments == null) { mods.comments = {}; }
-                if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
-                let last = mods.comments[element.id].last;
-                console.log("CMNT" + element.id + "/" + delay);
-                setInterval(function () {
-                    let new_count = 0;
-                    self.processComments(apikey, element.id, (cmnt) => {
-                        new_count += (last == null || last < cmnt.date_added) ? 1 : 0;
-                        if (mods.comments[element.id].last == null || mods.comments[element.id].last < cmnt.date_added) {
-                            mods.comments[element.id].last = cmnt.date_added;
-                        }
-                    }, () => {
-                        if (new_count > 0) {
-                            for (let user of mods.comments[element.id].users) {
-                                bot.fetchUser(user).then((fullUser) => {
-                                    fullUser.send((new_count > 1 ? (new_count + "new comments were") : ("A new comment was")) + " added to a mod you are watching - " + element.name + "\n" + element.profile_url)
-                                });
-                            }
-                        }
-                        self.save();
-                    }, 0);
-                }, 1000 * delay++);
+            self.processComments(apikey, lastDate, (cmnt) => {
+                // is this new comment? send message!
+                if (cmnt.event_type == 'MOD_COMMENT_ADDED') {
+                    if (mods.comments[cmnt.mod_id] == null) { mods.comments[cmnt.mod_id] = { users: [], last: 0 }; }
+                    for (let user of mods.comments[cmnt.mod_id].users) {
+                        bot.fetchUser(user).then((fullUser) => {
+                            //fullUser.send("A new comment was added to a mod you are watching - " + element.name + "\n" + element.profile_url);
+                            console.log(fullUser);
+                            console.log("A new comment was added to a mod you are watching - " + element.name + "\n" + element.profile_url);
+                        });
+                    }
+                    mods.comments[cmnt.mod_id].last = cmnt.date_added;
+                }
+                // also set LAST to this (or max)
             }, () => { self.save(); }, 0);
         } catch (error) {
             console.log(error);
@@ -202,13 +192,13 @@ class ModIOService {
         req.end();
     }
 
-    static processComments(apikey, modid, code, endCode, offset) {
+    static processComments(apikey, lastDate, code, endCode, offset) {
         let self = this;
 
         let options = {
             host: 'api.mod.io',
             port: 443,
-            path: '/v1/games/34/mods/' + modid + '/comments?_offset=' + offset + '&api_key=' + apikey,
+            path: '/v1/games/34/mods/events?_offset=' + offset + '&date_added_min=' + lastDate + '&api_key=' + apikey,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -231,8 +221,7 @@ class ModIOService {
                     }
 
                     if ((obj.result_total - 100) > offset) {
-                        setInterval(
-                            self.processComments(apikey, modid, code, endCode, offset + 100), 1);
+                        self.processComments(apikey, lastDate, code, endCode, offset + 100);
                     } else {
                         endCode();
                     }

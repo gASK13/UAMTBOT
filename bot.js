@@ -19,7 +19,7 @@ bot.on('ready', function (evt) {
         console.log("Checking mod stats....");
         ModService.getModStats(auth.apikey, bot);
         ModService.getModComments(auth.apikey, bot);
-    }, 5 * 60 * 1000);
+    }, 30 * 1000);
 });
 
 // MAIN CALLBACK
