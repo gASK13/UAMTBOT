@@ -63,7 +63,7 @@ class ModIOService {
                 // is this new comment? send message!
                 if (cmnt.event_type == 'MOD_COMMENT_ADDED') {
                     if (mods.comments[cmnt.mod_id] == null) { mods.comments[cmnt.mod_id] = { users: [], last: 0 }; }
-                    if ((mods.comments[cmnt.mod_id].users.size > 0)) {
+                    if ((mods.comments[cmnt.mod_id].users.length > 0)) {
                         self.getMod(apikey, cmnt.mod_id, (mod) => {
                             for (let user of mods.comments[cmnt.mod_id].users) {
                                 bot.fetchUser(user).then((fullUser) => {
