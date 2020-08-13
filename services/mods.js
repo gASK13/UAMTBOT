@@ -63,10 +63,14 @@ class ModIOService {
                 // is this new comment? send message!
                 if (cmnt.event_type == 'MOD_COMMENT_ADDED') {
                     if (mods.comments[cmnt.mod_id] == null) { mods.comments[cmnt.mod_id] = { users: [], last: 0 }; }
-                    for (let user of mods.comments[cmnt.mod_id].users) {
-                        bot.fetchUser(user).then((fullUser) => {
-                            //fullUser.send("A new comment was added to a mod you are watching - " + element.name + "\n" + element.profile_url);
-                            console.log("Would have sent to " + fullUser.username + " about " + cmnt.mod_id + "\n");
+                    if ((mods.comments[cmnt.mod_id].users.size > 0)) {
+                        self.getMod(apikey, cmnt.mod_id, (mod) => {
+                            for (let user of mods.comments[cmnt.mod_id].users) {
+                                bot.fetchUser(user).then((fullUser) = > {
+                                    //fullUser.send("A new comment was added to a mod you are watching - " + element.name + "\n" + element.profile_url);
+                                    console.log("Would have sent to " + fullUser.username + " about " + mod.name + "\n" + mod.profile_url);
+                                });
+                            }
                         });
                     }
                     console.log(cmnt.mod_id + "->" + cmnt.date_added + " X " + mods.comments[cmnt.mod_id].last);
@@ -291,6 +295,46 @@ class ModIOService {
         req.on('error', function (err) {
             if (msg) {
                 console.log(self.getTime() + "BORK err ON findMod", err);
+                msg.channel.send("BOT BORKED. BORK BORK.");
+            }
+        });
+
+        req.end();
+    }
+
+    static getMod(apikey, id, code) {
+        let self = this;
+
+        let options = {
+            host: 'api.mod.io',
+            port: 443,
+            path: '/v1/games/34/mods/' + id + '?api_key=' + apikey,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        let req = https.request(options, function (res) {
+            let output = '';
+            res.setEncoding('utf8');
+            res.on('data', function (chunk) {
+                output += chunk;
+            });
+
+            res.on('end', function () {
+                try {
+                    let obj = JSON.parse(output);
+                    code(obj);
+                } catch (e) {
+                    console.log(self.getTime() + "BORK e ON getMod", e);
+                    msg.channel.send("BORK BORK I AM BORKED. SEND HELP!");
+                }
+            });
+        });
+
+        req.on('error', function (err) {
+            if (msg) {
+                console.log(self.getTime() + "BORK err ON getMod", err);
                 msg.channel.send("BOT BORKED. BORK BORK.");
             }
         });
