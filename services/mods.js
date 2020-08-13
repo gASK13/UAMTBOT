@@ -181,14 +181,14 @@ class ModIOService {
                         endCode();
                     }
                 } catch (error) {
-                    console.log(getTime() + "BORK error ON processMods", error);
+                    console.log(self.getTime() + "BORK error ON processMods", error);
                     endCode();
                 }
             });
         });
 
         req.on('error', function (err) {
-            console.log(getTime() + "BORK err ON processMods", err);
+            console.log(self.getTime() + "BORK err ON processMods", err);
         });
 
         req.end();
@@ -228,20 +228,22 @@ class ModIOService {
                         endCode();
                     }
                 } catch (e) {
-                    console.log(getTime() + "BORK e ON processComments", e);
+                    console.log(self.getTime() + "BORK e ON processComments", e);
                     endCode();
                 }
             });
         });
 
         req.on('error', function (err) {
-            console.log(getTime() + "BORK err ON processComments", err);
+            console.log(self.getTime() + "BORK err ON processComments", err);
         });
 
         req.end();
     }
 
     static findMod(apikey, sterm, msg, code) {
+        let self = this;
+
         let options = {
             host: 'api.mod.io',
             port: 443,
@@ -282,7 +284,7 @@ class ModIOService {
                         msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
                     }
                 } catch (e) {
-                    console.log(getTime() + "BORK e ON findMod", e);
+                    console.log(self.getTime() + "BORK e ON findMod", e);
                     msg.channel.send("BORK BORK I AM BORKED. SEND HELP!");
                 }
             });
@@ -290,7 +292,7 @@ class ModIOService {
 
         req.on('error', function (err) {
             if (msg) {
-                console.log(getTime() + "BORK err ON findMod", err);
+                console.log(self.getTime() + "BORK err ON findMod", err);
                 msg.channel.send("BOT BORKED. BORK BORK.");
             }
         });
