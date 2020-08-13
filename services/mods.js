@@ -34,6 +34,13 @@ const downMilestones = [
 
 class ModIOService {
 
+    static getTime() {
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        return date+' '+time;
+    }
+
     static save() {
         fs.writeFile("mods.json", JSON.stringify(mods), "utf8", function (error) {
         });
@@ -174,14 +181,14 @@ class ModIOService {
                         endCode();
                     }
                 } catch (error) {
-                    console.error("BORK BORK!", error);
+                    console.log(getTime() + "BORK error ON processMods", error);
                     endCode();
                 }
             });
         });
 
         req.on('error', function (err) {
-            console.error("BORK BORK!", err);
+            console.log(getTime() + "BORK err ON processMods", err);
         });
 
         req.end();
@@ -221,14 +228,14 @@ class ModIOService {
                         endCode();
                     }
                 } catch (e) {
-                    console.error("BORK BORK!", e);
+                    console.log(getTime() + "BORK e ON processComments", e);
                     endCode();
                 }
             });
         });
 
         req.on('error', function (err) {
-            console.error("BORK BORK!", err);
+            console.log(getTime() + "BORK err ON processComments", err);
         });
 
         req.end();
@@ -275,7 +282,7 @@ class ModIOService {
                         msg.channel.send("There are multiple mods matching your name. Did you mean " + names + "?");
                     }
                 } catch (e) {
-                    console.error("BORK BORK", e);
+                    console.log(getTime() + "BORK e ON findMod", e);
                     msg.channel.send("BORK BORK I AM BORKED. SEND HELP!");
                 }
             });
@@ -283,6 +290,7 @@ class ModIOService {
 
         req.on('error', function (err) {
             if (msg) {
+                console.log(getTime() + "BORK err ON findMod", err);
                 msg.channel.send("BOT BORKED. BORK BORK.");
             }
         });
