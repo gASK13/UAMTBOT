@@ -197,7 +197,7 @@ class ModIOService {
         let options = {
             host: 'api.mod.io',
             port: 443,
-            path: '/v1/games/34/mods/events?_offset=' + offset + '&date_added_min=' + lastDate + '&api_key=' + apikey,
+            path: '/v1/games/34/mods/events?_offset=' + offset + '&date_added-min=' + (lastDate+1) + '&api_key=' + apikey,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
