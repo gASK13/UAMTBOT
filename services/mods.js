@@ -67,8 +67,7 @@ class ModIOService {
                     for (let user of mods.comments[cmnt.mod_id].users) {
                         bot.fetchUser(user).then((fullUser) => {
                             //fullUser.send("A new comment was added to a mod you are watching - " + element.name + "\n" + element.profile_url);
-                            console.log(fullUser);
-                            console.log("A new comment was added to a mod you are watching - " + element.name + "\n" + element.profile_url);
+                            console.log("Would have sent to " + fullUser.username + " about " + cmnt.mod_id + "\n");
                         });
                     }
                     mods.comments[cmnt.mod_id].last = cmnt.date_added;
