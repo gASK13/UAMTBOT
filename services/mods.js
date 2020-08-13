@@ -226,7 +226,8 @@ class ModIOService {
                     }
 
                     if ((obj.result_total - 100) > offset) {
-                        self.processComments(apikey, modid, code, endCode, offset + 100);
+                        setInterval(
+                            self.processComments(apikey, modid, code, endCode, offset + 100), 1);
                     } else {
                         endCode();
                     }
