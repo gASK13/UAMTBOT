@@ -45,6 +45,11 @@ class SlapCommand extends Command {
             case "launch button":
                 msg.channel.send("https://imgflip.com/s/meme/Two-Buttons.jpg");
                 return;
+            case "yo mama":
+            case "your mother":
+            case "yo momma":
+                msg.channel.send(uname + "'s a nice lady. Why would you slap her? Better give her a call and apologize right now, " +UserService.getUsernameFromMessage(msg)  + "!");
+                return;
             case "earth":
             case "ground":
             case "the ground":
