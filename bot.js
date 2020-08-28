@@ -34,8 +34,6 @@ bot.on('message', function (msg) {
         msg.channel.send("Sorry! I try my best! It won't happen again! I promise!");
     } else if (msg.mentions.users.some(user => user.id === bot.user.id)) {
         msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
-    } else if (msg.content.toLowerCase().includes("bono") && msg.channel.id === '715798168155062272' && msg.author.id === '175770793613983744') {
-        msg.channel.send("https://cdn.discordapp.com/attachments/518607442901204992/743098105066422282/500.png");
     } else if (msg.content.substring(0, 1) === ']') {
         // This is the magic - command parsing!
         let args = msg.content.substring(1).split(' ');
