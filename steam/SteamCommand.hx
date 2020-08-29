@@ -40,11 +40,11 @@ using StringTools;
 	}
 
 	override function help():String {
-		return "Returns information about a Steam Mod";
+		return "Returns information about a mod from the steam workshop. \n Usage : `]smod Mod Name`.";
 	}
 
 	override function shortHelp():String {
-		return "info about a Steam Mod";
+		return "info about a mod on steam";
 	}
 
 	static function __init__() {

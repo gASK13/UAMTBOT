@@ -1287,10 +1287,10 @@ class steam_SteamCommand extends steam_Cmd {
 		},_g);
 	}
 	help() {
-		return "Returns information about a Steam Mod";
+		return "Returns information about a mod from the steam workshop. \n Usage : `]smod Mod Name`.";
 	}
 	shortHelp() {
-		return "info about a Steam Mod";
+		return "info about a mod on steam";
 	}
 }
 steam_SteamCommand.__name__ = true;
