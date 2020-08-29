@@ -15,27 +15,27 @@ using Lambda;
 	public static final subMilestones = [
 		//    { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
 		//    { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
-		{milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]},
-		{milestone: 100, messages: ["{UNAME} made {MODNAME} so well that 100 people subscribed to it."]},
+		{milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers on steam!"]},
+		{milestone: 100, messages: ["{UNAME} made {MODNAME} so well that 100 people subscribed to it on steam!"]},
 		//    { milestone: 125, messages: ["You know what is better then 100 subs? 150 subs! And that is how many {MODNAME} just got."]},
-		{milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"]},
+		{milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers on steam, did you {UNAME}?"]},
 		//    { milestone: 250, messages: ["250 subscribers, {UNAME}! You know what it means? {MODNAME} should get a new update!"]},
 		{
 			milestone: 300,
 			messages: [
-				"{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers, {UNAME}!"
+				"{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers on steam, {UNAME})!"
 			]
 		},
 		{
 			milestone: 400,
 			messages: [
-				"Pop the champagne! Roll out the red carpet! There is a new star n town - it's {UNAME} and his {MODNAME} with 400 subs!!"
+				"Pop the champagne! Roll out the red carpet! There is a new star on steam - it's {UNAME} and his {MODNAME} with 400 subs!!"
 			]
 		},
 		{
 			milestone: 500,
 			messages: [
-				"Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers ... how is that possible?!"
+				"Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers on steam ... how is that possible?!"
 			]
 		}
 	];
