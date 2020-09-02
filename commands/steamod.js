@@ -1323,7 +1323,6 @@ try {
 	let e = haxe_Exception.caught(_g);
 	console.log("steam/Steam.hx:179:",e);
 }
-module.exports = steam_Steam;
 module.exports = steam_SteamCommand;
 steam_Steam.BASE = "https://api.steampowered.com";
 steam_Steam.VERSION = "v1";
