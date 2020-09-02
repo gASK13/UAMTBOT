@@ -1267,6 +1267,6 @@ try {
 module.exports = steam_Steam;
 steam_Steam.BASE = "https://api.steampowered.com";
 steam_Steam.VERSION = "v1";
-steam_Steam.CHANNEL = "704748213655175300";
+steam_Steam.CHANNEL = "422849152012255254";
 steam_Steam.subMilestones = [{ milestone : 50, messages : ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]},{ milestone : 100, messages : ["{UNAME} made {MODNAME} so well that 100 people subscribed to it."]},{ milestone : 200, messages : ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"]},{ milestone : 300, messages : ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers, {UNAME}!"]},{ milestone : 400, messages : ["Pop the champagne! Roll out the red carpet! There is a new star n town - it's {UNAME} and his {MODNAME} with 400 subs!!"]},{ milestone : 500, messages : ["Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers ... how is that possible?!"]}];
 })(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
