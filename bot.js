@@ -3,7 +3,7 @@ let auth = require('./auth.json');
 let glob = require( 'glob' );
 let path = require( 'path' );
 const ModService = require('./services/mods.js');
-
+const SteamService = require('./services/steam.js');
 // BOT SETUP
 let bot = new Discord.Client({});
 bot.on("error", (e) => console.error(e));
@@ -14,10 +14,11 @@ bot.on('ready', function (evt) {
 
     ModService.getModStats(auth.apikey, bot);
     ModService.getModComments(auth.apikey, bot);
-
+    SteamService.getSteamStats(auth.steam_key,bot);
     setInterval (function () {
         ModService.getModStats(auth.apikey, bot);
         ModService.getModComments(auth.apikey, bot);
+        SteamService.getSteamStats(auth.steam_key, bot);
     }, 30 * 1000);
 });
 

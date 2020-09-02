@@ -1,0 +1,11 @@
+-D haxeJSON
+-lib hxnodejs
+-lib discordjs
+-D js-es=6
+-dce full
+--each
+steam.Steam
+-js services/steam.js
+--next
+steam.SteamCommand
+-js commands/steamod.js

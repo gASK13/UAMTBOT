@@ -3,9 +3,11 @@
 *.iml
 *.ipr
 *.xml
-
+*.bat
+node_modules/*
 auth.json
 ideas.json
 stolen.json
 mods.json
 slaps.json
+steam.json
