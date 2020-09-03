@@ -29,7 +29,7 @@ using StringTools;
 				embed.setTitle(arr[0].title);
 				embed.setImage(arr[0].preview_url);
 				embed.setColor(BLUE);
-				embed.setUrl('https://steamcommunity.com/sharedfiles/filedetails/?id=${arr[0].publishedfileid}');
+				embed.setURL('https://steamcommunity.com/sharedfiles/filedetails/?id=${arr[0].publishedfileid}');
 				embed.addField("Stats", 'Votes : + ${arr[0].vote_data.votes_up} / - ${arr[0].vote_data.votes_down}' + "\n" + 'Subscriptions : ${arr[0].subscriptions}');
 				Steam.getUserName(auth.steam_key, arr[0].creator, function(d) {
 					embed.setAuthor(d.name, d.avatar);

@@ -5,7 +5,7 @@
     "main": "bot.js",
     "author": "gASK",
     "dependencies": {
-        "discord.js": "^11.4.2",
+        "discord.js": "^12.3.1",
         "discordhx": "^2.0.6",
         "glob": "^7.1.3"
     },
