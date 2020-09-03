@@ -44,7 +44,7 @@ using Lambda;
 	public static function getSteamStats(key:String, bot:#if discordjs discordjs.Client #else Dynamic #end) {
 		try {
 			#if discordjs
-			var channel:discordjs.TextChannel = js.Syntax.code("bot.channels.get({0})", CHANNEL);
+			var channel:discordjs.TextChannel = js.Syntax.code("bot.channels.resolve({0})", CHANNEL);
 			#end
 			var first:Bool = false;
 			if (mods == null) {

@@ -15,7 +15,7 @@ using StringTools;
 		Steam.processMods(auth.steam_key, function(d) {
 			var title = ((d.title) : String);
 			var search = args.slice(1).join(" ");
-			if (title.contains(search) || title == search) {
+			if (title.toLowerCase().contains(search.toLowerCase()) || title == search) {
 				arr.push(d);
 			}
 		}, function() {
