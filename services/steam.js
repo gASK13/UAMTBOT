@@ -1128,7 +1128,7 @@ var js_node_buffer_Buffer = require("buffer").Buffer;
 class steam_Steam {
 	static getSteamStats(key,bot) {
 		try {
-			let channel = bot.channels.get("704748213655175300");
+			let channel = bot.channels.get("422849152012255254");
 			let first = false;
 			if(steam_Steam.mods == null) {
 				steam_Steam.mods = { };
@@ -1145,18 +1145,18 @@ class steam_Steam {
 							channel.send("New Mod release on Steam **" + o.title + ("** by " + d.name + "!") + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
 						});
 					} else if(o.subscriptions > prev.subs) {
-						prev.subs = o.subscriptions;
 						let _g = 0;
 						let _g1 = steam_Steam.subMilestones;
 						while(_g < _g1.length) {
 							let m = _g1[_g];
 							++_g;
-							if(o.subscriptions > m.milestone) {
+							if(o.subscriptions >= m.milestone && prev.subs < m.milestone) {
 								steam_Steam.getUserName(key,o.creator,function(d) {
 									channel.send(StringTools.replace(StringTools.replace(m.messages[m.messages.length * Math.random() | 0],"{UNAME}",d.name),"{MODNAME}",o.title) + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
 								});
 							}
 						}
+						prev.subs = o.subscriptions;
 					}
 				}
 			},function() {
@@ -1178,36 +1178,46 @@ class steam_Steam {
 		req.setParameter("return_vote_data","true");
 		req.setParameter("return_metadata","true");
 		req.onData = function(d) {
-			let total = Std.string(new haxe_format_JsonParser(d).doParse().response.total);
-			req.setParameter("numperpage",total);
-			if(params != null) {
-				let o = haxe_ds_StringMap.keysIterator(params.h);
-				while(o.hasNext()) {
-					let o1 = o.next();
-					req.addParameter(o1,params.h[o1]);
+			try {
+				let total = Std.string(new haxe_format_JsonParser(d).doParse().response.total);
+				req.setParameter("numperpage",total);
+				if(params != null) {
+					let o = haxe_ds_StringMap.keysIterator(params.h);
+					while(o.hasNext()) {
+						let o1 = o.next();
+						req.addParameter(o1,params.h[o1]);
+					}
 				}
+				req.onData = function(d) {
+					try {
+						let data = new haxe_format_JsonParser(d).doParse();
+						if(data.response.publishedfiledetails == null) {
+							console.log("steam/Steam.hx:125:",data.response);
+							return;
+						}
+						let _g = 0;
+						let _g1 = data.response.publishedfiledetails;
+						while(_g < _g1.length) {
+							let o = _g1[_g];
+							++_g;
+							handle(o);
+						}
+						if(done != null) {
+							done();
+						}
+					} catch( _g ) {
+						let e = haxe_Exception.caught(_g);
+						console.log("steam/Steam.hx:135:",e);
+					}
+				};
+				req.request();
+			} catch( _g ) {
+				let e = haxe_Exception.caught(_g);
+				console.log("steam/Steam.hx:140:",e);
 			}
-			req.onData = function(d) {
-				let data = new haxe_format_JsonParser(d).doParse();
-				if(data.response.publishedfiledetails == null) {
-					console.log("steam/Steam.hx:123:",data.response);
-					return;
-				}
-				let _g = 0;
-				let _g1 = data.response.publishedfiledetails;
-				while(_g < _g1.length) {
-					let o = _g1[_g];
-					++_g;
-					handle(o);
-				}
-				if(done != null) {
-					done();
-				}
-			};
-			req.request();
 		};
 		req.onError = function(e) {
-			console.log("steam/Steam.hx:134:",e);
+			console.log("steam/Steam.hx:143:",e);
 		};
 		req.request();
 	}
@@ -1219,8 +1229,13 @@ class steam_Steam {
 		req.setParameter("steamids",id);
 		req.setParameter("format","json");
 		req.onData = function(s) {
-			data = new haxe_format_JsonParser(s).doParse();
-			cb({ name : data.response.players[0].personaname, avatar : data.response.players[0].avatar});
+			try {
+				data = new haxe_format_JsonParser(s).doParse();
+				cb({ name : data.response.players[0].personaname, avatar : data.response.players[0].avatar});
+			} catch( _g ) {
+				let e = haxe_Exception.caught(_g);
+				console.log("steam/Steam.hx:162:",e);
+			}
 		};
 		req.onError = function(err) {
 			error = err;
@@ -1233,7 +1248,7 @@ class steam_Steam {
 		steam_Steam.processMods(key,function(d) {
 			if(!first) {
 				first = true;
-				console.log("steam/Steam.hx:164:",d);
+				console.log("steam/Steam.hx:177:",d);
 			}
 		});
 	}
@@ -1253,20 +1268,17 @@ Date.__name__ = "Date";
 js_Boot.__toStr = ({ }).toString;
 try {
 	let m = null;
-	try {
-		m = js_node_Fs.readFileSync("steam.json",{ encoding : "utf8"});
-	} catch( _g ) {
-	}
+	m = js_node_Fs.readFileSync("steam.json",{ encoding : "utf8"});
 	if(m != null) {
 		steam_Steam.mods = new haxe_format_JsonParser(m).doParse();
 	}
 } catch( _g ) {
 	let e = haxe_Exception.caught(_g);
-	console.log("steam/Steam.hx:179:",e);
+	console.log("steam/Steam.hx:190:",e);
 }
 module.exports = steam_Steam;
 steam_Steam.BASE = "https://api.steampowered.com";
 steam_Steam.VERSION = "v1";
-steam_Steam.CHANNEL = "704748213655175300";
-steam_Steam.subMilestones = [{ milestone : 50, messages : ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]},{ milestone : 100, messages : ["{UNAME} made {MODNAME} so well that 100 people subscribed to it."]},{ milestone : 200, messages : ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"]},{ milestone : 300, messages : ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers, {UNAME}!"]},{ milestone : 400, messages : ["Pop the champagne! Roll out the red carpet! There is a new star n town - it's {UNAME} and his {MODNAME} with 400 subs!!"]},{ milestone : 500, messages : ["Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers ... how is that possible?!"]}];
+steam_Steam.CHANNEL = "422849152012255254";
+steam_Steam.subMilestones = [{ milestone : 50, messages : ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers on steam!"]},{ milestone : 100, messages : ["{UNAME} made {MODNAME} so well that 100 people subscribed to it on steam!"]},{ milestone : 200, messages : ["I bet you did not expect {MODNAME} to get 200 subscribers on steam, did you {UNAME}?"]},{ milestone : 300, messages : ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers on steam, {UNAME})!"]},{ milestone : 400, messages : ["Pop the champagne! Roll out the red carpet! There is a new star on steam - it's {UNAME} and his {MODNAME} with 400 subs!!"]},{ milestone : 500, messages : ["Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers on steam ... how is that possible?!"]}];
 })(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
