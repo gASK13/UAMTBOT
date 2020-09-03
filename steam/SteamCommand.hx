@@ -12,10 +12,10 @@ using StringTools;
 
 	override function runInternal(msg:Message, args:Array<String>) {
 		var arr:Array<Dynamic> = [];
+		var search = args.slice(1).join(" ").toLowerCase();
 		Steam.processMods(auth.steam_key, function(d) {
-			var title = ((d.title) : String);
-			var search = args.slice(1).join(" ");
-			if (title.toLowerCase().contains(search.toLowerCase()) || title == search) {
+			var title = ((d.title) : String).toLowerCase();
+			if (title.contains(search) || title == search) {
 				arr.push(d);
 			}
 		}, function() {
@@ -36,7 +36,7 @@ using StringTools;
 					msg.channel.send(embed);
 				});
 			}
-		},["Search Text"=>args.slice(1).join(" ")]);
+		},["search_text"=>search]);
 	}
 
 	override function help():String {

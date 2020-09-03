@@ -1263,14 +1263,13 @@ class steam_SteamCommand extends steam_Cmd {
 	runInternal(msg,args) {
 		let arr = [];
 		let _gthis = this;
+		let search = args.slice(1).join(" ").toLowerCase();
 		let tmp = this.auth.steam_key;
 		let _g = new haxe_ds_StringMap();
-		let value = args.slice(1).join(" ");
-		_g.h["Search Text"] = value;
+		_g.h["search_text"] = search;
 		steam_Steam.processMods(tmp,function(d) {
-			let title = d.title;
-			let search = args.slice(1).join(" ");
-			if(title.toLowerCase().indexOf(search.toLowerCase()) != -1 || title == search) {
+			let title = d.title.toLowerCase();
+			if(title.indexOf(search) != -1 || title == search) {
 				arr.push(d);
 			}
 		},function() {
