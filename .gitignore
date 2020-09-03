@@ -4,6 +4,7 @@
 *.ipr
 *.xml
 *.bat
+*.log
 node_modules/*
 auth.json
 ideas.json
