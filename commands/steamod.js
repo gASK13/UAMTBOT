@@ -192,7 +192,7 @@ class Type {
 	}
 }
 Type.__name__ = true;
-var discordjs_MessageEmbed = require("discord.js").MessageEmbed;
+var discordjs_MessageEmbed = require("discord.js").RichEmbed;
 class haxe_Exception extends Error {
 	constructor(message,previous,native) {
 		super(message);
