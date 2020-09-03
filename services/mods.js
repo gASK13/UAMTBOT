@@ -114,7 +114,7 @@ class ModIOService {
     static getModStats(apikey, bot) {
         try{
             let self = this;
-            let channel = bot.channels.get(anouncementChannel);
+            let channel = bot.channels.resolve(anouncementChannel);
 
             this.processMods(apikey, (element) => {
                 if (!mods[element.id]) {

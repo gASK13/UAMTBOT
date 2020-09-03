@@ -1128,7 +1128,7 @@ var js_node_buffer_Buffer = require("buffer").Buffer;
 class steam_Steam {
 	static getSteamStats(key,bot) {
 		try {
-			let channel = bot.channels.get("422849152012255254");
+			let channel = bot.channels.resolve("422849152012255254");
 			let first = false;
 			if(steam_Steam.mods == null) {
 				steam_Steam.mods = { };
