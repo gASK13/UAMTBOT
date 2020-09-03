@@ -1292,7 +1292,7 @@ class steam_SteamCommand extends steam_Cmd {
 				embed.setTitle(arr[0].title);
 				embed.setImage(arr[0].preview_url);
 				embed.setColor("BLUE");
-				embed.setUrl("https://steamcommunity.com/sharedfiles/filedetails/?id=" + Std.string(arr[0].publishedfileid));
+				embed.setURL("https://steamcommunity.com/sharedfiles/filedetails/?id=" + Std.string(arr[0].publishedfileid));
 				embed.addField("Stats","Votes : + " + Std.string(arr[0].vote_data.votes_up) + " / - " + Std.string(arr[0].vote_data.votes_down) + "\n" + ("Subscriptions : " + Std.string(arr[0].subscriptions)));
 				steam_Steam.getUserName(_gthis.auth.steam_key,arr[0].creator,function(d) {
 					embed.setAuthor(d.name,d.avatar);
