@@ -1,4 +1,5 @@
 -D haxeJSON
+-D release
 -lib hxnodejs
 -lib discordjs
 -D js-es=6
