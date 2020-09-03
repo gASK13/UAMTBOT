@@ -79,10 +79,9 @@ using Lambda;
 						#end
 					} else {
 						if (o.subscriptions > prev.subs) {
-							prev.subs = o.subscriptions;
 							#if discordjs
 							for (m in subMilestones) {
-								if (o.subscriptions > m.milestone) {
+								if (o.subscriptions >= m.milestone && prev.subs < m.milestone) {
 									getUserName(key, untyped o.creator, function(d) {
 										channel.send(m.messages[Std.int(m.messages.length * Math.random())].replace("{UNAME}", d.name)
 											.replace("{MODNAME}", o.title) + "\n"
@@ -91,6 +90,7 @@ using Lambda;
 								}
 							}
 							#end
+							prev.subs = o.subscriptions;
 						}
 					}
 				}
@@ -110,26 +110,35 @@ using Lambda;
 		req.setParameter("return_vote_data", "true");
 		req.setParameter("return_metadata", "true");
 		req.onData = function(d) {
-			var total:String = Std.string(Json.parse(d).response.total);
-			req.setParameter("numperpage", total);
-			if (params != null) {
-				for (o in params.keys())
-					req.addParameter(o, params[o]);
-			}
+		    try{
+                var total:String = Std.string(Json.parse(d).response.total);
+                req.setParameter("numperpage", total);
+                if (params != null) {
+                    for (o in params.keys())
+                        req.addParameter(o, params[o]);
+                }
 
-			req.onData = function(d) {
-				var data:Request = Json.parse(d);
-				if (data.response.publishedfiledetails == null) {
-					trace(data.response);
-					return;
-				}
-				for (o in data.response.publishedfiledetails) {
-					handle(o);
-				}
-				if (done != null)
-					done();
+                req.onData = function(d) {
+                    try{
+                        var data:Request = Json.parse(d);
+                        if (data.response.publishedfiledetails == null) {
+                            trace(data.response);
+                            return;
+                        }
+                        for (o in data.response.publishedfiledetails) {
+                            handle(o);
+                        }
+                        if (done != null) {
+                            done();
+                        }
+                    } catch(e) {
+                        trace(e);
+                    }
+                }
+                req.request();
+			} catch(e) {
+			    trace(e);
 			}
-			req.request();
 		};
 		req.onError = (e) -> trace(e);
 		req.request();
@@ -143,11 +152,15 @@ using Lambda;
 		req.setParameter("steamids", id);
 		req.setParameter("format", "json");
 		req.onData = (s) -> {
-			data = haxe.Json.parse(s);
-			cb({
-				name: data.response.players[0].personaname,
-				avatar: data.response.players[0].avatar
-			});
+		    try{
+                data = haxe.Json.parse(s);
+                cb({
+                    name: data.response.players[0].personaname,
+                    avatar: data.response.players[0].avatar
+                });
+            } catch(e) {
+                trace(e);
+            }
 		}
 		req.onError = (err) -> {
 			error = err;
@@ -169,12 +182,10 @@ using Lambda;
 	public static function __init__() {
 		try {
 			var m:String = null;
-			try
-				m = sys.io.File.getContent("steam.json")
-			catch (e)
-				null;
-			if (m != null)
+            m = sys.io.File.getContent("steam.json");
+			if (m != null) {
 				mods = Json.parse(m);
+			}
 		} catch (e) {
 			trace(e);
 		}

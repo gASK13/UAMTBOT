@@ -56,3 +56,22 @@ module.exports = ModListCommand;
 4. In the constructor, change the `NAME`, `COMMAND LIST` and `MIN_PARAMS` parameters - name is human-reabadle, command list is a list of ]command aliases and min params is how many params you expect (0 for ]modlist, 1 for ]ban {user} etc.)
 5. Change `help` and `short help` texts - the first is used in `]help command`, the second in general `]help` listing
 6. Change the insides of the runInternal as needed! Voila!
+
+# How to work with Haxe command
+
+Thanks to Zeta, there is now support for haxe commands (compiled to JS).
+
+See steam commands for example.
+
+To make them work you need to install haxe and then install some libraries
+
+```shell script
+haxelib install hxnodejs
+haxelib git discordjs https://github.com/Jarrio/Haxe-DiscordJs
+```
+
+When you make any changes to the Haxe part, you need to recompile the JS files using
+
+```shell script
+haxe build.hxml -D release
+```
