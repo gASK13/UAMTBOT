@@ -23,7 +23,7 @@ class Command {
 
     run(msg, args) {
         if ((args.length - 1) < this.min_args) {
-            msg.channel.send("The " + msg + " command requires more parameters! Usage:\n" + this.help());
+            msg.channel.send("The " + name + " command requires more parameters! Usage:\n" + this.help());
             return;
         }
         this.runInternal(msg, args)
