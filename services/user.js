@@ -23,7 +23,7 @@ class UserService {
             return [msg.author];
         }
 
-        msg.guild.members.forEach((member) => {
+        msg.guild.members.cache.each((member) => {
             if ((member.nickname != null && member.nickname.toLowerCase().includes(lookup_uname.toLowerCase()))
                 || (member.user.username.toLowerCase().includes(lookup_uname.toLowerCase()))) {
                 member.user.nickname = member.nickname;
