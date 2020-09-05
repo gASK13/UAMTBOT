@@ -27,7 +27,7 @@ class AgeCommand extends Command {
                 return;
             }
         }
-        msg.guild.fetchMember(user).then(function (value) {
+        msg.guild.members.resolve(user.id).then(function (value) {
             let ms = new Date().getTime() - value.joinedTimestamp;
             let min = Math.floor(ms / (1000 * 60));
             let hr = Math.floor(min / 60);
