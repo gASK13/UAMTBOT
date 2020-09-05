@@ -25,7 +25,7 @@ class PurgeCommand extends Command {
         }
         
         // check user rights in this channel (needs delete privileges)
-        let memeber = msg.guild.members.resolve(msg.author.id);
+        let member = msg.guild.members.resolve(msg.author.id);
         if (!member.permissionsIn(msg.channel).has("MANAGE_MESSAGES")) {
             msg.channel.send("Sorry mate, you need to have permission to delete messages. Nice try though...");
         } else {
