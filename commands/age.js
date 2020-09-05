@@ -27,17 +27,17 @@ class AgeCommand extends Command {
                 return;
             }
         }
-        msg.guild.members.resolve(user.id).then(function (value) {
-            let ms = new Date().getTime() - value.joinedTimestamp;
-            let min = Math.floor(ms / (1000 * 60));
-            let hr = Math.floor(min / 60);
-            min -= hr * 60;
-            let ds = Math.floor(hr / 24);
-            hr -= ds * 24;
-            let yr = Math.floor(ds / 365);
-            ds -= yr * 365;
-            msg.channel.send((user.id == msg.author.id ? "You have " : UserService.getUsername(user) + " has ") + "been a member of this server for " + ((yr > 0) ? (yr + " year" + (yr > 1 ? "s" : "") + ", ") : "") + ((ds > 0) ? (ds + " day" + (ds > 1 ? "s" : "") + ", ") : "") + ((ds > 0 || hr > 0) ? (hr + " hour" + (hr > 1 ? "s" : "") + " and ") : "") + min + " minute" + (min > 1 ? "s" : "") + ".");
-        });
+        let value = msg.guild.members.resolve(user.id);
+
+        let ms = new Date().getTime() - value.joinedTimestamp;
+        let min = Math.floor(ms / (1000 * 60));
+        let hr = Math.floor(min / 60);
+        min -= hr * 60;
+        let ds = Math.floor(hr / 24);
+        hr -= ds * 24;
+        let yr = Math.floor(ds / 365);
+        ds -= yr * 365;
+        msg.channel.send((user.id == msg.author.id ? "You have " : UserService.getUsername(user) + " has ") + "been a member of this server for " + ((yr > 0) ? (yr + " year" + (yr > 1 ? "s" : "") + ", ") : "") + ((ds > 0) ? (ds + " day" + (ds > 1 ? "s" : "") + ", ") : "") + ((ds > 0 || hr > 0) ? (hr + " hour" + (hr > 1 ? "s" : "") + " and ") : "") + min + " minute" + (min > 1 ? "s" : "") + ".");
     }
 }
 
