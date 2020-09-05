@@ -14,7 +14,7 @@ class Command {
     }
 
     help(msg) {
-        return "No help defined for " + name + "!"
+        return "No help defined for " + this.name + "!"
     }
 
     shortHelp(msg) {
@@ -23,14 +23,14 @@ class Command {
 
     run(msg, args) {
         if ((args.length - 1) < this.min_args) {
-            msg.channel.send("The " + name + " command requires more parameters! Usage:\n" + this.help());
+            msg.channel.send("The " + this.name + " command requires more parameters! Usage:\n" + this.help());
             return;
         }
         this.runInternal(msg, args)
     }
 
     runInternal(msg, args) {
-        msg.channel.send("Ouch! The developers forgot to implement " + name + " command!");
+        msg.channel.send("Ouch! The developers forgot to implement " + this.name + " command!");
     }
 
     supports(cmd) {
