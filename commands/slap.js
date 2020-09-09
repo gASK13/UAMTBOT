@@ -26,7 +26,7 @@ class SlapCommand extends Command {
             return;
         }
 
-        let uname = args.slice(1).join(" ").replace("@", "");
+        let uname = args.slice(1).join(" ");
         switch (uname.toLowerCase()) {
             case "water":
                 msg.channel.send("Splash!");

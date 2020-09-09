@@ -14,7 +14,7 @@ class GhostCommand extends Command {
     }
 
     runInternal(msg, args) {
-        let ghost_msg = args.slice(1).join(" ").replace("@", "");
+        let ghost_msg = args.slice(1).join(" ");
         if (msg.channel.type == 'dm' || msg.channel.type == 'group') {
             msg.channel.send("My ghost powers don't work here!");
             return;
