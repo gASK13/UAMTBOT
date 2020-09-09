@@ -61,7 +61,7 @@ class IdeaListCommand extends Command {
             if (user.id === msg.author.id || !IdeaService.isOptout(user.id)) {
                 msg.channel.send(UserService.getUsername(user) + "'s idea list:\n\n");
                 let i = 1;
-                msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replace("@", "")).join("\n"));
+                msg.channel.send(userIdeas.map(idea => (i++) + ".: " + idea.replaceAll("@", "")).join("\n"));
             } else {
                 msg.channel.send("Sorry, but " + UserService.getUsername(user) + " decided to keep their ideas private.");
             }

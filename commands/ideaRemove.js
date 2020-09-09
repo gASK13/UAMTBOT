@@ -14,7 +14,7 @@ class IdeaRemoveCommand extends IdeaManipluationCommand {
     }
 
     formatRemoval(idea, username) {
-        return idea.replace("@", "") + " was not a good one anyway ...";
+        return idea.replaceAll("@", "") + " was not a good one anyway ...";
     }
 }
 

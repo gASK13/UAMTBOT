@@ -16,7 +16,7 @@ class IdeaAddCommand extends Command {
     }
 
     runInternal(msg, args) {
-        let idea = args.slice(1).join(" ").replace("@", "");
+        let idea = args.slice(1).join(" ").replaceAll("@", "");
         let no = IdeaService.addUserIdea(msg.author.id, idea);
         msg.channel.send(idea + "? What a great idea, " + UserService.getUsernameFromMessage(msg) + "! I am saving that for you as idea #" + no + ".");
     }

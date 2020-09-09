@@ -14,7 +14,7 @@ class IdeaFinishCommand extends IdeaManipluationCommand {
     }
 
     formatRemoval(idea, username) {
-        return "Good job finally finishing " + idea.replace("@", "") + ", " + username + "!";
+        return "Good job finally finishing " + idea.replaceAll("@", "") + ", " + username + "!";
     }
 }
 
