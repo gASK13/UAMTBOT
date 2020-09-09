@@ -18,10 +18,10 @@ class ItemCommand extends Command {
             case "potion":
             case "resource":
             case "food":
-                msg.channel.send('```xml\n<item id="' + args[1].replaceAll("@", "") + '" type="' + (args.length > 2 ? args[2].replaceAll("@", "") : "food") + '" cost="' + (args.length > 4 ? args[4].replaceAll("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replaceAll("@", "") : "0") + '" icon="' + args[1].replaceAll("@", "") + '.ico" />```');
+                msg.channel.send('```xml\n<item id="' + args[1].replace("@", "") + '" type="' + (args.length > 2 ? args[2].replace("@", "") : "food") + '" cost="' + (args.length > 4 ? args[4].replace("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replace("@", "") : "0") + '" icon="' + args[1].replace("@", "") + '.ico" />```');
                 break;
             case "weapon":
-                msg.channel.send('```xml\n<item id="' + args[1].replaceAll("@", "") + '" type="equipment" slot="weapon" durability="500" cost="' + (args.length > 4 ? args[4].replaceAll("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replaceAll("@", "") : "0") + '" attack="0" cut="0" stamina="0" knockback="0" icon="' + args[1].replaceAll("@", "") + '.ico" animation="' + args[1].replaceAll("@", "") + '" action="equip" movement_walk="walk_rswing" critical="false" />```');
+                msg.channel.send('```xml\n<item id="' + args[1].replace("@", "") + '" type="equipment" slot="weapon" durability="500" cost="' + (args.length > 4 ? args[4].replace("@", "") : "0") + '" weight="' + (args.length > 3 ? args[3].replace("@", "") : "0") + '" attack="0" cut="0" stamina="0" knockback="0" icon="' + args[1].replace("@", "") + '.ico" animation="' + args[1].replace("@", "") + '" action="equip" movement_walk="walk_rswing" critical="false" />```');
                 break;
         }
     }

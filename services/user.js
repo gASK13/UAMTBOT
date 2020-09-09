@@ -4,10 +4,10 @@ class UserService {
         let found_users = this.lookupUsers(msg, usernamePart);
 
         if (found_users.length === 0) {
-            msg.channel.send("Sorry, I don't know anyone called '" + usernamePart.replaceAll("@", "") + "'.");
+            msg.channel.send("Sorry, I don't know anyone called '" + usernamePart.replace("@", "") + "'.");
             return null;
         } else if (found_users.length > 1) {
-            msg.channel.send("Mate, I know **many** people called '" + usernamePart.replaceAll("@", "") + "'...");
+            msg.channel.send("Mate, I know **many** people called '" + usernamePart.replace("@", "") + "'...");
             return null;
         }
 
@@ -15,7 +15,7 @@ class UserService {
     }
 
     static lookupUsers(msg, usernamePart) {
-        let lookup_uname = usernamePart.replaceAll("@", "");
+        let lookup_uname = usernamePart.replace("@", "");
         let found_users = [];
         let true_user = null;
         

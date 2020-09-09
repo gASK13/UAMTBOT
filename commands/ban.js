@@ -21,7 +21,7 @@ class BanCommand extends Command {
     }
 
     runInternal(msg, args) {
-        let user = UserService.lookupUser(msg, args.slice(1).join(" ").replaceAll("@", ""));
+        let user = UserService.lookupUser(msg, args.slice(1).join(" ").replace("@", ""));
         if (user == null) {
             return;
         }
