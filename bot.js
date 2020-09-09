@@ -37,7 +37,7 @@ bot.on('message', function (msg) {
         msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     } else if (msg.content.substring(0, 1) === ']') {
         // This is the magic - command parsing!
-        let args = msg.content.replaceAll("@","").substring(1).split(' ');
+        let args = msg.content.replace(/@/g,"").substring(1).split(' ');
         let cmd = args[0];
 
         // Help section
