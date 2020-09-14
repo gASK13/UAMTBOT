@@ -14,7 +14,8 @@ class JsFileCommand extends Command {
     }
 
     runInternal(msg, args) {
-        msg.channel.send("https://fancyfishgames.com/Aground/play/Aground.js");
+        //msg.channel.send("https://fancyfishgames.com/Aground/play/Aground.js");
+        msg.channel.send("https://cdn.discordapp.com/attachments/373913524629667845/752868135190659097/Aground.js");
     }
 }
 
