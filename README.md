@@ -67,7 +67,7 @@ To make them work you need to install haxe and then install some libraries
 
 ```shell script
 haxelib install hxnodejs
-haxelib git discordjs https://github.com/Jarrio/Haxe-DiscordJs
+haxelib git discordjs https://github.com/Apprentice-Alchemist/Haxe-DiscordJs
 ```
 
 When you make any changes to the Haxe part, you need to recompile the JS files using

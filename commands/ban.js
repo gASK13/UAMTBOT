@@ -21,12 +21,12 @@ class BanCommand extends Command {
     }
 
     runInternal(msg, args) {
-        let user = UserService.lookupUser(msg, args.slice(1).join(" ").replace("@", ""));
+        let user = UserService.lookupUser(msg, args.slice(1).join(" "));
         if (user == null) {
             return;
         }
 
-        let rip = this.bot.emojis.find(emoji => emoji.name === "rip");
+        let rip = this.bot.emojis.cache.find(emoji => emoji.name === "rip");
 
         if (this.banproof_list.indexOf(user.id) > -1 || user.id === this.bot.user.id) {
             msg.channel.send("Wow! " + UserService.getUsername(user) + " is so amazing he can't be banned!");

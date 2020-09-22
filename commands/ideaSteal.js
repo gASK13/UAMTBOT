@@ -21,11 +21,11 @@ class IdeaStealCommand extends Command {
             msg.channel.send('Sorry etrotta. You broke me one too many times....');
             return;
         }
-        let user = UserService.lookupUser(msg, args[1].replace("@", ""));
+        let user = UserService.lookupUser(msg, args[1]);
         if (user == null) {
             return;
         }
-        let idea = args.slice(2).join(" ").replace("@", "");
+        let idea = args.slice(2).join(" ");
 
         let ideaText = IdeaService.borrowUserIdea(user.id, idea, msg.author.id);
         if (ideaText) {
