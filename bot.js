@@ -82,6 +82,7 @@ glob.sync( './commands/*.js' ).forEach( function( file ) {
     let Command = require( path.resolve( file ) );
     bot.commands.push(new Command());
 });
+
 for (let com of bot.commands) {
     com.setBot(bot); com.setAuth(auth);
 }

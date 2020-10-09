@@ -75,3 +75,4 @@ When you make any changes to the Haxe part, you need to recompile the JS files u
 ```shell script
 haxe build.hxml -D release
 ```
+
