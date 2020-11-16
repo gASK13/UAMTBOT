@@ -135,6 +135,9 @@ using Lambda;
                         trace(e);
                     }
                 }
+
+                req.onError = (e) -> trace(e);
+
                 req.request();
 			} catch(e) {
 			    trace(e);
