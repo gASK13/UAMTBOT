@@ -35,8 +35,6 @@ bot.on('ready', function (evt) {
 
 // MAIN CALLBACK
 bot.on('message', function (msg) {
-    console.log(msg.author.id + ": " + msg.content);
-
     try {
     // STOP ON OTHER BOTS
     if (msg.author.bot) { return; }
@@ -49,6 +47,9 @@ bot.on('message', function (msg) {
     } else if (msg.mentions.users.some(user => user.id === bot.user.id)) {
         msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     } else if (msg.content.substring(0, 1) === ']') {
+        // only log commands (duh!)
+        console.log(msg.author.id + ": " + msg.content);
+
         // This is the magic - command parsing!
         let args = msg.content.replace(/@/g,"").substring(1).split(' ');
         let cmd = args[0];
