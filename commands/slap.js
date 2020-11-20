@@ -31,7 +31,7 @@ class SlapCommand extends Command {
             case "sun":
             case "a sun":
             case "the sun":
-                msg.channel.send("Silly you, you tried the slap the sun but your hand got melted!")
+                msg.channel.send("Silly you, you tried the slap the sun but your hand got melted!");
                 return;
             case "water":
                 msg.channel.send("Splash!");
