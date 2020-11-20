@@ -15,6 +15,11 @@ class AgeCommand extends Command {
     }
 
     runInternal(msg, args) {
+        if (!msg.guild) {
+            msg.channel.send("I know we haven't been talking for long, but it feels like ages!");
+            return;
+        }
+
         let user = UserService.getUser(msg);
         if (args.length >= 2) {
             // find user

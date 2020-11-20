@@ -135,6 +135,11 @@ class SlapCommand extends Command {
                 return;
         }
 
+        if (!msg.guild) {
+            msg.channel.send("Uh, if it's only you and me here...nobody will hear your slap.");
+            return;
+        }
+
         let user = UserService.lookupUser(msg, uname);
         if (user == null) {
             return;
