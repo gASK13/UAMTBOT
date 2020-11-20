@@ -28,6 +28,11 @@ class SlapCommand extends Command {
 
         let uname = args.slice(1).join(" ");
         switch (uname.toLowerCase()) {
+            case "sun":
+            case "a sun":
+            case "the sun":
+                msg.channel.send("Silly you, you tried the slap the sun but your hand got melted!")
+                return;
             case "water":
                 msg.channel.send("Splash!");
                 return;
