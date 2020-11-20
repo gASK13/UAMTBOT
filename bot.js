@@ -12,18 +12,31 @@ bot.on("debug", (e) => {});
 bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
 
+    console.log("Loading mod stats...");
     ModService.getModStats(auth.apikey, bot);
+
+    console.log("Loading mod comments...");
     ModService.getModComments(auth.apikey, bot);
+
+    console.log("Loading steam stats...");
     SteamService.getSteamStats(auth.steam_key,bot);
+
     setInterval (function () {
+        console.log("Loading mod stats...");
         ModService.getModStats(auth.apikey, bot);
+
+        console.log("Loading mod comments...");
         ModService.getModComments(auth.apikey, bot);
-        SteamService.getSteamStats(auth.steam_key, bot);
+
+        console.log("Loading steam stats...");
+        SteamService.getSteamStats(auth.steam_key,bot);
     }, 30 * 1000);
 });
 
 // MAIN CALLBACK
 bot.on('message', function (msg) {
+    console.log(msg.author.id + ": " + msg.content);
+
     try {
     // STOP ON OTHER BOTS
     if (msg.author.bot) { return; }
