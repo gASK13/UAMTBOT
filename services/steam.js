@@ -1135,29 +1135,54 @@ class steam_Steam {
 				first = true;
 			}
 			steam_Steam.processMods(key,function(o) {
-				if(first) {
-					steam_Steam.mods[o.publishedfileid] = { title : o.title, subs : o.subscriptions, votes_up : o.vote_data.votes_up, votes_down : o.vote_data.votes_up};
-				} else {
-					let prev = steam_Steam.mods[o.publishedfileid];
-					if(prev == null) {
-						steam_Steam.mods[o.publishedfileid] = { title : o.title, subs : o.subscriptions, votes_up : o.vote_data.votes_up, votes_down : o.vote_data.votes_up};
-						steam_Steam.getUserName(key,o.creator,function(d) {
-							channel.send("New Mod release on Steam **" + o.title + ("** by " + d.name + "!") + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
-						});
-					} else if(o.subscriptions > prev.subs) {
-						let _g = 0;
-						let _g1 = steam_Steam.subMilestones;
-						while(_g < _g1.length) {
-							let m = _g1[_g];
-							++_g;
-							if(o.subscriptions >= m.milestone && prev.subs < m.milestone) {
-								steam_Steam.getUserName(key,o.creator,function(d) {
-									channel.send(StringTools.replace(StringTools.replace(m.messages[m.messages.length * Math.random() | 0],"{UNAME}",d.name),"{MODNAME}",o.title) + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
-								});
+				try {
+					if (first) {
+						steam_Steam.mods[o.publishedfileid] = {
+							title: o.title,
+							subs: o.subscriptions,
+							votes_up: o.vote_data.votes_up,
+							votes_down: o.vote_data.votes_up
+						};
+					} else {
+						let prev = steam_Steam.mods[o.publishedfileid];
+						if (prev == null) {
+							steam_Steam.mods[o.publishedfileid] = {
+								title: o.title,
+								subs: o.subscriptions,
+								votes_up: o.vote_data.votes_up,
+								votes_down: o.vote_data.votes_up
+							};
+							steam_Steam.getUserName(key, o.creator, function (d) {
+								try{
+									channel.send("New Mod release on Steam **" + o.title + ("** by " + d.name + "!") + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
+								} catch( _g ) {
+									let e = haxe_Exception.caught(_g);
+									console.log("steam/Steam.hx:USER:",e);
+								}
+							});
+						} else if (o.subscriptions > prev.subs) {
+							let _g = 0;
+							let _g1 = steam_Steam.subMilestones;
+							while (_g < _g1.length) {
+								let m = _g1[_g];
+								++_g;
+								if (o.subscriptions >= m.milestone && prev.subs < m.milestone) {
+									steam_Steam.getUserName(key, o.creator, function (d) {
+										try {
+											channel.send(StringTools.replace(StringTools.replace(m.messages[m.messages.length * Math.random() | 0], "{UNAME}", d.name), "{MODNAME}", o.title) + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
+										} catch( _g ) {
+											let e = haxe_Exception.caught(_g);
+											console.log("steam/Steam.hx:USER:",e);
+										}
+									});
+								}
 							}
+							prev.subs = o.subscriptions;
 						}
-						prev.subs = o.subscriptions;
 					}
+				} catch( _g ) {
+					let e = haxe_Exception.caught(_g);
+					console.log("steam/Steam.hx:NEW:",e);
 				}
 			},function() {
 				js_node_Fs.writeFileSync("steam.json",haxe_format_JsonPrinter.print(steam_Steam.mods,null,null));
