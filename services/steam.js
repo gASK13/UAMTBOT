@@ -813,51 +813,55 @@ sys_FileSystem.__name__ = true;
 class steam_Steam {
 	static getSteamStats(key,bot) {
 		try {
-			let channel = bot.channels.resolve("704748213655175300");
 			let first = false;
 			if(steam_Steam.mods == null) {
 				steam_Steam.mods = { };
 				first = true;
 			}
-			steam_Steam.processMods(key,function(o) {
-				if(first) {
-					steam_Steam.mods[o.publishedfileid] = { title : o.title, subs : o.subscriptions, votes_up : o.vote_data.votes_up, votes_down : o.vote_data.votes_up};
-				} else {
-					let prev = steam_Steam.mods[o.publishedfileid];
-					if(prev == null) {
+			bot.channels.fetch("704748213655175300").then(function(c) {
+				let channel = c;
+				steam_Steam.processMods(key,function(o) {
+					if(first) {
 						steam_Steam.mods[o.publishedfileid] = { title : o.title, subs : o.subscriptions, votes_up : o.vote_data.votes_up, votes_down : o.vote_data.votes_up};
-						steam_Steam.getUserName(key,o.creator,function(d) {
-							channel.send("New Mod release on Steam **" + o.title + ("** by " + d.name + "!") + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
-						});
-					} else if(o.subscriptions > prev.subs) {
-						let _g = 0;
-						let _g1 = steam_Steam.subMilestones;
-						while(_g < _g1.length) {
-							let m = _g1[_g];
-							++_g;
-							if(o.subscriptions >= m.milestone && prev.subs < m.milestone) {
-								steam_Steam.getUserName(key,o.creator,function(d) {
-									channel.send(StringTools.replace(StringTools.replace(m.messages[m.messages.length * Math.random() | 0],"{UNAME}",d.name),"{MODNAME}",o.title) + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
-								});
+					} else {
+						let prev = steam_Steam.mods[o.publishedfileid];
+						if(prev == null) {
+							steam_Steam.mods[o.publishedfileid] = { title : o.title, subs : o.subscriptions, votes_up : o.vote_data.votes_up, votes_down : o.vote_data.votes_up};
+							steam_Steam.getUserName(key,o.creator,function(d) {
+								channel.send("New Mod release on Steam **" + o.title + ("** by " + d.name + "!") + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
+							});
+						} else if(o.subscriptions > prev.subs) {
+							let _g = 0;
+							let _g1 = steam_Steam.subMilestones;
+							while(_g < _g1.length) {
+								let m = _g1[_g];
+								++_g;
+								if(o.subscriptions >= m.milestone && prev.subs < m.milestone) {
+									steam_Steam.getUserName(key,o.creator,function(d) {
+										channel.send(StringTools.replace(StringTools.replace(m.messages[m.messages.length * Math.random() | 0],"{UNAME}",d.name),"{MODNAME}",o.title) + "\n" + ("https://steamcommunity.com/sharedfiles/filedetails/?id=" + o.publishedfileid));
+									});
+								}
 							}
+							prev.subs = o.subscriptions;
 						}
-						prev.subs = o.subscriptions;
 					}
-				}
-			},function() {
-				try {
-					js_node_Fs.writeFileSync("steam.json",JSON.stringify(steam_Steam.mods));
-				} catch( _g ) {
-					let e = haxe_Exception.caught(_g);
-					console.log("steam/Steam.hx:109:","Exception while saving steam mod data\n" + e.details());
-				}
-			},function(e) {
-				console.log("steam/Steam.hx:111:","Error in Steam.processMods for Steam.getSteamStats");
-				e.trace();
+				},function() {
+					try {
+						js_node_Fs.writeFileSync("steam.json",JSON.stringify(steam_Steam.mods));
+					} catch( _g ) {
+						let e = haxe_Exception.caught(_g);
+						console.log("steam/Steam.hx:109:","Exception while saving steam mod data\n" + e.details());
+					}
+				},function(e) {
+					console.log("steam/Steam.hx:111:","Error in Steam.processMods for Steam.getSteamStats");
+					e.trace();
+				});
+			}).catch(function(e) {
+				console.log("steam/Steam.hx:116:","Error in Steam.getSteamStats\n" + Std.string(e));
 			});
 		} catch( _g ) {
 			let e = haxe_Exception.caught(_g);
-			console.log("steam/Steam.hx:115:","Exception in Steam.getSteamStats\n" + e.details());
+			console.log("steam/Steam.hx:120:","Exception in Steam.getSteamStats\n" + e.details());
 		}
 	}
 	static processMods(key,handle,done,err,params) {
@@ -869,7 +873,7 @@ class steam_Steam {
 			}
 		};
 		if(key == null) {
-			error(steam_SteamErrorType.Other,"Key is null",null,{ fileName : "steam/Steam.hx", lineNumber : 128, className : "steam.Steam", methodName : "processMods"});
+			error(steam_SteamErrorType.Other,"Key is null",null,{ fileName : "steam/Steam.hx", lineNumber : 133, className : "steam.Steam", methodName : "processMods"});
 			return;
 		}
 		let req = new haxe_http_HttpNodeJs("https://api.steampowered.com" + "/IPublishedFileService/QueryFiles/" + "v1" + "/");
@@ -902,20 +906,20 @@ class steam_Steam {
 						}
 					} catch( _g ) {
 						let _g1 = haxe_Exception.caught(_g);
-						error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 158, className : "steam.Steam", methodName : "processMods"});
+						error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 163, className : "steam.Steam", methodName : "processMods"});
 					}
 				};
 				req.onError = function(e) {
-					error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 162, className : "steam.Steam", methodName : "processMods"});
+					error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 167, className : "steam.Steam", methodName : "processMods"});
 				};
 				req.request();
 			} catch( _g ) {
 				let _g1 = haxe_Exception.caught(_g);
-				error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 165, className : "steam.Steam", methodName : "processMods"});
+				error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 170, className : "steam.Steam", methodName : "processMods"});
 			}
 		};
 		req.onError = function(e) {
-			error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 168, className : "steam.Steam", methodName : "processMods"});
+			error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 173, className : "steam.Steam", methodName : "processMods"});
 		};
 		req.request();
 	}
@@ -938,11 +942,11 @@ class steam_Steam {
 				cb({ name : data.response.players[0].personaname, avatar : data.response.players[0].avatar});
 			} catch( _g ) {
 				let _g1 = haxe_Exception.caught(_g);
-				error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 192, className : "steam.Steam", methodName : "getUserName"});
+				error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 197, className : "steam.Steam", methodName : "getUserName"});
 			}
 		};
 		req.onError = function(e) {
-			error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 196, className : "steam.Steam", methodName : "getUserName"});
+			error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 201, className : "steam.Steam", methodName : "getUserName"});
 		};
 		req.request();
 	}
@@ -951,7 +955,7 @@ class steam_Steam {
 		steam_Steam.processMods(JSON.parse(js_node_Fs.readFileSync("auth.json",{ encoding : "utf8"})).steam_key,function(d) {
 			if(!first) {
 				first = true;
-				console.log("steam/Steam.hx:207:",d);
+				console.log("steam/Steam.hx:212:",d);
 			}
 		});
 	}

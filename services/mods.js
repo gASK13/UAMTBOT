@@ -7,47 +7,47 @@ const newModMessages = ["{UNAME} just published a new mod {MODNAME}! Download it
     "Psst! Did you hear {UNAME} released {MODNAME} just now?"];
 
 const subMilestones = [
-//    { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
-//    { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
-    { milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"]},
-    { milestone: 100, messages: ["{UNAME} made {MODNAME} so well that 100 people subscribed to it."]},
-//    { milestone: 125, messages: ["You know what is better then 100 subs? 150 subs! And that is how many {MODNAME} just got."]},
-    { milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"]},
-//    { milestone: 250, messages: ["250 subscribers, {UNAME}! You know what it means? {MODNAME} should get a new update!"]},
-    { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers, {UNAME}!"]},
-    { milestone: 400, messages: ["Pop the champagne! Roll out the red carpet! There is a new star n town - it's {UNAME} and his {MODNAME} with 400 subs!!"]},
-    { milestone: 500, messages: ["Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers ... how is that possible?!"]}
+    //    { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
+    //    { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
+    { milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers!"] },
+    { milestone: 100, messages: ["{UNAME} made {MODNAME} so well that 100 people subscribed to it."] },
+    //    { milestone: 125, messages: ["You know what is better then 100 subs? 150 subs! And that is how many {MODNAME} just got."]},
+    { milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers, did you {UNAME}?"] },
+    //    { milestone: 250, messages: ["250 subscribers, {UNAME}! You know what it means? {MODNAME} should get a new update!"]},
+    { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers, {UNAME}!"] },
+    { milestone: 400, messages: ["Pop the champagne! Roll out the red carpet! There is a new star n town - it's {UNAME} and his {MODNAME} with 400 subs!!"] },
+    { milestone: 500, messages: ["Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers ... how is that possible?!"] }
 ];
 
 const anouncementChannel = "422849152012255254";
 
 const downMilestones = [
-//    { milestone: 50, messages: ["Tell your friends - a new popular mod is in town and it is {MODNAME} by {UNAME}. Here's to another 50 downloads!"]},
-    { milestone: 100, messages: ["Now we're talking! Three digits, baby! {UNAME}'s {MODNAME} just hit 100 downloads. Drink are on {UNAME}!"]},
-    { milestone: 250, messages: ["{UNAME} is slowly climbing up the ladder with their {MODNAME} - 250 downloads!"]},
-//    { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 downloads, {UNAME}. Not as good as 300 subs, but still..."]},
-//    { milestone: 400, messages: ["400 downloads for {MODNAME}? Now **that** is something, {UNAME}!"]},
-    { milestone: 500, messages: ["{UNAME} must have done something right, otherwise {MODNAME} would not get to 500 downloads."]},
-    { milestone: 1000, messages: ["Did you send your mother a link to {MODNAME}, {UNAME}? Cause you should, cause 1000 downloads is something to be proud of!"]},
-    { milestone: 2000, messages: ["They called {UNAME} crazy! They said that {MODNAME} could never get 2000 downloads. They laughed at {UNAME}? Well who is laughing now? WHO? MWAHAHAHAHAHAHAHAHA!!!"]}
+    //    { milestone: 50, messages: ["Tell your friends - a new popular mod is in town and it is {MODNAME} by {UNAME}. Here's to another 50 downloads!"]},
+    { milestone: 100, messages: ["Now we're talking! Three digits, baby! {UNAME}'s {MODNAME} just hit 100 downloads. Drink are on {UNAME}!"] },
+    { milestone: 250, messages: ["{UNAME} is slowly climbing up the ladder with their {MODNAME} - 250 downloads!"] },
+    //    { milestone: 300, messages: ["{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 downloads, {UNAME}. Not as good as 300 subs, but still..."]},
+    //    { milestone: 400, messages: ["400 downloads for {MODNAME}? Now **that** is something, {UNAME}!"]},
+    { milestone: 500, messages: ["{UNAME} must have done something right, otherwise {MODNAME} would not get to 500 downloads."] },
+    { milestone: 1000, messages: ["Did you send your mother a link to {MODNAME}, {UNAME}? Cause you should, cause 1000 downloads is something to be proud of!"] },
+    { milestone: 2000, messages: ["They called {UNAME} crazy! They said that {MODNAME} could never get 2000 downloads. They laughed at {UNAME}? Well who is laughing now? WHO? MWAHAHAHAHAHAHAHAHA!!!"] }
 ];
 
 class ModIOService {
 
     static getTime() {
         var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        return date+' '+time;
+        return date + ' ' + time;
     }
 
     static save() {
-        fs.writeFile("mods.json", JSON.stringify(mods), "utf8", function (error) {});
+        fs.writeFile("mods.json", JSON.stringify(mods), "utf8", function (error) { });
     }
 
     static formatMsg(msg, element) {
         return msg.replace(/{UNAME}/g, "**" + element.submitted_by.username + "**").replace(/{MODNAME}/g, "**" + element.name + "**")
-        +" \n\n" + element.profile_url;
+            + " \n\n" + element.profile_url;
     }
 
     static getModComments(apikey, bot) {
@@ -57,7 +57,7 @@ class ModIOService {
             if (mods.comments[c].last > lastDate) { lastDate = mods.comments[c].last; }
         }
 
-        try{
+        try {
             let self = this;
             self.processComments(apikey, lastDate, (cmnt) => {
                 // is this new comment? send message!
@@ -66,9 +66,8 @@ class ModIOService {
                     if ((mods.comments[cmnt.mod_id].users.length > 0)) {
                         self.getMod(apikey, cmnt.mod_id, (mod) => {
                             for (let user of mods.comments[cmnt.mod_id].users) {
-                                let fullUser = bot.users.resolve(user);
-                                fullUser.send("A new comment was added to a mod you are watching - " + mod.name + "\n" + mod.profile_url);
                                 console.log("A message was sent to " + fullUser.username + " about " + mod.name);
+                                bot.users.fetch(user).then((user) => user.send("A new comment was added to a mod you are watching - " + mod.name + "\n" + mod.profile_url)).catch((e) => console.log("error while sending a comment notification",e));
                             }
                         });
                     }
@@ -83,7 +82,7 @@ class ModIOService {
 
     static watchModComments(apikey, user, modname, msg) {
         let self = this;
-        this.findMod(apikey,  modname, msg, (element) => {
+        this.findMod(apikey, modname, msg, (element) => {
             if (mods.comments == null) { mods.comments = {}; }
             if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
             if (mods.comments[element.id].users.indexOf(user) > -1) {
@@ -97,7 +96,7 @@ class ModIOService {
     }
 
     static unwatchModComments(apikey, user, modname, msg) {
-        this.findMod(apikey,  modname,  msg, (element) => {
+        this.findMod(apikey, modname, msg, (element) => {
             if (mods.comments == null) { mods.comments = {}; }
             if (mods.comments[element.id] == null) { mods.comments[element.id] = { users: [], last: 0 }; }
             if (mods.comments[element.id].users.indexOf(user) <= -1) {
@@ -111,29 +110,30 @@ class ModIOService {
     }
 
     static getModStats(apikey, bot) {
-        try{
+        try {
             let self = this;
-            let channel = bot.channels.resolve(anouncementChannel);
+            bot.channels.fetch(anouncementChannel).then((channel) => {
 
-            this.processMods(apikey, (element) => {
-                if (!mods[element.id]) {
-                    mods[element.id] = { downloads: 0, subs: 0};
-                    channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
-                } else {
-                    for (let milestone of subMilestones) {
-                        if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
-                            channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                this.processMods(apikey, (element) => {
+                    if (!mods[element.id]) {
+                        mods[element.id] = { downloads: 0, subs: 0 };
+                        channel.send(self.formatMsg(newModMessages[Math.floor(Math.random() * newModMessages.length)], element));
+                    } else {
+                        for (let milestone of subMilestones) {
+                            if ((mods[element.id].subs < milestone.milestone) && (element.stats.subscribers_total >= milestone.milestone)) {
+                                channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                            }
+                        }
+                        for (let milestone of downMilestones) {
+                            if ((mods[element.id].downloads < milestone.milestone) && (element.stats.downloads_total >= milestone.milestone)) {
+                                channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
+                            }
                         }
                     }
-                    for (let milestone of downMilestones) {
-                        if ((mods[element.id].downloads < milestone.milestone) && (element.stats.downloads_total >= milestone.milestone)) {
-                            channel.send(self.formatMsg(milestone.messages[Math.floor(Math.random() * milestone.messages.length)], element));
-                        }
-                    }
-                }
-                mods[element.id].downloads = Math.max(mods[element.id].downloads, element.stats.downloads_total);
-                mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
-            }, () => { self.save(); }, 0);
+                    mods[element.id].downloads = Math.max(mods[element.id].downloads, element.stats.downloads_total);
+                    mods[element.id].subs = Math.max(element.stats.subscribers_total, mods[element.id].subs);
+                }, () => { self.save(); }, 0);
+            }).catch((e) => console.log("error in getModStats :",e));
         } catch (error) {
             console.log(error);
         }
@@ -142,7 +142,7 @@ class ModIOService {
     static getModLink(apikey, sterm, msg) {
         sterm = encodeURI(sterm);
 
-        this.findMod(apikey,  sterm,  msg, (element) => { msg.channel.send(element.profile_url); });
+        this.findMod(apikey, sterm, msg, (element) => { msg.channel.send(element.profile_url); });
     }
 
     static processMods(apikey, code, endCode, offset) {
@@ -199,7 +199,7 @@ class ModIOService {
         let options = {
             host: 'api.mod.io',
             port: 443,
-            path: '/v1/games/34/mods/events?_offset=' + offset + '&date_added-min=' + (lastDate+1) + '&api_key=' + apikey,
+            path: '/v1/games/34/mods/events?_offset=' + offset + '&date_added-min=' + (lastDate + 1) + '&api_key=' + apikey,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

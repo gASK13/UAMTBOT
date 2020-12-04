@@ -152,7 +152,7 @@ class steam_SteamCommand extends steam_Cmd {
 			}
 		},function(e) {
 			msg.channel.send("Something went wrong while executing your command!");
-			console.log("steam/SteamCommand.hx:47:","Error in Steam.processMods for SteamCommand");
+			console.log("steam/SteamCommand.hx:45:","Error in Steam.processMods for SteamCommand");
 			e.trace();
 		},_g);
 	}
@@ -171,7 +171,7 @@ String.__name__ = true;
 Array.__name__ = true;
 Date.__name__ = "Date";
 js_Boot.__toStr = ({ }).toString;
-module.exports = steam_SteamCommand;
 steam_SteamCommand.processMods = require("../services/steam.js").processMods;
 steam_SteamCommand.getUserName = require("../services/steam.js").getUserName;
+module.exports = steam_SteamCommand;
 })({});

@@ -50,66 +50,72 @@ using Lambda;
 
 	public static function getSteamStats(key:String, bot:#if discordjs discordjs.Client #else Dynamic #end) {
 		try {
-			#if discordjs
-			var channel:discordjs.TextChannel = cast bot.channels.resolve(CHANNEL);
-			#end
 			var first:Bool = false;
 			if (mods == null) {
 				mods = {};
 				first = true;
 			}
-			processMods(key, function(o) {
-				if (first) {
-					mods[o.publishedfileid] = {
-						title: o.title,
-						subs: o.subscriptions,
-						votes_up: o.vote_data.votes_up,
-						votes_down: o.vote_data.votes_up
-					};
-				} else {
-					var prev = mods[o.publishedfileid];
-					if (prev == null) {
+			#if discordjs
+			bot.channels.fetch(CHANNEL).then(function(c) {
+				var channel:discordjs.TextChannel = cast c;
+			#end
+				processMods(key, function(o) {
+					if (first) {
 						mods[o.publishedfileid] = {
 							title: o.title,
 							subs: o.subscriptions,
 							votes_up: o.vote_data.votes_up,
 							votes_down: o.vote_data.votes_up
-						}
-						#if discordjs
-						getUserName(key, untyped o.creator, function(d) {
-							channel.send("New Mod release on Steam **"
-								+ o.title
-								+ '** by ${d.name}!'
-								+ "\n"
-								+ 'https://steamcommunity.com/sharedfiles/filedetails/?id=${o.publishedfileid}');
-						});
-						#end
+						};
 					} else {
-						if (o.subscriptions > prev.subs) {
-							#if discordjs
-							for (m in subMilestones) {
-								if (o.subscriptions >= m.milestone && prev.subs < m.milestone) {
-									getUserName(key, untyped o.creator, function(d) {
-										channel.send(m.messages[Std.int(m.messages.length * Math.random())].replace("{UNAME}", d.name)
-											.replace("{MODNAME}", o.title) + "\n"
-											+ 'https://steamcommunity.com/sharedfiles/filedetails/?id=${o.publishedfileid}');
-									});
-								}
+						var prev = mods[o.publishedfileid];
+						if (prev == null) {
+							mods[o.publishedfileid] = {
+								title: o.title,
+								subs: o.subscriptions,
+								votes_up: o.vote_data.votes_up,
+								votes_down: o.vote_data.votes_up
 							}
+							#if discordjs
+							getUserName(key, untyped o.creator, function(d) {
+								channel.send("New Mod release on Steam **"
+									+ o.title
+									+ '** by ${d.name}!'
+									+ "\n"
+									+ 'https://steamcommunity.com/sharedfiles/filedetails/?id=${o.publishedfileid}');
+							});
 							#end
-							prev.subs = o.subscriptions;
+						} else {
+							if (o.subscriptions > prev.subs) {
+								#if discordjs
+								for (m in subMilestones) {
+									if (o.subscriptions >= m.milestone && prev.subs < m.milestone) {
+										getUserName(key, untyped o.creator, function(d) {
+											channel.send(m.messages[Std.int(m.messages.length * Math.random())].replace("{UNAME}", d.name)
+												.replace("{MODNAME}", o.title) + "\n"
+												+ 'https://steamcommunity.com/sharedfiles/filedetails/?id=${o.publishedfileid}');
+										});
+									}
+								}
+								#end
+								prev.subs = o.subscriptions;
+							}
 						}
 					}
-				}
-			}, function() {
-				try
-					sys.io.File.saveContent("steam.json", Json.stringify(mods))
-				catch (e)
-					trace("Exception while saving steam mod data\n" + e.details());
-			}, function(e) {
-				trace("Error in Steam.processMods for Steam.getSteamStats");
-				e.trace();
+				}, function() {
+					try
+						sys.io.File.saveContent("steam.json", Json.stringify(mods))
+					catch (e)
+						trace("Exception while saving steam mod data\n" + e.details());
+				}, function(e) {
+					trace("Error in Steam.processMods for Steam.getSteamStats");
+					e.trace();
+				});
+			#if discordjs
+			}).catchError(function(e) {
+				trace("Error in Steam.getSteamStats\n" + Std.string(e));
 			});
+			#end
 		} catch (e) {
 			trace("Exception in Steam.getSteamStats\n" + e.details());
 		}
