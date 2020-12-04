@@ -12,13 +12,24 @@ bot.on("debug", (e) => {});
 bot.on('ready', function (evt) {
     console.log(`Logged in as ${this.user.tag}!`);
 
+    console.log("Loading mod stats...");
     ModService.getModStats(auth.apikey, bot);
+
+    console.log("Loading mod comments...");
     ModService.getModComments(auth.apikey, bot);
+
+    console.log("Loading steam stats...");
     SteamService.getSteamStats(auth.steam_key,bot);
+
     setInterval (function () {
+        console.log("Loading mod stats...");
         ModService.getModStats(auth.apikey, bot);
+
+        console.log("Loading mod comments...");
         ModService.getModComments(auth.apikey, bot);
-        SteamService.getSteamStats(auth.steam_key, bot);
+
+        console.log("Loading steam stats...");
+        SteamService.getSteamStats(auth.steam_key,bot);
     }, 30 * 1000);
 });
 
@@ -36,6 +47,9 @@ bot.on('message', function (msg) {
     } else if (msg.mentions.users.some(user => user.id === bot.user.id)) {
         msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     } else if (msg.content.substring(0, 1) === ']') {
+        // only log commands (duh!)
+        console.log(msg.author.id + ": " + msg.content);
+
         // This is the magic - command parsing!
         let args = msg.content.replace(/@/g,"").substring(1).split(' ');
         let cmd = args[0];

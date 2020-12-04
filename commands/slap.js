@@ -28,6 +28,11 @@ class SlapCommand extends Command {
 
         let uname = args.slice(1).join(" ");
         switch (uname.toLowerCase()) {
+            case "sun":
+            case "a sun":
+            case "the sun":
+                msg.channel.send("Silly you, you tried the slap the sun but your hand got melted!");
+                return;
             case "water":
                 msg.channel.send("Splash!");
                 return;
@@ -133,6 +138,11 @@ class SlapCommand extends Command {
             case "slap":
                 msg.channel.send("ERROR 6913: STACK OVERFLOW! HUNTER BOTS HAVE BEEN DISPATCHED! PLEASE LIE DOWN WITH YOUR HANDS BEHIND YOUR HEAD " + UserService.getUsernameFromMessage(msg) + " AND AWAIT THEIR ARRIVAL. THANK YOU FOR YOUR COOPERATION!");
                 return;
+        }
+
+        if (!msg.guild) {
+            msg.channel.send("Uh, if it's only you and me here...nobody will hear your slap.");
+            return;
         }
 
         let user = UserService.lookupUser(msg, uname);

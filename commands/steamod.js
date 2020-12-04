@@ -1212,6 +1212,11 @@ class steam_Steam {
 						console.log("steam/Steam.hx:135:",e);
 					}
 				};
+
+				req.onError = function(e) {
+					console.log("steam/Steam.hx:WHATEVER:",e);
+				};
+
 				req.request();
 			} catch( _g ) {
 				let e = haxe_Exception.caught(_g);
