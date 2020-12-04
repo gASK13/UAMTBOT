@@ -471,7 +471,7 @@ class haxe_ds_StringMap {
 	constructor() {
 		this.h = Object.create(null);
 	}
-	static keysIterator(h) {
+	static kvIterator(h) {
 		let keys = Object.keys(h);
 		let len = keys.length;
 		let idx = 0;
@@ -479,7 +479,8 @@ class haxe_ds_StringMap {
 			return idx < len;
 		}, next : function() {
 			idx += 1;
-			return keys[idx - 1];
+			let k = keys[idx - 1];
+			return { key : k, value : h[k]};
 		}};
 	}
 }
@@ -850,18 +851,18 @@ class steam_Steam {
 						js_node_Fs.writeFileSync("steam.json",JSON.stringify(steam_Steam.mods));
 					} catch( _g ) {
 						let e = haxe_Exception.caught(_g);
-						console.log("steam/Steam.hx:109:","Exception while saving steam mod data\n" + e.details());
+						console.log("steam/Steam.hx:110:","Exception while saving steam mod data\n" + e.details());
 					}
 				},function(e) {
-					console.log("steam/Steam.hx:111:","Error in Steam.processMods for Steam.getSteamStats");
+					console.log("steam/Steam.hx:112:","Error in Steam.processMods for Steam.getSteamStats");
 					e.trace();
 				});
 			}).catch(function(e) {
-				console.log("steam/Steam.hx:116:","Error in Steam.getSteamStats\n" + Std.string(e));
+				console.log("steam/Steam.hx:117:","Error in Steam.getSteamStats\n" + Std.string(e));
 			});
 		} catch( _g ) {
 			let e = haxe_Exception.caught(_g);
-			console.log("steam/Steam.hx:120:","Exception in Steam.getSteamStats\n" + e.details());
+			console.log("steam/Steam.hx:121:","Exception in Steam.getSteamStats\n" + e.details());
 		}
 	}
 	static processMods(key,handle,done,err,params) {
@@ -873,7 +874,7 @@ class steam_Steam {
 			}
 		};
 		if(key == null) {
-			error(steam_SteamErrorType.Other,"Key is null",null,{ fileName : "steam/Steam.hx", lineNumber : 133, className : "steam.Steam", methodName : "processMods"});
+			error(steam_SteamErrorType.Other,"Key is null",null,{ fileName : "steam/Steam.hx", lineNumber : 134, className : "steam.Steam", methodName : "processMods"});
 			return;
 		}
 		let req = new haxe_http_HttpNodeJs("https://api.steampowered.com" + "/IPublishedFileService/QueryFiles/" + "v1" + "/");
@@ -887,10 +888,13 @@ class steam_Steam {
 				let total = Std.string(JSON.parse(d).response.total);
 				req.setParameter("numperpage",total);
 				if(params != null) {
-					let o = haxe_ds_StringMap.keysIterator(params.h);
-					while(o.hasNext()) {
-						let o1 = o.next();
-						req.addParameter(o1,params.h[o1]);
+					let _g = haxe_ds_StringMap.kvIterator(params.h);
+					while(_g.hasNext()) {
+						let _g1 = _g.next();
+						let value = _g1.value;
+						if(value != null) {
+							req.addParameter(_g1.key,value);
+						}
 					}
 				}
 				req.onData = function(d) {
@@ -906,20 +910,20 @@ class steam_Steam {
 						}
 					} catch( _g ) {
 						let _g1 = haxe_Exception.caught(_g);
-						error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 163, className : "steam.Steam", methodName : "processMods"});
+						error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 165, className : "steam.Steam", methodName : "processMods"});
 					}
 				};
 				req.onError = function(e) {
-					error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 167, className : "steam.Steam", methodName : "processMods"});
+					error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 169, className : "steam.Steam", methodName : "processMods"});
 				};
 				req.request();
 			} catch( _g ) {
 				let _g1 = haxe_Exception.caught(_g);
-				error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 170, className : "steam.Steam", methodName : "processMods"});
+				error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 172, className : "steam.Steam", methodName : "processMods"});
 			}
 		};
 		req.onError = function(e) {
-			error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 173, className : "steam.Steam", methodName : "processMods"});
+			error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 175, className : "steam.Steam", methodName : "processMods"});
 		};
 		req.request();
 	}
@@ -931,7 +935,7 @@ class steam_Steam {
 				err(new steam_SteamError(type,message,exception,pos));
 			}
 		};
-		let data = null;
+		let data = { };
 		let req = new haxe_http_HttpNodeJs("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/");
 		req.setParameter("key",key);
 		req.setParameter("steamids",id);
@@ -942,11 +946,11 @@ class steam_Steam {
 				cb({ name : data.response.players[0].personaname, avatar : data.response.players[0].avatar});
 			} catch( _g ) {
 				let _g1 = haxe_Exception.caught(_g);
-				error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 197, className : "steam.Steam", methodName : "getUserName"});
+				error(steam_SteamErrorType.Exception,_g1.get_message(),_g1,{ fileName : "steam/Steam.hx", lineNumber : 199, className : "steam.Steam", methodName : "getUserName"});
 			}
 		};
 		req.onError = function(e) {
-			error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 201, className : "steam.Steam", methodName : "getUserName"});
+			error(steam_SteamErrorType.HttpError,e,null,{ fileName : "steam/Steam.hx", lineNumber : 203, className : "steam.Steam", methodName : "getUserName"});
 		};
 		req.request();
 	}
@@ -955,7 +959,7 @@ class steam_Steam {
 		steam_Steam.processMods(JSON.parse(js_node_Fs.readFileSync("auth.json",{ encoding : "utf8"})).steam_key,function(d) {
 			if(!first) {
 				first = true;
-				console.log("steam/Steam.hx:212:",d);
+				console.log("steam/Steam.hx:214:",d);
 			}
 		});
 	}
@@ -973,7 +977,12 @@ class steam_SteamError {
 		case 0:
 			return "" + this.message + " at " + Std.string(this.pos);
 		case 1:
-			return "SteamError : Exception \"" + this.exception.get_message() + "\" caught at " + Std.string(this.pos) + "\nStack : " + haxe_CallStack.toString(this.exception.get_stack());
+			if(this.exception != null) {
+				return "SteamError : Exception \"" + this.exception.get_message() + "\" caught at " + Std.string(this.pos) + "\nStack : " + haxe_CallStack.toString(this.exception.get_stack());
+			} else {
+				return "SteamError : Unknown error at " + Std.string(this.pos);
+			}
+			break;
 		case 2:
 			return "SteamError : " + this.message + " at " + Std.string(this.pos);
 		}

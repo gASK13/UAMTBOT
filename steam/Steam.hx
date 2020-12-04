@@ -6,6 +6,7 @@ import haxe.Json;
 using StringTools;
 using Lambda;
 
+@:nullSafety
 @:keep class Steam {
 	public static inline var BASE = "https://api.steampowered.com";
 	public static inline var VERSION = "v1";
@@ -46,7 +47,7 @@ using Lambda;
 			]
 		}
 	];
-	public static var mods:DynamicAccess<Mod>;
+	public static var mods:Null<DynamicAccess<Mod>>;
 
 	public static function getSteamStats(key:String, bot:#if discordjs discordjs.Client #else Dynamic #end) {
 		try {
@@ -124,8 +125,8 @@ using Lambda;
 	public static function processMods(key:String, handle:Dynamic->Void, ?done:Void->Void, ?err:SteamError->Void, ?params:Map<String, String>) {
 		function error(type:SteamErrorType, ?message:String, ?exception:haxe.Exception, ?pos:haxe.PosInfos) {
 			if (err == null)
-				new SteamError(type, message, exception, pos).trace()
-			else
+				@:nullSafety(Off) new SteamError(type, message, exception, pos).trace()
+			else @:nullSafety(Off)
 				err(new SteamError(type, message, exception, pos));
 		}
 
@@ -144,8 +145,9 @@ using Lambda;
 				var total:String = Std.string(Json.parse(d).response.total);
 				req.setParameter("numperpage", total);
 				if (params != null) {
-					for (o in params.keys())
-						req.addParameter(o, params[o]);
+					for (key => value in params)
+						if (value != null)
+							req.addParameter(key, value);
 				}
 
 				req.onData = function(d) {
@@ -177,11 +179,11 @@ using Lambda;
 	public static function getUserName(key:String, id:String, cb:{name:String, avatar:String}->Void, ?err:SteamError->Void):Void {
 		function error(type:SteamErrorType, ?message:String, ?exception:haxe.Exception, ?pos:haxe.PosInfos) {
 			if (err == null)
-				new SteamError(type, message, exception, pos).trace()
-			else
+				@:nullSafety(Off) new SteamError(type, message, exception, pos).trace()
+			else @:nullSafety(Off)
 				err(new SteamError(type, message, exception, pos));
 		}
-		var data:Dynamic = null;
+		var data:Dynamic = {};
 		var req = new haxe.Http("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/");
 		req.setParameter("key", key);
 		req.setParameter("steamids", id);
@@ -225,13 +227,14 @@ using Lambda;
 	}
 }
 
+@:nullSafety
 class SteamError {
 	public var type:SteamErrorType;
-	public var message:String;
-	public var exception:haxe.Exception;
+	public var message:Null<String>;
+	public var exception:Null<haxe.Exception>;
 	public var pos:haxe.PosInfos;
 
-	public function new(type:SteamErrorType, message:String, exception:haxe.Exception, pos:haxe.PosInfos) {
+	public function new(type:SteamErrorType, message:Null<String>, exception:Null<haxe.Exception>, pos:haxe.PosInfos) {
 		this.type = type;
 		this.message = message;
 		this.exception = exception;
@@ -241,7 +244,9 @@ class SteamError {
 	public function toString():String {
 		return switch type {
 			case HttpError: '$message at $pos';
-			case Exception: 'SteamError : Exception "${exception.message}" caught at $pos\nStack : ${exception.stack.toString()}';
+			case Exception:
+				if (exception != null) 'SteamError : Exception "${exception.message}" caught at $pos\nStack : ${exception.stack.toString()}'; else
+					'SteamError : Unknown error at $pos';
 			case Other: 'SteamError : $message at $pos';
 		}
 	}

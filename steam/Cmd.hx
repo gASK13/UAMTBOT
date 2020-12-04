@@ -20,6 +20,6 @@ extern class Cmd {
 }
 typedef Auth = {
     var ?token:String;
-    var ?steam_key:String;
-    var ?modio_key:String;
+    var steam_key:String;
+    var modio_key:String;
 }

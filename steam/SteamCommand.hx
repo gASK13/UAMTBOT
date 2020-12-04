@@ -5,9 +5,11 @@ import discordjs.Message;
 
 using StringTools;
 
+@:nullSafety
 class SteamCommand extends Cmd {
-	static var processMods:String->(Dynamic->Void)->(Void->Void)->(Dynamic->Void)->Map<String, String>->Void;
-	static var getUserName:String -> String -> ({var name:String; var avatar:String;}->Void) -> Void;
+	static var processMods:String->(Dynamic->Void)->(Void->Void)->(Dynamic->Void)->Map<String, String>->Void = untyped require("../services/steam.js")
+		.processMods;
+	static var getUserName:String -> String -> ({var name:String; var avatar:String;}->Void) -> Void = untyped require("../services/steam.js").getUserName;
 
 	override public function new() {
 		super("Steam Mod", ["steammod", "smod", "steam-mod"], 1);
@@ -56,8 +58,6 @@ class SteamCommand extends Cmd {
 	}
 
 	static function __init__() {
-		processMods = untyped require("../services/steam.js").processMods;
-		getUserName = untyped require("../services/steam.js").getUserName;
 		js.Node.module.exports = SteamCommand;
 	}
 }
