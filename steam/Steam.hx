@@ -1,8 +1,6 @@
 package steam;
 
-import haxe.Constraints.NotVoid;
 import haxe.DynamicAccess;
-import steam.Structs;
 import haxe.Json;
 
 using StringTools;
@@ -13,29 +11,38 @@ using Lambda;
 	public static inline var VERSION = "v1";
 	public static inline var CHANNEL = #if release "422849152012255254"; #else "704748213655175300"; #end
 	public static final subMilestones = [
-		//    { milestone: 10, messages: ["Looking for an undiscovered gem of a mod? {MODNAME} just got its 10th subscriber!"]},
-		//    { milestone: 25, messages: ["Look at that! {MODNAME} by {UNAME} just got 25 subs. That's a lot of subs!"]},
-		{milestone: 50, messages: ["Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers on steam!"]},
-		{milestone: 100, messages: ["{UNAME} made {MODNAME} so well that 100 people subscribed to it on steam!"]},
-		//    { milestone: 125, messages: ["You know what is better then 100 subs? 150 subs! And that is how many {MODNAME} just got."]},
-		{milestone: 200, messages: ["I bet you did not expect {MODNAME} to get 200 subscribers on steam, did you {UNAME}?"]},
-		//    { milestone: 250, messages: ["250 subscribers, {UNAME}! You know what it means? {MODNAME} should get a new update!"]},
+		{
+			milestone: 50,
+			messages: [
+				"Wow! You must be so popular {UNAME}! {MODNAME} just hit 50 subscribers on Steam!"
+			]
+		},
+		{
+			milestone: 100,
+			messages: ["{UNAME} made {MODNAME} so well that 100 people subscribed to it on Steam!"]
+		},
+		{
+			milestone: 200,
+			messages: [
+				"I bet you did not expect {MODNAME} to get 200 subscribers on Steam, did you {UNAME}?"
+			]
+		},
 		{
 			milestone: 300,
 			messages: [
-				"{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers on steam, {UNAME})!"
+				"{MODNAME}? {MODNAME}? THIS! IS! SPARTA!\n\n(You just got 300 ~~warriors~~ subscribers on Steam, {UNAME})!"
 			]
 		},
 		{
 			milestone: 400,
 			messages: [
-				"Pop the champagne! Roll out the red carpet! There is a new star on steam - it's {UNAME} and his {MODNAME} with 400 subs!!"
+				"Pop the champagne! Roll out the red carpet! There is a new star on Steam - it's {UNAME} and his {MODNAME} with 400 subs!!"
 			]
 		},
 		{
 			milestone: 500,
 			messages: [
-				"Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers on steam ... how is that possible?!"
+				"Impossible! The readings are off the chart, {UNAME}! {MODNAME} is at 500 subscribers on Steam ... how is that possible?!"
 			]
 		}
 	];
@@ -94,15 +101,32 @@ using Lambda;
 						}
 					}
 				}
-			}, () -> sys.io.File.saveContent("steam.json", Json.stringify(mods)));
+			}, function() {
+				try
+					sys.io.File.saveContent("steam.json", Json.stringify(mods))
+				catch (e)
+					trace("Exception while saving steam mod data\n" + e.details());
+			}, function(e) {
+				trace("Error in Steam.processMods for Steam.getSteamStats");
+				e.trace();
+			});
 		} catch (e) {
-			trace(e);
+			trace("Exception in Steam.getSteamStats\n" + e.details());
 		}
 	}
 
-	public static function processMods(key:String, handle:Dynamic->Void, ?done:Void->Void, ?params:Map<String, String>) {
-		if (key == null)
-			throw "Key is null!";
+	public static function processMods(key:String, handle:Dynamic->Void, ?done:Void->Void, ?err:SteamError->Void, ?params:Map<String, String>) {
+		function error(type:SteamErrorType, ?message:String, ?exception:haxe.Exception, ?pos:haxe.PosInfos) {
+			if (err == null)
+				new SteamError(type, message, exception, pos).trace()
+			else
+				err(new SteamError(type, message, exception, pos));
+		}
+
+		if (key == null) {
+			error(Other, "Key is null");
+			return;
+		}
 		var req = new haxe.Http('$BASE/IPublishedFileService/QueryFiles/$VERSION/');
 		req.setParameter("key", key);
 		req.setParameter("format", "json");
@@ -110,63 +134,65 @@ using Lambda;
 		req.setParameter("return_vote_data", "true");
 		req.setParameter("return_metadata", "true");
 		req.onData = function(d) {
-		    try{
-                var total:String = Std.string(Json.parse(d).response.total);
-                req.setParameter("numperpage", total);
-                if (params != null) {
-                    for (o in params.keys())
-                        req.addParameter(o, params[o]);
-                }
+			try {
+				var total:String = Std.string(Json.parse(d).response.total);
+				req.setParameter("numperpage", total);
+				if (params != null) {
+					for (o in params.keys())
+						req.addParameter(o, params[o]);
+				}
 
-                req.onData = function(d) {
-                    try{
-                        var data:Request = Json.parse(d);
-                        if (data.response.publishedfiledetails == null) {
-                            trace(data.response);
-                            return;
-                        }
-                        for (o in data.response.publishedfiledetails) {
-                            handle(o);
-                        }
-                        if (done != null) {
-                            done();
-                        }
-                    } catch(e) {
-                        trace(e);
-                    }
-                }
+				req.onData = function(d) {
+					try {
+						var data:Request = Json.parse(d);
+						if (data.response.publishedfiledetails != null) {
+							for (o in data.response.publishedfiledetails) {
+								handle(o);
+							}
+						}
+						if (done != null) {
+							done();
+						}
+					} catch (e) {
+						error(Exception, e.message, e);
+					}
+				}
 
-                req.onError = (e) -> trace(e);
-
-                req.request();
-			} catch(e) {
-			    trace(e);
+				req.onError = (e) -> error(HttpError, e);
+				req.request();
+			} catch (e) {
+				error(Exception, e.message, e);
 			}
 		};
-		req.onError = (e) -> trace(e);
+		req.onError = (e) -> error(HttpError, e);
 		req.request();
 	}
 
-	public static function getUserName(key:String, id:String, cb:{name:String, avatar:String}->Void):Void {
+	public static function getUserName(key:String, id:String, cb:{name:String, avatar:String}->Void, ?err:SteamError->Void):Void {
+		function error(type:SteamErrorType, ?message:String, ?exception:haxe.Exception, ?pos:haxe.PosInfos) {
+			if (err == null)
+				new SteamError(type, message, exception, pos).trace()
+			else
+				err(new SteamError(type, message, exception, pos));
+		}
 		var data:Dynamic = null;
-		var error = null;
 		var req = new haxe.Http("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/");
 		req.setParameter("key", key);
 		req.setParameter("steamids", id);
 		req.setParameter("format", "json");
 		req.onData = (s) -> {
-		    try{
-                data = haxe.Json.parse(s);
-                cb({
-                    name: data.response.players[0].personaname,
-                    avatar: data.response.players[0].avatar
-                });
-            } catch(e) {
-                trace(e);
-            }
+			try {
+				data = haxe.Json.parse(s);
+				cb({
+					name: data.response.players[0].personaname,
+					avatar: data.response.players[0].avatar
+				});
+			} catch (e) {
+				error(Exception, e.message, e);
+			}
 		}
-		req.onError = (err) -> {
-			error = err;
+		req.onError = (e) -> {
+			error(HttpError, e);
 		}
 		req.request();
 	}
@@ -183,17 +209,69 @@ using Lambda;
 	}
 
 	public static function __init__() {
-		try {
-			var m:String = null;
-            m = sys.io.File.getContent("steam.json");
-			if (m != null) {
-				mods = Json.parse(m);
-			}
-		} catch (e) {
-			trace(e);
+		if (sys.FileSystem.exists("steam.json")) {
+			var m = sys.io.File.getContent("steam.json");
+			mods = try Json.parse(m) catch (e) {};
 		}
 		#if nodejs
 		js.Node.module.exports = Steam;
 		#end
 	}
+}
+
+class SteamError {
+	public var type:SteamErrorType;
+	public var message:String;
+	public var exception:haxe.Exception;
+	public var pos:haxe.PosInfos;
+
+	public function new(type:SteamErrorType, message:String, exception:haxe.Exception, pos:haxe.PosInfos) {
+		this.type = type;
+		this.message = message;
+		this.exception = exception;
+		this.pos = pos;
+	}
+
+	public function toString():String {
+		return switch type {
+			case HttpError: '$message at $pos';
+			case Exception: 'SteamError : Exception "${exception.message}" caught at $pos\nStack : ${exception.stack.toString()}';
+			case Other: 'SteamError : $message at $pos';
+		}
+	}
+
+	public function trace():Void {
+		#if js
+		untyped console.log(toString());
+		#else
+		Sys.println(toString());
+		#end
+	}
+}
+
+enum SteamErrorType {
+	HttpError;
+	Exception;
+	Other;
+}
+
+typedef Mod = {
+	var title:String;
+	var subs:Int;
+	var votes_up:Int;
+	var votes_down:Int;
+}
+
+typedef Request = {
+	var response:{
+		var publishedfiledetails:Array<{
+			var title:String;
+			var subscriptions:Int;
+			var vote_data:{
+				var score:Float;
+				var votes_up:Int;
+				var votes_down:Int;
+			}
+		}>;
+	};
 }
