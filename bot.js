@@ -1,3 +1,5 @@
+//Restart by comment
+
 let Discord = require('discord.js');
 let auth = require('./auth.json');
 let glob = require( 'glob' );
