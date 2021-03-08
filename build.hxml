@@ -1,12 +1,14 @@
--D haxeJSON
--D release
 -lib hxnodejs
 -lib discordjs
 -D js-es=6
 -dce full
+-D analyzer-optimize
 --each
+
 steam.Steam
 -js services/steam.js
+
 --next
+
 steam.SteamCommand
 -js commands/steamod.js
