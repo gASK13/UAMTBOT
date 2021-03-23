@@ -67,7 +67,7 @@ class ModIOService {
                         self.getMod(apikey, cmnt.mod_id, (mod) => {
                             for (let user of mods.comments[cmnt.mod_id].users) {
                                 let fullUser = bot.users.resolve(user);
-                                if (fullUser != null) {}
+                                if (fullUser != null) {
                                     fullUser.send("A new comment was added to a mod you are watching - " + mod.name + "\n" + mod.profile_url);
                                     console.log("A message was sent to " + fullUser.username + " about " + mod.name);
                                 } else {
