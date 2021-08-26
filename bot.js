@@ -71,6 +71,9 @@ bot.on('message', function (msg) {
                 msg.channel.send(help);
                 return;
             }
+        } else if (cmd.includes(':pinched_fingers:')) {
+            msg.channel.send('Italian sign language detected. Summoning gASK, please stand-by...');
+            bot.users.resolve(412352063125717002).send("You have been summoned in <#" + msg.channelId + ">");
         }
 
         // Command execution part
