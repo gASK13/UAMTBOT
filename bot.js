@@ -49,7 +49,7 @@ bot.on('message', function (msg) {
         msg.channel.send("Hello there! You called me? If you wanna know how to interact with me properly, type in `]help` and I will tell you!");
     } else if (msg.content.includes('🤌')) {
             msg.channel.send('Italian sign language detected. Summoning gASK, please stand-by...');
-            bot.users.resolve(412352063125717002).send("You have been summoned in <#" + msg.channelId + ">");        
+            bot.users.resolve('412352063125717002').send("You have been summoned in <#" + msg.channelId + ">");        
     } else if (msg.content.substring(0, 1) === ']') {
         // only log commands (duh!)
         console.log(msg.author.id + ": " + msg.content);
