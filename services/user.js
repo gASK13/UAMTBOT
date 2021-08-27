@@ -40,11 +40,11 @@ class UserService {
     }
 
     static getUsername(user) {
-        return user.nickname == null ? user.username : user.nickname;
+        (user.nickname == null ? user.username : user.nickname).replace(/@/g,"");
     }
 
     static getUsernameFromMessage(msg) {
-        return this.getUsername(this.getUser(msg)).replace(/@/g,"");
+        return this.getUsername(this.getUser(msg));
     }
 }
 
