@@ -40,7 +40,7 @@ class UserService {
     }
 
     static getUsername(user) {
-        (user.nickname == null ? user.username : user.nickname).replace(/@/g,"");
+        return (user.nickname == null ? user.username : user.nickname).replace(/@/g,"");
     }
 
     static getUsernameFromMessage(msg) {
