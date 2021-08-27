@@ -44,7 +44,7 @@ class UserService {
     }
 
     static getUsernameFromMessage(msg) {
-        return this.getUsername(this.getUser(msg));
+        return this.getUsername(this.getUser(msg)).replace(/@/g,"");
     }
 }
 
