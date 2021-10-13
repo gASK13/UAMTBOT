@@ -1,5 +1,6 @@
 package steam;
 
+import discordjs.MessageEmbed;
 import haxe.DynamicAccess;
 import haxe.Json;
 
@@ -79,11 +80,17 @@ using Lambda;
 							}
 							#if discordjs
 							getUserName(key, untyped o.creator, function(d) {
-								channel.send("New Mod release on Steam **"
-									+ o.title
-									+ '** by ${d.name}!'
-									+ "\n"
-									+ 'https://steamcommunity.com/sharedfiles/filedetails/?id=${o.publishedfileid}');
+								var embed = new MessageEmbed();
+								embed.setURL('https://steamcommunity.com/sharedfiles/filedetails/?id=${o.publishedfileid}');
+								embed.setTitle("New Mod release on Steam **" + o.title + '** by ${d.name}!');
+								embed.setImage(o.preview_url);
+								embed.setColor(BLUE);
+								channel.send(embed);
+								// channel.send("New Mod release on Steam **"
+								// 	+ o.title
+								// 	+ '** by ${d.name}!'
+								// 	+ "\n"
+								// 	+ 'https://steamcommunity.com/sharedfiles/filedetails/?id=${o.publishedfileid}');
 							});
 							#end
 						} else {

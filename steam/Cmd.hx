@@ -19,7 +19,6 @@ extern class Cmd {
     public function supports(cmd:String):Bool;
 }
 typedef Auth = {
-    var ?token:String;
     var steam_key:String;
-    var modio_key:String;
+    var apikey:String;
 }
